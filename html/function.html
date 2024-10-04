@@ -43,9 +43,11 @@
           <h4>表達式 ( Expressions ) </h4>
 
           <p>
-            Expressions 指的是輸入後能夠直接回傳值的一串程式（a unit of code that results in a value），我們一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
+            Expressions 指的是輸入後能夠直接回傳值的一串程式（a unit of code that results in a value），
+            我們一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
             簡單來說，只要你輸入的那串程式執行後能直接回傳一個值，那麼它就是個 expression。
-            舉例來說，在瀏覽器的 console 中輸入 a = 3 時，它會直接回傳 3 這個值；輸入 2 + 3 的時候，它會直接回傳 5；輸入 a = { } 的時候，它會回傳一個為物件的值。這種輸入一段程式後，會直接取得回傳一個值的程式內容，我們就稱為 Expressions。
+            舉例來說，在瀏覽器的 console 中輸入 a = 3 時，它會直接回傳 3 這個值；輸入 2 + 3 的時候，
+            它會直接回傳 5；輸入 a = { } 的時候，它會回傳一個為物件的值。這種輸入一段程式後，會直接取得回傳一個值的程式內容，我們就稱為 Expressions。
           </p>
 
           <h4>陳述句 ( Statements ) </h4>
@@ -59,7 +61,8 @@
           <p></p>
 
           <p>
-            在這段程式中 a === 3 是一個表達式（expression），因為它可以直接回傳值（即，true 或 false）；而 if 這個指令，則是一個 statement，因為它不會直接回傳一個值，我們也不能將它指定為一個變數：
+            在這段程式中 a === 3 是一個表達式（expression），因為它可以直接回傳值（即，true 或 false）；
+            而 if 這個指令，則是一個 statement，因為它不會直接回傳一個值，我們也不能將它指定為一個變數：
           </p>
 
           <pre class="prettyprint">
@@ -73,23 +76,213 @@
           <h3>IIFE 是什麼?</h3>
           <p>
             如同文章一開始所敘述的，IIFEs 指的就是透過 function expression 的方式來建立函式，並且立即執行它。
-            舉例來說，可以用 console.log 的方式，來看一下剛剛建立的 hello world 呼叫出來會長什麼樣子。
+            舉例來說，可以用 console.log 的方式，來看一下剛剛建立的 helloWorld 呼叫出來會長什麼樣子。
           </p>
+
+          <pre class="prettyprint">
+
+            // function expression
+            var helloWorld = function(user) {
+              console.log('helloWorld, ' + user);
+            }
+
+            console.log(helloWorld);
+          </pre>
+          <p></p>
           
-          <ul>
-            <li>
-              <p>Ternary Operator</p>
-            </li>
-            <li>
-              <p>Nullish Coalescing Operator/Assignment</p>
-            </li>
-            <li>
-              <p>Falsy</p>
-            </li>
-            <li>
-              <p>Custom Error</p>
-            </li>
-          </ul>
+          <p>
+            結果會發現，把 helloWorld 呼叫出來後，它會直接回傳整個函式的程式碼內容，這是尚未"執行（Invoked）"程式碼前的結果。
+          </p>
+
+          <p>
+            如果是 IIFEs 就在這段程式碼的最後，加上一個執行的指令，也就是括號 ( )：
+          </p>
+          <p></p>
+
+          <pre class="prettyprint">
+
+            // Immediately Invoked Functions Expressions (IIFEs)
+            var sayWelcomeIIFEs = function(name) {
+              console.log('Welcome ' + name);
+            }();
+          </pre>
+          <p></p>
+
+          <p>
+            在建立函式的同時，這段函式就會立即被執行
+            這裡面同樣可以帶入參數：
+          </p>
+
+          <pre class="prettyprint">
+
+            // Immediately Invoked Functions Expressions (IIFEs)
+            var sayWelcomeIIFEs = function(name) {
+              console.log('Welcome ' + name);
+            }('PJCHEN');
+          </pre>
+          <p></p>
+
+          <p>
+            讓我在把 function 裡面的 console.log 改成 return，在看一次。
+            原本 function expression 的程式碼如下：
+
+          </p>
+          <pre class="prettyprint">
+
+            // Function Expression
+            var sayWelcome = function(name) {
+              return('Welcome ' + name);
+            };
+            console.log(sayWelcome);
+          </pre>
+          <p></p>
+
+          <p>
+            這時候，如果使用 console.log 把 sayWelcomeIIFEs 這個變數顯示出來看的話，會得到如下的結果，可以看到它還是一個函式
+          </p>
+
+          <p>
+            就會直接得到 "Welcome PJCHEN" 的結果：
+
+            要注意的是，在利用 IIFE 的寫法後，原本的變數 sayWelcomeIIFEs 已經變成函式執行後回傳的「字串」
+            ，它已經是字串了，所以我們沒辦法在去執行它！
+            如果我們硬要在後面使用 () 執行它：
+          </p>
+          <pre class="prettyprint">
+
+            // Immediately Invoked Functions Expressions (IIFEs)
+            var sayWelcomeIIFEs = function(name) {
+              return('Welcome ' + name);
+            }('PJCHEN');
+            console.log(sayWelcomeIIFEs());
+          </pre>
+
+          <p>
+            這時候因為 sayWelcomeIIFEs 已經是字串了，所以如果我們在 sayWelcomeIIFEs 後面又加上 ( ) 去執行它的話，
+            會出現錯誤！console 視窗會回傳這不是一個函式（所以沒辦法執行它）：
+          </p>
+
+          <h3>更深入的應用 IIFEs</h3>
+          <p>
+            這時就要回來提 expression 的概念，Expressions 指的是輸入後能夠直接回傳值的一串程式，
+            一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
+            比如可以直接在程式中輸入，數值、字串、甚至是物件，這時候去執行程式的時候，
+            程式可以正確執行，且 console 視窗並不會有任何內容：
+          </p>
+
+          <pre class="prettyprint">
+
+            // Expression
+            3;
+
+            'PJCHENder';
+
+            {
+              name: 'PJCHEN'
+            }
+          </pre>
+          <p></p>
+
+          <p>
+            如果我希望我的 function 也可以用這種方式來執行，而不用去把它建立在任何變數的話。
+            可能會想這麼做：
+          </p>
+
+          <pre class="prettyprint">
+
+            // 不可行的做法
+            function(name) {
+              return('Welcome, ' + name);
+            }
+          </pre>
+          <p></p>
+
+          <p>
+            但是這麼做是不可行的，因為 JavaScript 引擎在解析程式碼的時候，
+            因為用 function 做為開頭，它會認為現在要輸入 function statement，
+            可是卻沒有給該 function 的名稱，於是它無法正確理解這段程式碼便拋出錯誤：
+          </p>
+
+          <p>
+            所以，這時候我們要做的是告訴 JavaScript 引擎說，這一整個並不是 function statement。
+            要達到這樣的目的，我們要讓引擎在解析程式的時候，不是以讀到 function 做為開頭。
+            為了要達到這樣的目的，我們最常使用的做法就是用括號 () 把 function(){ ...} 包起來，像是這樣：
+          </p>
+
+          <pre class="prettyprint">
+            
+            (function(name) {
+              return('Welcome, ' + name);
+            });
+          </pre>
+          <p></p>
+
+          <p>
+            因為我們只會在括弧內放入 expression，例如 (3+2)，而不會放 statement 在括弧內，
+            所以JavaScript 就會以 expression 的方式來讀取這段函式。
+            在這種情況下，這個 function 會被建立，但是不會被存在任何變數當中，也不會被執行。
+            結合剛剛上面 IIFEs 的概念，我們可以在建立這個函式的同時，
+            將這個函式加以執行，我們同樣只需要在最後加上括號 () 就可以了：
+          </p>
+
+          <pre class="prettyprint">
+
+            (function(name) {
+              return('Welcome, ' + name);
+            })('PJCHEN');
+          </pre>
+
+          <p>
+            這樣 IIFEs 的型式，會在許多的 JavaScript 框架中都看得到，透過這樣的方式，
+            可以「直接執行某個函式」，還有很重要的一點是，
+            在 IIFEs 內所定義的變數並不會跑出去這個函式之外而干擾到程式其他的部分，
+            附帶一提的是，如果我們想要把物件也直接用 expression 來表示的話，
+            同樣也可以用 ( ) 來把我們的物件包起來就可以了：
+          </p>
+
+          <pre class="prettyprint">
+
+            ({
+              name: 'PJCHEN',
+              interest: 'Website Developer'
+            })
+          </pre>
+
+          <h4>程式範例</h4>
+          <pre class="prettyprint">
+
+            // Function Statement
+            function sayHello(name) {
+              console.log('Hello ' + name);
+            }
+            sayHello('PJCHEN');
+
+            // Function Expression;
+            var sayWelcome = function(name) {
+              console.log('Welcome, ' + name);
+            };
+            sayWelcome('PJCHEN');
+            console.log(sayWelcome);
+
+            // Immediately Invoked Functions Expressions (IIFEs)
+            var sayWelcomeIIFEs = (function(name) {
+              return 'Welcome, ' + name;
+            })('PJCHEN');
+
+            // Throw Error HERE!!
+            console.log(sayWelcomeIIFEs());
+
+            //Expression
+            (function(name) {
+              console.log('Welcome, ' + name);
+            })('PJ');
+
+            ({
+              name: 'PJCHEN',
+              interest: 'website engineer'
+            });
+          </pre>
+
         </div>
       </div>
       <div class="_set2">
@@ -106,7 +299,8 @@
           </p>
           <p>只有少數較古老的程式語言沒有支援高階函式，比如C、Fortran。</p>
           <p>
-            它的重要性在於，可以幫助提高程式碼的模塊化和可維護性，將一個複雜的邏輯拆分成一個個較簡單的邏輯，因此很常應用到不同情境中，底下是一些例子：
+            它的重要性在於，可以幫助提高程式碼的模塊化和可維護性，將一個複雜的邏輯拆分成一個個較簡單的邏輯，
+            因此很常應用到不同情境中，底下是一些例子：
           </p>
           <ol>
             <li>
@@ -196,32 +390,24 @@
               而高階函式指的是該函式本身能不能接收函式當作參數，或是回傳函式作為回傳值。
             </p>
           </div>
-
-          <ul>
-            <li>
-              <p>var/let/const 差異</p>
-            </li>
-            <li>
-              <p>Hoisting</p>
-            </li>
-            <li>
-              <p>Temporal Dead Zone, TDZ</p>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
     <div class="sect1"></div>
   </div>
+
+  <footer>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <div>參考資料:</div>
+    <div>https://pjchender.blogspot.com/2016/05/javascriptiifesimmediately-invoked.html</div>
+    <div>https://pjchender.blogspot.com/2016/03/javascriptfunction-statements-and.html</div>
+    <div>https://pjchender.blogspot.com/2016/05/iifesimmediately-invoked-functions.html</div>
+    <div>https://www.explainthis.io/zh-hant/swe/what-is-hof</div>
+  </footer>
 </body>
-<footer>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <p>&nbsp;</p>
-  <div>參考資料:</div>
-  <div>https://pjchender.blogspot.com/2016/05/javascriptiifesimmediately-invoked.html</div>
-  <div>https://www.explainthis.io/zh-hant/swe/what-is-hof</div>
-</footer>
+
 <!DOCTYPE html/>
