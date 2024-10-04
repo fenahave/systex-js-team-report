@@ -1,0 +1,20 @@
+/* dark-mode-prettify.css */
+pre.prettyprint {
+  background-color: #1e1e1e; /* Dark background */
+  color: #ffffff; /* Light text */
+}
+
+/* Customize specific syntax highlights */
+.pln { color: #e1e5b0; } /* Plain text */
+.str { color: #ce9178; } /* Strings */
+.kwd { color: #569cd6; } /* Keywords */
+.com { color: #6a9955; } /* Comments */
+.typ { color: #4ec9b0; } /* Types */
+.lit { color: #b5cea8; } /* Literals (numbers, etc.) */
+.pun { color: #f7b5f9; } /* Punctuation */
+.opn { color: #d4d4d4; } /* Open punctuation */
+.clo { color: #d4d4d4; } /* Close punctuation */
+.tag { color: #569cd6; } /* Tags */
+.atn { color: #9cdcfe; } /* Attribute names */
+.atv { color: #ce9178; } /* Attribute values */
+.dec { color: #b5cea8; } /* Decimal literals */
