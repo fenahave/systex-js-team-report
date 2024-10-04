@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<head>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"
+  />
+  <script src="../js/13/run_pprettify.js"></script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/pretty.css" />
+</head>
+<body>
+  <div id="header">
+    <h1>報告</h1>
+    <div id="toc" class="toc">
+      <div id="toctitle">Table of Contents</div>
+      <ul class="sectlevel1">
+        <li>
+          <a href="#_第一組">第一組</a>
+          <ul class="sectlevel2">
+            <li><a href="#_IIFE">IIFE</a></li>
+            <li><a href="#_函式">函式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <h2 id="_第一組">第一組</h2>
+    <div class="sectionbody">
+      <div class="ulist">
+        <ul>
+          <li>
+            <p>報告人: 13 謝岷翰</p>
+          </li>
+        </ul>
+      </div>
+      <div class="_set1">
+        <h2 id="_IIFE">Immediately Invoked Function Expression, IIFE</h2>
+        <div class="ulist">
+          <h3>表達式（Expressions）和陳述句（Statements）的差異</h3>
+          <p>
+            在說明IIFE之前，要先說明一下 function statements 和 function expressions 這兩種不同建立函式的方式
+          </p>
+
+          <h4>表達式 ( Expressions ) </h4>
+
+          <p>
+            Expressions 指的是輸入後能夠直接回傳值的一串程式（a unit of code that results in a value），我們一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
+            簡單來說，只要你輸入的那串程式執行後能直接回傳一個值，那麼它就是個 expression。
+            舉例來說，在瀏覽器的 console 中輸入 a = 3 時，它會直接回傳 3 這個值；輸入 2 + 3 的時候，它會直接回傳 5；輸入 a = { } 的時候，它會回傳一個為物件的值。這種輸入一段程式後，會直接取得回傳一個值的程式內容，我們就稱為 Expressions。
+          </p>
+
+          <h4>陳述句 ( Statements ) </h4>
+
+          <pre class="prettyprint">
+
+            if (a === 3) {
+              console.log('Hello');
+            }
+          </pre>
+          <p></p>
+
+          <p>
+            在這段程式中 a === 3 是一個表達式（expression），因為它可以直接回傳值（即，true 或 false）；而 if 這個指令，則是一個 statement，因為它不會直接回傳一個值，我們也不能將它指定為一個變數：
+          </p>
+
+          <pre class="prettyprint">
+
+            // ❌ 錯誤寫法
+            const b = if (a === 3) {
+              console.log('Hello');
+            }
+          </pre>
+
+          <h3>IIFE 是什麼?</h3>
+          <p>
+            如同文章一開始所敘述的，IIFEs 指的就是透過 function expression 的方式來建立函式，並且立即執行它。
+            舉例來說，可以用 console.log 的方式，來看一下剛剛建立的 hello world 呼叫出來會長什麼樣子。
+          </p>
+          
+          <ul>
+            <li>
+              <p>Ternary Operator</p>
+            </li>
+            <li>
+              <p>Nullish Coalescing Operator/Assignment</p>
+            </li>
+            <li>
+              <p>Falsy</p>
+            </li>
+            <li>
+              <p>Custom Error</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="_set2">
+        <h2 id="_函式">高階函式 Higher-Order Function</h2>
+        <div class="ulist">
+          <h3>高階函式 (Higher order function) 是什麼？</h3>
+          <p>
+            高階函式 (Higher order function)
+            是指當一個函式可以接受另一個函式作為參數、或者返回一個函式作為結果的函式。
+          </p>
+          <p>
+            這是一種函式語言程式設計的概念，不只
+            JavaScript，許多程式語言都有支援高階函式，比如:Python、Swift都可直接當作參數使用，java、C++則需要配合lambda表達式。
+          </p>
+          <p>只有少數較古老的程式語言沒有支援高階函式，比如C、Fortran。</p>
+          <p>
+            它的重要性在於，可以幫助提高程式碼的模塊化和可維護性，將一個複雜的邏輯拆分成一個個較簡單的邏輯，因此很常應用到不同情境中，底下是一些例子：
+          </p>
+          <ol>
+            <li>
+              回調函式 (callback function)
+              包裝：可以將回調函式作為參數傳遞給另一個函式，以實現自定義的行為。
+            </li>
+            <li>
+              抽象操作：可以將高階函式作為封裝操作的一層抽象，例如實現過濾、轉換等。
+            </li>
+            <li>函式組合：可以使用高階函式組合多個函式，以創建新的函式。</li>
+          </ol>
+          <h3>高階函式 (Higher order function) 實際例子</h3>
+          <p>
+            在 JavaScript
+            中，我們很常使用到的一些內建方法，其實就是高階函式。以下舉
+            <code>Array.prototype.filter()</code>
+            為例，並模擬寫出一個新的高階函式。
+          </p>
+
+          <pre class="prettyprint">class Voila {
+            //test <a href="#voila2">tags</a>.
+            }
+          </pre>
+
+          <p></p>
+
+          <p>
+            我們先來看原生的
+            <code>Array.prototype.filter()</code>
+            方法，它可以過濾陣列中滿足某些條件的元素，並返回一個新的陣列。
+          </p>
+          <p>
+            以下程式碼為例， <code>evenNumber</code> 函式為一個回調函式，傳入
+            filter 函式中作為參數，最終返回結果。
+          </p>
+          <pre class="prettyprint">
+
+              const numbers = [1, 2, 3, 4, 5];
+              const evenNumber = (item) => item % 2 === 0;
+              const newNumebers = numbers.filter(evenNumber);
+              console.log(newNumebers); // [2, 4]
+          </pre>
+          <p></p>
+
+          <div
+            class="prose prose-slate max-w-none leading-8 text-slate-800 prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-medium lg:prose-headings:scroll-mt-[8.5rem] prose-lead:text-slate-500 prose-a:font-semibold prose-a:no-underline prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline,theme(colors.orange.300))] hover:prose-a:[--tw-prose-underline-size:6px] prose-pre:rounded prose-pre:bg-slate-900 prose-pre:shadow-lg prose-code:mx-0.5 prose-code:rounded prose-code:bg-[#f5f5f5] prose-code:p-1.5 prose-code:text-[#ec4899] prose-code:before:content-[''] prose-code:after:content-[''] prose-strong:text-[#404040]"
+          >
+            <p>
+              接著，我們照原生的
+              <code>Array.prototype.filter()</code>，使用高階函式寫一個簡單的
+              <code>myFilter</code> 方法。
+            </p>
+            <p>
+              以下程式碼範例，<code>myFilter</code>
+              高階函式會接受一個回調函式作為參數，並最終返回新的 filtered
+              後的陣列。
+            </p>
+            <pre class="prettyprint">
+
+              function myFilter(fn, arr) {
+                const filteredArray = [];
+              
+                for (let i = 0; i < arr.length; i++) {
+                  if (fn(arr[i])) {
+                    filteredArray.push(arr[i]);
+                  }
+                }
+              
+                return filteredArray;
+              }
+              
+              const numbers = [1, 2, 3, 4, 5];
+              const evenNumbers = myFilter((x) => x % 2 === 0, numbers);
+              console.log(evenNumbers);
+            </pre>
+            <p></p>
+
+            <h3>補充：一級函式 (First-class functions) 是什麼？</h3>
+            <p>
+              通常討論到高階函式時，也會一同帶到<strong>一級函式</strong>這個名詞。「<strong>一級函式</strong>」和「<strong>高階函式</strong>」是兩個相關但不完全相同的概念。
+            </p>
+            <p>
+              當函式在該程式語言中可以被視為跟其他的變數一樣輸入或輸出時，我們會稱那樣的程式語言擁有<strong>一級函式</strong>。大多數現代程式語言都支持一級函式，例如
+              JavaScript，Python，Scala 等。
+            </p>
+            <p>
+              而高階函式指的是該函式本身能不能接收函式當作參數，或是回傳函式作為回傳值。
+            </p>
+          </div>
+
+          <ul>
+            <li>
+              <p>var/let/const 差異</p>
+            </li>
+            <li>
+              <p>Hoisting</p>
+            </li>
+            <li>
+              <p>Temporal Dead Zone, TDZ</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sect1"></div>
+  </div>
+</body>
+<footer>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <div>參考資料:</div>
+  <div>https://pjchender.blogspot.com/2016/05/javascriptiifesimmediately-invoked.html</div>
+  <div>https://www.explainthis.io/zh-hant/swe/what-is-hof</div>
+</footer>
+<!DOCTYPE html/>
