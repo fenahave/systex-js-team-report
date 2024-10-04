@@ -3,8 +3,17 @@
 ## 文件
 
 1. style.css 用來當所有頁面的統一規格
-1. 個別的設定自己建立自己的css檔並引入
-
+2. 個別的設定請建立自己的css檔並引入，或直接寫在自己的文檔內
+3. code區塊可引入run_pprettify.js 用並用下方代碼直接套用樣式即可(黑暗模式可引入pretty.css)
+```html
+<script src="../js/13/run_pprettify.js"></script>
+<link rel="stylesheet" href="../css/pretty.css" />
+```
+```html
+<pre class="prettyprint">
+codes
+</pre>
+```
 
 ## Github 推送操作
 
