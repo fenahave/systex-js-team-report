@@ -70,18 +70,20 @@ function f() {
 
             <h3>3. 用 Promise 來寫一個 getData 函式的例子：</h3>
             <pre class="prettyprint">
-function getData(url) {
-    return new Promise((resolve, reject) => {
-        fetch(url)
-        .then((res) => res.json())
-        .then((data) => resolve(data))
-        .catch((error) => reject(error));
-    });
-}
-
-getData("https://example.com/data")
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
+function getData() {
+    fetch(url)
+        .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+        }
+            return response.json(); // 將回應轉換為JSON
+        })
+    .then(data => console.log(data)) // 處理取得的資料
+    .catch(error => console.error('There was a problem with the fetch operation:', error)); // 捕獲並處理錯誤
+        }
+                
+    getData();
+                
             </pre>
 
             <h3>4. 使用 async/await 重寫：</h3>
@@ -204,7 +206,7 @@ fetchDataWithAsyncAwait();
 
             <h3>結論</h3>
             <ul>
-                <li><strong>Promise + .then()/.catch()：</strong>每個 Promise 的錯誤處理需要明確寫出，並且錯誤處理的邏輯會隨著 .then() 層級的增多而變得分散。</li>
+                <li><strong>Promise + .then()/.catch()：</strong>Promise 的錯誤處理會隨著 .then() 層級的增多而變得分散。</li>
                 <li><strong>async/await + try/catch：</strong>可以將所有的非同步操作包裹在一個 try/catch 區塊中，錯誤處理更集中，結構更簡單清晰。</li>
                 <br><br>
                 
