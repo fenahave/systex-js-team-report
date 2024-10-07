@@ -175,7 +175,7 @@ const foo = () => {}
           <li>string：表示字串，例如 "Hello"</li>
           <li>number：表示數字，包括整數和浮點數，例如 42、3.14</li>
           <li>bigint：表示任意精度的整數，例如 9007199254740991n</li>
-          <li>boolean：表示布爾值 true 或 false</li>
+          <li>boolean：表示布林值 true 或 false</li>
           <li>undefined：當變數已聲明但尚未賦值時，其值是 undefined</li>
           <li>null：表示空值，通常用來表示“無”的狀態</li>
           <li>symbol：用來創建唯一的標識符，例如 Symbol("unique")</li>
@@ -206,6 +206,16 @@ const foo = () => {}
         <li><strong>函數（Function）</strong>：也是物件類型，可以作為一等公民進行操作，例如 <code>function add(a, b) { return a + b; }</code></li>
         <li><strong>日期（Date）</strong>：表示日期和時間的物件類型，例如 <code>new Date()</code></li>
         <li><strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如 <code>/abc/</code></li>
+      </ul>
+      <p>
+        補充說明：
+      </p>
+      <ul>
+        <li><strong>稀疏陣列（Sparse Array）</strong>：指陣列中存在空洞或未定義的元素，而不是連續的值。這通常會導致迭代時的意外結果。</li>
+        <li><strong>鍵值的強制轉型</strong>：陣列的索引其實是物件的鍵，這些鍵會自動轉型為字串，導致一些潛在的問題。</li>
+        <li><strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong>：字串作為類陣列，字串與數字進行比較時，會自動進行類型轉換。</li>
+        <li><strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt 來處理非常大的整數，而對於小數和極小數字，則需要注意浮點運算的精度問題。</li>
+        <li><strong>表達其他基數的數字</strong>：decimal（十進制）、binary（二進制）、octal（八進制）、hex（十六進制）。</li>
       </ul>
 
       <h4>特點：</h4>
@@ -269,6 +279,9 @@ const foo = () => {}
       </ul>
 
       <p>這兩種型別的理解對於正確處理 JavaScript 中的數據結構至關重要，尤其是在變數賦值和比較時。</p>
+
+      <h3>補充說明：</h3>
+      
     </div>
   </div>
 
@@ -315,9 +328,9 @@ const foo = () => {}
   let numBool = Number(bool);  // 0
         </pre>
   
-        <h5>轉換為布爾值：</h5>
+        <h5>轉換為布林值：</h5>
         <ul>
-          <li>使用 <code>Boolean()</code> 函數來將其他類型轉換為布爾值。</li>
+          <li>使用 <code>Boolean()</code> 函數來將其他類型轉換為布林值。</li>
         </ul>
         <pre class="prettyprint">
   let str = "hello";
@@ -338,7 +351,7 @@ const foo = () => {}
   let result = "The answer is " + 42;  // "The answer is 42"
           </pre>
   
-          <li><strong>數字運算中的布爾值：</strong> 布爾值會被轉換為數字：<code>true</code> 轉換為 1，<code>false</code> 轉換為 0。</li>
+          <li><strong>數字運算中的布林值：</strong> 布林值會被轉換為數字：<code>true</code> 轉換為 1，<code>false</code> 轉換為 0。</li>
           <pre class="prettyprint">
   let sum = true + 2;  // 3
   let difference = false - 1;  // -1
