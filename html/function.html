@@ -16,22 +16,18 @@
       <div id="toctitle">Table of Contents</div>
       <ul class="sectlevel1">
         <li>
-          <a href="#_第一組">第一組</a>
+          <a href="#_IIFE 與 高階函式">IIFE 與 高階函式</a>
           <ul class="sectlevel2">
             <li><a href="#_IIFE">IIFE</a></li>
-            <li><a href="#_函式">函式</a></li>
+            <li><a href="#_函式">高階函式</a></li>
           </ul>
         </li>
       </ul>
     </div>
-    <h2 id="_第一組">第一組</h2>
+    <h2 id="_IIFE 與 高階函式">IIFE 與 高階函式</h2>
     <div class="sectionbody">
       <div class="ulist">
-        <ul>
-          <li>
-            <p>報告人: 13 謝岷翰</p>
-          </li>
-        </ul>
+
       </div>
       <div class="_set1">
         <h2 id="_IIFE">Immediately Invoked Function Expression, IIFE</h2>
@@ -356,7 +352,21 @@
             <code>Array.prototype.filter()</code>
             為例，並模擬寫出一個新的高階函式。
           </p>
-
+            <strong>常見高階函式：</strong></p>
+          <ol> 
+            <li>
+              Array.prototype.map：用來對陣列中的每個元素進行操作，並返回一個新陣列。
+            </li>
+            <li>
+              Array.prototype.filter：過濾符合條件的元素。
+            </li>
+            <li>
+              Array.prototype.reduce：累積陣列元素，返回單一結果。
+            </li>
+            <li>
+              setTimeout/setInterval：將回調函式作為參數。
+            </li>
+          </ol>
           <p>
             我們先來看原生的
             <code>Array.prototype.filter()</code>
@@ -444,6 +454,7 @@
               const evenNumbers = myFilter(numbers);
               console.log(evenNumbers);
             </pre>
+            <p></p>
 
             <p>
               可以發現在沒有使用包裝好的filter與高階函式的情況下，
@@ -463,11 +474,20 @@
             <p>
               而高階函式指的是該函式本身能不能接收函式當作參數，或是回傳函式作為回傳值。
             </p>
+
+            <h3>結論：</h3>
+            <p>
+              高階函式將函式作為參數或返回值來動態改變程式邏輯，使得程式碼更具可重用性、可讀性和抽象性。
+              透過這樣的設計，能夠更有效地處理重複的邏輯，減少代碼的冗餘，並將複雜的問題拆解為易於管理的模塊。
+            </p>
           </div>
         </div>
       </div>
     </div>
     <div class="sect1"></div>
+
+    <div id="footerPage"></div>
+
   </div>
 
   <footer>
@@ -488,6 +508,13 @@
     </div>
     <div>https://www.explainthis.io/zh-hant/swe/what-is-hof</div>
   </footer>
+  <div id="footer">
+    <div id="footer-text" class="pageclick">
+      <a href="./test.html" class="pageclick left">上一頁</a>
+      <a href="./index.html" class="pageclick center">回目錄</a>
+      <a href="./function2.html" class="pageclick right">下一頁</a>
+    </div>
+  </div>
 </body>
 
 <!DOCTYPE html/>
