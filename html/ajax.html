@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript 同步與非同步</title>
+    <script src="../js/13/run_pprettify.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/pretty.css" />
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #header,
+      main {
+        width: 80%;
+        max-width: 1200px;
+      }
+      #header {
+        text-align: left;
+      }
+      main {
+        margin-top: 20px;
+      }
+      #toc ul {
+        list-style-type: disc;
+        padding-left: 20px;
+      }
+      #toc li {
+        margin: 5px 0;
+      }
+      #toc a {
+        text-decoration: none;
+        color: #1a73e8;
+      }
+      #toc a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <header>
+          <h1>JavaScript 同步與非同步</h1>
+        </header>
+        <nav id="toc" class="toc">
+          <div id="toctitle">目錄</div>
+          <ul class="sectlevel1">
+            <li>
+              <a href="#_同步與非同步概念">同步與非同步概念</a>
+              <ul>
+                <li><a href="#_同步是什麼">同步是什麼？</a></li>
+                <li><a href="#_非同步是什麼">非同步是什麼？</a></li>
+                <li>
+                  <a href="#_為什麼Javascript可以非同步"
+                    >為什麼 JavaScript 可以非同步？</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#_ajax與數據請求">AJAX 與數據請求</a>
+              <ul>
+                <li><a href="#_什麼是_ajax">什麼是 AJAX?</a></li>
+                <li><a href="#_xmlhttprequest">XMLHttpRequest</a></li>
+                <li><a href="#_fetch">Fetch</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#_promise與異步處理">Promise 與異步處理</a>
+              <ul>
+                <li>
+                  <a href="#_promise">Promise</a>
+                  <ul>
+                    <li><a href="#_promise的狀態">Promise 的狀態</a></li>
+                    <li><a href="#_基本結構">基本結構</a></li>
+                    <li><a href="#_鏈式結構">鏈式結構</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#_promise_all">Promise.all()</a>
+                  <ul>
+                    <li><a href="#_promise_all_使用範例">使用範例</a></li>
+                    <li>
+                      <a href="#_promise_all的工作方式"
+                        >Promise.all() 的工作方式</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#_async_await">async / await</a>
+                  <ul>
+                    <li>
+                      <a href="#_什麼是_async_await">什麼是 async/await？</a>
+                    </li>
+                    <li><a href="#_async函數">async 函數</a></li>
+                    <li><a href="#_await表達式">await 表達式</a></li>
+                    <li><a href="#_異步操作錯誤處理">異步操作錯誤處理</a></li>
+                    <li>
+                      <a href="#_並行執行多個異步操作">並行執行多個異步操作</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <main>
+        <section id="_同步與非同步概念">
+          <h2>同步與非同步概念</h2>
+          <section id="_同步是什麼">
+            <h3>同步是什麼？</h3>
+            <p>「同步」常讓人困惑，實際上它代表一次只能做一件事情。</p>
+            <p>
+              JavaScript 是「單執行續
+              (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
+            </p>
+          </section>
+
+          <section id="_非同步是什麼">
+            <h3>非同步是什麼？</h3>
+            <p>
+              非同步則是相反的，它允許同時進行多個任務，無需等待前一件事完成後再做下一件。
+            </p>
+          </section>
+
+          <section id="_為什麼Javascript可以非同步">
+            <h3>為什麼 JavaScript 可以非同步？</h3>
+            <p>
+              JavaScript 是單執行緒語言，但它可以與瀏覽器提供的 WebAPI
+              (例如：document、XMLHttpRequest、setTimeout)
+              進行溝通，達到非同步處理。
+            </p>
+            <p>
+              這樣 JavaScript 引擎本身是同步的，而透過
+              WebAPI，它可以同時處理多個任務 (Concurrency)。
+            </p>
+          </section>
+        </section>
+
+        <section id="_ajax與數據請求">
+          <h2>AJAX 與數據請求</h2>
+          <section id="_什麼是_ajax">
+            <h3>什麼是 AJAX?</h3>
+            <p>
+              AJAX（Asynchronous
+              <a
+                href="https://developer.mozilla.org/zh-TW/docs/Glossary/JavaScript"
+                >JavaScript</a
+              >
+              And
+              <a href="https://developer.mozilla.org/en-US/docs/Glossary/XML"
+                >XML</a
+              >，非同步 JavaScript 與 XML）是結合了
+              <a href="https://developer.mozilla.org/zh-TW/docs/Glossary/HTML"
+                >HTML</a
+              >、<a href="https://developer.mozilla.org/zh-TW/docs/Glossary/CSS"
+                >CSS</a
+              >、JavaScript、<a
+                href="https://developer.mozilla.org/zh-TW/docs/Glossary/DOM"
+                >DOM</a
+              >、還有
+              <code>XMLHttpRequest</code> 物件，以建立更複雜的網頁應用。AJAX
+              允許網頁只更新所需的部分，而無需重新載入整個頁面。雖然名字中有
+              XML，但它也可以用現今廣泛使用的 JSON 及其他資料類型（如 HTML, Form
+              Data, Binary Data, Blob, ArrayBuffer）進行資料交換。
+            </p>
+          </section>
+
+          <section id="_xmlhttprequest">
+            <h3>XMLHttpRequest</h3>
+            <p>
+              XMLHttpRequest 是 JavaScript 中的物件，允許網頁向伺服器發送 HTTP
+              或 HTTPS
+              請求，並在不重新載入整個網頁的情況下接收回應資料。這項技術是實現
+              AJAX 的重要組成部分，能讓網頁內容動態更新。雖然現在常用 fetch()
+              技術，但 XMLHttpRequest 在某些較舊的項目中仍然被廣泛使用。
+            </p>
+
+            <h4>XMLHttpRequest 基本概念</h4>
+            <h5>1. 建立 XMLHttpRequest 物件</h5>
+            <pre class="prettyprint">let xhr = new XMLHttpRequest();</pre>
+
+            <h5>2. 打開請求 (open)</h5>
+            <pre class="prettyprint">
+xhr.open('GET', 'https://api.example.com/data', true);</pre
+            >
+            <p>
+              • 第一個參數是 HTTP 方法（如 GET 或 POST）。<br />
+              • 第二個參數是目標 URL。<br />
+              • 第三個參數是布林值，表示是否以非同步方式發送請求。通常使用 true
+              表示非同步。
+            </p>
+
+            <h5>3. 發送請求 (send)</h5>
+            <pre class="prettyprint">xhr.send();</pre>
+            <p>如果是 POST 請求，可以將資料以字串格式傳入 send() 中：</p>
+            <pre class="prettyprint">
+let data = JSON.stringify({ name: "Oscar", age: 24 });
+xhr.send(data);</pre
+            >
+
+            <h5>4. 處理回應 (response)</h5>
+            <p>
+              可以透過 <code>onreadystatechange</code> 或
+              <code>onload</code> 監聽請求的狀態變化並處理回應：
+            </p>
+
+            <pre class="prettyprint">
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText); // 輸出伺服器回應的資料
+    }
+};</pre
+            >
+
+            <p><strong>readyState 狀態值：</strong></p>
+            <ul>
+              <li>0: UNSENT – 請求尚未打開。</li>
+              <li>1: OPENED – 請求已打開，但尚未發送。</li>
+              <li>2: HEADERS_RECEIVED – 已收到伺服器回應標頭。</li>
+              <li>3: LOADING – 請求正在處理，回應的資料正在接收。</li>
+              <li>4: DONE – 請求已完成，回應可用。</li>
+            </ul>
+
+            <pre class="prettyprint">
+xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+        console.log(xhr.responseText); // 處理回應資料
+    } else {
+        console.error('請求失敗');
+    }
+};</pre
+            >
+          </section>
+
+          <section id="_fetch">
+            <h3>Fetch</h3>
+            <h4>什麼是 Fetch？</h4>
+            <p>
+              <strong>Fetch API</strong> 是
+              <strong>XMLHttpRequest</strong> 的現代替代品。它使用
+              <strong>Promise</strong> 來處理非同步操作，設計更加靈活且簡潔。
+            </p>
+            <pre class="prettyprint">
+fetch('https://api.example.com/products')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('網路回應有誤：' + response.statusText);
+    }
+    return response.json();  // 解析 JSON 資料
+  })
+  .then(products => {
+    console.log(products);  // 處理並顯示產品
+  })
+  .catch(error => {
+    console.error('Fetch 操作中出現問題：', error);
+  });</pre
+            >
+
+            <h4>使用 Fetch 發送 POST 請求</h4>
+            <p>假設用戶將產品加入購物車，可以使用 Fetch 發送 POST 請求：</p>
+            <pre class="prettyprint">
+fetch('https://api.example.com/cart', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    productId: 12345,
+    quantity: 1
+  })
+})
+  .then(response => response.json())
+  .then(data => console.log('產品已加入購物車：', data))
+  .catch(error => console.error('加入購物車時發生錯誤：', error));</pre
+            >
+          </section>
+        </section>
+
+        <section id="_promise與異步處理">
+          <h2>Promise 與異步處理</h2>
+          <section id="_promise">
+            <h3>Promise</h3>
+            <h4 id="_promise的狀態">Promise 的狀態</h4>
+            <ul>
+              <li><strong>pending</strong>：初始狀態，尚未完成。</li>
+              <li>
+                <strong>fulfilled</strong>：操作成功，已執行
+                <code>resolve()</code>。
+              </li>
+              <li>
+                <strong>rejected</strong>：操作失敗，已執行
+                <code>reject()</code>。
+              </li>
+            </ul>
+            <p>
+              當 Promise 從 <strong>pending</strong> 變為
+              <strong>fulfilled</strong> 或
+              <strong>rejected</strong> 後，其狀態便不再變更。
+            </p>
+
+            <h4 id="_基本結構">基本結構</h4>
+            <pre class="prettyprint">
+let promise = new Promise((resolve, reject) => {
+  let success = true;
+
+  if (success) {
+    resolve('操作成功');
+  } else {
+    reject('操作失敗');
+  }
+});
+
+promise.then(result => {
+  console.log(result);  // 輸出 '操作成功'
+})
+.catch(error => {
+  console.error(error);  // 輸出 '操作失敗'
+});</pre
+            >
+
+            <h4 id="_鏈式結構">鏈式結構</h4>
+            <pre class="prettyprint">
+fetch('https://api.example.com/data')
+  .then(response => response.json())  // 解析 JSON 數據
+  .then(data => {
+    console.log('資料:', data);
+    return fetch('https://api.example.com/otherdata');
+  })
+  .then(response => response.json())
+  .then(otherData => {
+    console.log('其他資料:', otherData);
+  })
+  .catch(error => {
+    console.error('請求發生錯誤:', error);
+  });</pre
+            >
+          </section>
+
+          <section id="_promise_all">
+            <h3>Promise.all()</h3>
+            <h4 id="_promise_all_使用範例">使用範例</h4>
+            <p>
+              <strong>Promise.all()</strong> 用來處理多個 Promise
+              並行執行。它允許傳入一個 Promise 陣列，當所有的 Promise
+              都成功時，返回一個新的 Promise，該 Promise
+              的結果是一個包含所有結果的陣列。如果其中任何一個 Promise
+              被拒絕，<code>Promise.all()</code> 會立即返回一個被拒絕的
+              Promise，並且錯誤會傳遞給 .catch()。
+            </p>
+
+            <pre class="prettyprint">
+Promise.all([promise1, promise2, promise3])
+  .then(results => {
+    // 當所有的 Promise 成功完成時
+    console.log(results);  // 結果是一個陣列，包含每個 Promise 的結果
+  })
+  .catch(error => {
+    // 當任一 Promise 失敗時
+    console.error(error);
+  });</pre
+            >
+
+            <h4 id="_promise_all的工作方式">Promise.all() 的工作方式</h4>
+            <p>
+              <code>Promise.all()</code> 並行執行所有傳入的
+              Promise，這對提高效率非常重要，尤其是當你需要並行執行多個耗時的操作時（如多個網絡請求）。
+            </p>
+            <ul>
+              <li>
+                <strong>成功狀態</strong>：當所有的 Promise
+                都成功解決時，返回一個包含每個 Promise
+                結果的陣列，順序與傳入順序相同。
+              </li>
+              <li>
+                <strong>錯誤處理</strong>：如果任一 Promise 被拒絕，<code
+                  >Promise.all()</code
+                >
+                會立即進入 <code>.catch()</code>，返回第一個失敗的錯誤。
+              </li>
+            </ul>
+          </section>
+
+          <section id="_async_await">
+            <h3>async / await</h3>
+            <h4 id="_什麼是_async_await">什麼是 async/await？</h4>
+            <p>
+              <strong>async/await</strong> 是基於
+              <strong>Promise</strong>
+              的語法，使非同步代碼看起來更像同步代碼。
+            </p>
+
+            <h4 id="_async函數">async 函數</h4>
+            <p>
+              將一個函數標記為 <code>async</code>，它會自動返回一個
+              <strong>Promise</strong>，即使沒有顯式返回
+              Promise，它也會將函數內部的值包裝成一個 Promise。
+            </p>
+            <pre class="prettyprint">
+async function myFunction() {
+  return 'Hello';
+}
+
+myFunction().then(result => console.log(result));  // 輸出 'Hello'</pre
+            >
+
+            <h4 id="_await表達式">await 表達式</h4>
+            <p>
+              <code>await</code> 用來等待一個 Promise
+              完成，並暫停函數內後續代碼的執行，直到 Promise 的結果返回。
+            </p>
+            <pre class="prettyprint">
+async function fetchData() {
+  let response = await fetch('https://api.example.com/data');
+  let data = await response.json();
+  console.log(data);
+}
+
+fetchData();</pre
+            >
+
+            <h4 id="_異步操作錯誤處理">異步操作錯誤處理</h4>
+            <pre class="prettyprint">
+async function fetchDataWithErrorHandling() {
+  try {
+    let response = await fetch('https://api.example.com/data');
+
+    if (!response.ok) {
+      throw new Error('網絡回應失敗');
+    }
+
+    let data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('發生錯誤:', error);
+  }
+}
+
+fetchDataWithErrorHandling();</pre
+            >
+
+            <h4 id="_並行執行多個異步操作">並行執行多個異步操作</h4>
+            <pre class="prettyprint">
+async function fetchMultipleData() {
+  try {
+    let [data1, data2] = await Promise.all([
+      fetch('https://api.example.com/data1').then(res => res.json()),
+      fetch('https://api.example.com/data2').then(res => res.json())
+    ]);
+
+    console.log('資料1:', data1);
+    console.log('資料2:', data2);
+  } catch (error) {
+    console.error('發生錯誤:', error);
+  }
+}
+
+fetchMultipleData();</pre
+            >
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <p></p>
+    </footer>
+  </body>
+</html>
