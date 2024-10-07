@@ -66,6 +66,9 @@
                 <li><a href="#_什麼是_ajax">什麼是 AJAX?</a></li>
                 <li><a href="#_xmlhttprequest">XMLHttpRequest</a></li>
                 <li><a href="#_fetch">Fetch</a></li>
+                <li>
+                  <a href="#_fetch_xhr_comparison">XMLHttpRequest vs. Fetch</a>
+                </li>
               </ul>
             </li>
             <li>
@@ -279,6 +282,35 @@ fetch('https://api.example.com/cart', {
   .then(response => response.json())
   .then(data => console.log('產品已加入購物車：', data))
   .catch(error => console.error('加入購物車時發生錯誤：', error));</pre
+            >
+          </section>
+
+          <section id="_fetch_xhr_comparison">
+            <h3>XMLHttpRequest vs. Fetch</h3>
+            <h4>XMLHttpRequest 範例：</h4>
+            <pre class="prettyprint">
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://api.example.com/data', true);
+xhr.onload = function() {
+  if (xhr.status >= 200 && xhr.status < 300) {
+    var data = JSON.parse(xhr.responseText);
+    console.log(data);
+  } else {
+    console.error('Error:', xhr.statusText);
+  }
+};
+xhr.onerror = function() {
+  console.error('Request failed');
+};
+xhr.send();
+            </pre>
+
+            <h4>Fetch 範例：</h4>
+            <pre class="prettyprint">
+fetch('https://api.example.com/data')
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));</pre
             >
           </section>
         </section>
