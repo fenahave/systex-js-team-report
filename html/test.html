@@ -240,7 +240,6 @@ const foo = () => {}
 
         <h4>常見的物件型別：</h4>
         <ul>
-
           <li>
             <strong>物件（Object）</strong>：包含鍵值對，例如
             <code>{ name: "John", age: 30 }</code>
@@ -271,7 +270,6 @@ const foo = () => {}
           <li>undefined：當變數已聲明但尚未賦值時，其值是 undefined</li>
           <li>null：表示空值，通常用來表示“無”的狀態</li>
           <li>symbol：用來創建唯一的標識符，例如 Symbol("unique")</li>
-
         </ul>
 
         <h4>特點：</h4>
@@ -298,39 +296,67 @@ const foo = () => {}
       </div>
 
       <h3>2. <strong>物件型別（Object Types）</strong></h3>
-      <p>物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。</p>
+      <p>
+        物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
+      </p>
 
       <h4>常見的物件型別：</h4>
       <ul>
-        <li><strong>物件（Object）</strong>：包含鍵值對，例如 <code>{ name: "John", age: 30 }</code></li>
-        <li><strong>陣列（Array）</strong>：一種特殊的物件，用來存儲有序的數據列表，例如 <code>[1, 2, 3]</code></li>
-        <li><strong>函數（Function）</strong>：也是物件類型，可以作為一等公民進行操作，例如 <code>function add(a, b) { return a + b; }</code></li>
-        <li><strong>日期（Date）</strong>：表示日期和時間的物件類型，例如 <code>new Date()</code></li>
-        <li><strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如 <code>/abc/</code></li>
+        <li>
+          <strong>物件（Object）</strong>：包含鍵值對，例如
+          <code>{ name: "John", age: 30 }</code>
+        </li>
+        <li>
+          <strong>陣列（Array）</strong
+          >：一種特殊的物件，用來存儲有序的數據列表，例如 <code>[1, 2, 3]</code>
+        </li>
+        <li>
+          <strong>函數（Function）</strong
+          >：也是物件類型，可以作為一等公民進行操作，例如
+          <code>function add(a, b) { return a + b; }</code>
+        </li>
+        <li>
+          <strong>日期（Date）</strong>：表示日期和時間的物件類型，例如
+          <code>new Date()</code>
+        </li>
+        <li>
+          <strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如
+          <code>/abc/</code>
+        </li>
       </ul>
-      <p>
-        補充說明：
-      </p>
+      <p>補充說明：</p>
       <ul>
-        <li><strong>稀疏陣列（Sparse Array）</strong>：指陣列中存在空洞或未定義的元素，而不是連續的值。這通常會導致迭代時的意外結果。</li>
+        <li>
+          <strong>稀疏陣列（Sparse Array）</strong
+          >：指陣列中存在空洞或未定義的元素，而不是連續的值。這通常會導致迭代時的意外結果。
+        </li>
         <pre class="prettyprint">
           let sparseArray = [1, , 3];  // 這裡第二個元素是空的
           console.log(sparseArray.length);  // 3
           console.log(sparseArray[1]);  // undefined
         </pre>
-        <li><strong>鍵值的強制轉型</strong>：陣列的索引其實是物件的鍵，這些鍵會自動轉型為字串，導致一些潛在的問題。</li>
+        <li>
+          <strong>鍵值的強制轉型</strong
+          >：陣列的索引其實是物件的鍵，這些鍵會自動轉型為字串，導致一些潛在的問題。
+        </li>
         <pre class="prettyprint">
           let arr = [];
           arr[1] = 'a';
           arr['1'] = 'b';
           console.log(arr[1]);  // 'b'
         </pre>
-        <li><strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong>：字串作為類陣列，字串與數字進行比較時，會自動進行類型轉換。</li>
+        <li>
+          <strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong
+          >：字串作為類陣列，字串與數字進行比較時，會自動進行類型轉換。
+        </li>
         <pre class="prettyprint">
           console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
           console.log('5' === 5);  // false，因為這裡類型不相同
         </pre>
-        <li><strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt 來處理非常大的整數，而對於小數和極小數字，則需要注意浮點運算的精度問題。</li>
+        <li>
+          <strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt
+          來處理非常大的整數，而對於小數和極小數字，則需要注意浮點運算的精度問題。
+        </li>
         <pre class="prettyprint">
           const a = 1e20;
           const b = a * 100;
@@ -343,13 +369,22 @@ const foo = () => {}
           // 使用 toExponential 手動轉指數呈現
           a.toExponential(); // "1e+20"
         </pre>
-        <li><strong>表達其他基數的數字</strong>：decimal（十進制）、binary（二進制）、octal（八進制）、hex（十六進制）。</li>
+        <li>
+          <strong>表達其他基數的數字</strong
+          >：decimal（十進制）、binary（二進制）、octal（八進制）、hex（十六進制）。
+        </li>
       </ul>
 
       <h4>特點：</h4>
       <ul>
-        <li><strong>可變性</strong>：物件型別的值是可變的，可以在原來的基礎上修改或擴展。</li>
-        <li><strong>按參考傳遞</strong>：物件型別是按<strong>引用</strong>傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。</li>
+        <li>
+          <strong>可變性</strong
+          >：物件型別的值是可變的，可以在原來的基礎上修改或擴展。
+        </li>
+        <li>
+          <strong>按參考傳遞</strong
+          >：物件型別是按<strong>引用</strong>傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。
+        </li>
       </ul>
 
       <h4>範例：</h4>
@@ -361,7 +396,11 @@ const foo = () => {}
         console.log(obj2.name);  // 輸出 "Bob"，因為 obj1 和 obj2 都指向同一個物件
       </pre>
 
-      <p>在這裡，<code>obj1</code> 和 <code>obj2</code> 都引用了同一個物件，因此對 <code>obj1</code> 所做的修改會影響 <code>obj2</code>。</p>
+      <p>
+        在這裡，<code>obj1</code> 和
+        <code>obj2</code> 都引用了同一個物件，因此對
+        <code>obj1</code> 所做的修改會影響 <code>obj2</code>。
+      </p>
 
       <h3>原始型別與物件型別的差異</h3>
       <table>
@@ -395,21 +434,38 @@ const foo = () => {}
           </tr>
           <tr>
             <td><strong>類型數量</strong></td>
-            <td>7 種：<code>string</code>, <code>number</code>, <code>boolean</code>, <code>bigint</code>, <code>undefined</code>, <code>null</code>, <code>symbol</code></td>
-            <td>無限數量，包含 <code>Object</code>、<code>Array</code>、<code>Function</code> 等</td>
+            <td>
+              7 種：<code>string</code>, <code>number</code>,
+              <code>boolean</code>, <code>bigint</code>, <code>undefined</code>,
+              <code>null</code>, <code>symbol</code>
+            </td>
+            <td>
+              無限數量，包含 <code>Object</code>、<code>Array</code>、<code
+                >Function</code
+              >
+              等
+            </td>
           </tr>
         </tbody>
       </table>
 
       <h3>小結：</h3>
       <ul>
-        <li><strong>原始型別</strong>：是簡單且不可變的數據類型，無法改變內容，每個變數都是獨立的，適合處理基本的資料。</li>
-        <li><strong>物件型別</strong>：是複雜且可變的數據類型，內容可以修改，變數之間是共享同一個資料它們更適合處理包含多個值的結構化數據。</li>
+        <li>
+          <strong>原始型別</strong
+          >：是簡單且不可變的數據類型，無法改變內容，每個變數都是獨立的，適合處理基本的資料。
+        </li>
+        <li>
+          <strong>物件型別</strong
+          >：是複雜且可變的數據類型，內容可以修改，變數之間是共享同一個資料它們更適合處理包含多個值的結構化數據。
+        </li>
       </ul>
 
-      <p>這兩種型別的理解對於正確處理 JavaScript 中的數據結構至關重要，尤其是在變數賦值和比較時。</p>
+      <p>
+        這兩種型別的理解對於正確處理 JavaScript
+        中的數據結構至關重要，尤其是在變數賦值和比較時。
+      </p>
     </div>
-  </div>
 
     <div id="header">
       <h2 id="_4">顯性轉換/隱性轉換</h2>
@@ -684,37 +740,40 @@ console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Sym
         console.log(NaN === NaN);              // false
         console.log(Object.is(+0, -0));         // false
 
-      </pre>
+      </pre
+        >
 
-      <h3>4. 使用場景</h3>
-      <p>
-        === 嚴格比較：在大多數情況下，應該使用 ===，因為它更加安全和清晰。
-      </p>
-      <p>
-        == 寬鬆比較：當你確實需要進行不同類型之間的比較，並且希望 JavaScript 自動進行類型轉換時，才考慮使用。
-      </p>
+        <h3>4. 使用場景</h3>
+        <p>
+          === 嚴格比較：在大多數情況下，應該使用 ===，因為它更加安全和清晰。
+        </p>
+        <p>
+          == 寬鬆比較：當你確實需要進行不同類型之間的比較，並且希望 JavaScript
+          自動進行類型轉換時，才考慮使用。
+        </p>
 
-      <h3>常見陷阱</h3>
-      <p>
-        null 和 undefined 在 == 下相等，但在 === 下不相等。<br>
-        NaN 與任何值都不相等，包括它自己，所以比較 NaN 值時應使用 isNaN() 或 Object.is()。
-      </p>
+        <h3>常見陷阱</h3>
+        <p>
+          null 和 undefined 在 == 下相等，但在 === 下不相等。<br />
+          NaN 與任何值都不相等，包括它自己，所以比較 NaN 值時應使用 isNaN() 或
+          Object.is()。
+        </p>
 
-      <h3>總結</h3>
-      <p>
-        使用 === 進行嚴格比較可以避免 JavaScript 自動進行型別轉換時帶來的潛在錯誤。<br>
-        == 可以依照業務需求特性使用。
-      </p>
+        <h3>總結</h3>
+        <p>
+          使用 === 進行嚴格比較可以避免 JavaScript
+          自動進行型別轉換時帶來的潛在錯誤。<br />
+          == 可以依照業務需求特性使用。
+        </p>
+      </div>
     </div>
-  </div>
 
-  <div id="footer" class="sub">
-    <div id="footer-text" class="pageclick">
-      <a href="./index.html" class="pageclick left">上一頁</a>
-      <a href="./index.html" class="pageclick center">回目錄</a>
-      <a href="./function.html" class="pageclick right">下一頁</a>
+    <div id="footer" class="sub">
+      <div id="footer-text" class="pageclick">
+        <a href="./index.html" class="pageclick left">上一頁</a>
+        <a href="./index.html" class="pageclick center">回目錄</a>
+        <a href="./function.html" class="pageclick right">下一頁</a>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
