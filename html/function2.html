@@ -98,7 +98,8 @@
           countCats(); // 2 cat(s)，應該是 1 cat(s)
         </pre>
 
-        <p>在這種情況下， countDogs() 和 countCats() 共享了同一個 count ，這樣會產生混亂。為了解決這個問題，我們可以使用閉包來創建一個私有變數：</p>
+        <p>在這種情況下， <code>countDogs()</code> 和 <code>countCats()</code> 共享了同一個 count ，這樣會產生混亂。
+          為了解決這個問題，我們可以使用閉包來創建一個私有變數：</p>
         <pre class="prettyprint">
           function createCounter(animal) {
             let count = 0;
@@ -115,9 +116,12 @@
           countCats(); // 1 cats
           countDogs(); // 2 dogs
         </pre>
-        <p>透過閉包，我們創建了一個新的作用域範圍，這使得每次呼叫 createCounter 時，變數 count 都會重置，並且該變數只能在該作用域內部存取，而不會被其他地方修改。</p>
-
-        <p>這樣我們就將專門計算狗的變數 count 關閉在 dogHouse 這個函式中，上面這是閉包的基本寫法，<strong>當你看到一個 function 內 return 了另一個 function，通常就是有用到閉包的概念。</strong></p>
+        <p>
+          透過閉包，我們創建了一個新的作用域範圍，這使得每次呼叫 createCounter 時，變數 count 都會重置，並且該變數只能在該作用域內部存取
+          ，而不會被其他地方修改。
+        </p>
+        <p>這樣我們就將專門計算狗的變數 count 關閉在 dogHouse 這個函式中，上面這是閉包的基本寫法，
+          <strong>當你看到一個 function 內 return 了另一個 function，通常就是有用到閉包的概念。</strong></p>
         <h3>進一步瞭解和使用閉包</h3>
         <p>在運用的是同一個 dogHouse 時，變數間也都是獨立的執行環境不會干擾，例如：</p>
         <pre class="prettyprint">
@@ -147,7 +151,8 @@
           countPug(); // 2 dogs
         </pre>
         <h3>將參數代入閉包中</h3>
-        <p>但是這麼做你可能覺得不夠清楚，因為都是叫做 dogs，這時候我們一樣可以把外面的變數透過函式的參數代入閉包中，像是下面這樣，回傳的結果就清楚多了：</p>
+        <p>但是這麼做你可能覺得不夠清楚，因為都是叫做 dogs，這時候我們一樣可以把外面的變數透過函式的參數代入閉包中，像是下面這樣，
+          回傳的結果就清楚多了：</p>
         <pre class="prettyprint">
           // 透過函式的參數將值代入閉包中
           function dogHouse(name) {
@@ -198,7 +203,9 @@
           }
         </pre>
         <h3>使用let</h3>
-        <p>在 ES6 中提出了新的用來定義變數的關鍵字 let ，簡單來說，透過 let 它可以幫我們把所定義的變數縮限在 block scoped 中，也就是變數的作用域只有在 { } 內，因此要解決上面程式碼的問題，我們也可以透過 let 來避免 buttonName 這個變數跑到 global variable 被重複覆蓋。</p>
+        <p>在 ES6 中提出了新的用來定義變數的關鍵字 let ，簡單來說，透過 let 它可以幫我們把所定義的變數縮限在 block scoped 中，
+          也就是變數的作用域只有在 { } 內，因此要解決上面程式碼的問題，
+          我們也可以透過 let 來避免 <code>buttonName</code> 這個變數跑到 global variable 被重複覆蓋。</p>
         <pre class="prettyprint">
           // 使用 ES6 寫法
           for (var i = 0; i < buttons.length; i++) {
@@ -213,7 +220,8 @@
       <div class="ulist">
         <h4>物件方法 (Object Method)</h4>
         <p>
-          物件通常對應到真實世界的事物，例如用戶、訂單、商品等。物件通常也會有自己的「動作」，可能是由一連串的資料操作、網路請求等構成的有意義的行為，例如用戶的登入登出、訂單結帳取消、商品加入購物車等。
+          物件通常對應到真實世界的事物，例如用戶、訂單、商品等。物件通常也會有自己的「動作」，
+          可能是由一連串的資料操作、網路請求等構成的有意義的行為，例如用戶的登入登出、訂單結帳取消、商品加入購物車等。
 
           這些「動作」在 JavaScript 中，可以用物件方法 (object method) 來實作。
 
@@ -226,13 +234,13 @@
             name: 'Shubo',
           };
         </pre>
-        <p>我們可以幫 user 物件新增一個 speak() 的物件方法：</p>
+        <p>我們可以幫 user 物件新增一個 <code>speak()</code> 的物件方法：</p>
         <pre class="prettyprint">
           user.speak = function() {
             console.log('Hello world!');
           }
         </pre>
-        <p>這樣 user 物件就可以呼叫這個 speak() 方法：</p>
+        <p>這樣 user 物件就可以呼叫這個 <code>speak()</code> 方法：</p>
         <pre class="prettyprint">
           user.speak(); // Hello world!
         </pre>
@@ -240,7 +248,7 @@
         <p>
           如果我們在物件方法中，要存取物件本身的資料或屬性該怎麼辦呢？
 
-          比方說，我們希望使用者呼叫 speak() 方法的時候，可以順便介紹使用者自己的名字。
+          比方說，我們希望使用者呼叫 <code>speak()</code> 方法的時候，可以順便介紹使用者自己的名字。
           
           這個時候 this 就派上用場啦！
           
@@ -259,11 +267,11 @@
           user.speak(); // (2) Hello world! My name is Shubo
         </pre>
         <p>
-          上面的例子我們可以看到：(1) 我們在物件的 speak() 方法中用到了 this.name，接著 (2) 我們去呼叫 user.speak()。
+          上面的例子我們可以看到：(1) 我們在物件的 <code>speak()</code> 方法中用到了 this.name，接著 (2) 我們去呼叫 <code>user.speak()</code>。
 
           這裏的 this 是 user 物件。為什麼呢？
           
-          因為「呼叫 speak() 方法的物件」是 user 物件，所以 speak() 方法中的 this 就等於 user 物件。
+          因為「呼叫 <code>speak()</code> 方法的物件」是 user 物件，所以 <code>speak()</code> 方法中的 this 就等於 user 物件。
         </p>
 
         <h3>this 的值是動態決定的</h3>
@@ -306,8 +314,10 @@
           
           user.speak();
         </pre>
-        <p>在 normalFunction 中，this 指向的是全局對象（在瀏覽器中是 window），因此 this.name 是 undefined，因為 window 沒有 name 屬性。</p>
-        <p>在 arrowFunction 中，this 是從它所在的作用域（即 speak() 方法）繼承而來，這個 this 是指 user 對象。因此，this.name 是 Shubo。</p>
+        <p>在 normalFunction 中，this 指向的是全局對象（在瀏覽器中是 window），因此 this.name 是 undefined，
+          因為 window 沒有 name 屬性。</p>
+        <p>在 arrowFunction 中，this 是從它所在的作用域（即 <code>speak()</code> 方法）繼承而來，這個 this 是指 user 
+          .name 是 Shubo。</p>
         <h3>該如何判斷 this 的值？</h3>
         <p>
           我們可以簡單歸納出決定 this 的規則：
@@ -348,11 +358,12 @@
 
           user.sayHello(); // Hello, undefined
         </pre>
-        <p>因為箭頭函式的 this 是繼承自外層作用域，而不是物件本身，所以這裡的 this.name 是 undefined。若要在物件方法中正確使用 this，應該避免使用箭頭函式。</p>
+        <p>因為箭頭函式的 this 是繼承自外層作用域，而不是物件本身，所以這裡的 this.name 是 undefined。若要在物件方法中正確使用 this，
+          應該避免使用箭頭函式。</p>
 
         <h4>由 call 與 apply 函式呼叫</h4>
         <p>
-            由於箭頭函式並沒有自己的 this，所以透過 call() 或 apply() 呼叫箭頭函式只能傳入參數。thisArg 將會被忽略。
+            由於箭頭函式並沒有自己的 this，所以透過 <code>call()</code> 或 <code>apply()</code> 呼叫箭頭函式只能傳入參數。thisArg 將會被忽略。
         </p>
         <pre class="prettyprint">
             var adder = {
