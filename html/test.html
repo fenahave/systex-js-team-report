@@ -411,149 +411,6 @@ const foo = () => {}
     </div>
   </div>
 
-
-
-
-
-
-
-
-  <div id="header">
-    <h2 id="_4">顯性轉換/隱性轉換</h2>
-    <div class="sectionbody">
-      <div class="ulist">
-        <p>
-          在 JavaScript 中，<strong>顯性轉換（Explicit Conversion）</strong>和<strong>隱性轉換（Implicit Conversion）</strong>指的是將一種資料類型轉換為另一種的過程。這兩種轉換的區別在於轉換是否是由開發者主動進行，或者是由 JavaScript 引擎自動進行。
-        </p>
-  
-        <h3>1. <strong>顯性轉換（Explicit Conversion）</strong></h3>
-        <p>
-          顯性轉換是指開發者<strong>主動</strong>使用內建方法或運算符來將一種類型轉換為另一種類型。這是一個清晰、可控的過程，開發者確切地知道何時進行轉換。
-        </p>
-  
-        <h4>常見的顯性轉換情況：</h4>
-        <h5>轉換為字串：</h5>
-        <ul>
-          <li>使用 <code>String()</code> 函數或 <code>toString()</code> 方法將其他類型的數據轉換為字串。</li>
-        </ul>
-        <pre class="prettyprint">
-  let num = 123;
-  let str = String(num);  // "123"
-  let bool = true;
-  let strBool = String(bool);  // "true"
-        </pre>
-  
-        <h5>轉換為數字：</h5>
-        <ul>
-          <li>使用 <code>Number()</code> 函數或一元 <code>+</code> 運算符來將其他類型的數據轉換為數字。</li>
-        </ul>
-        <pre class="prettyprint">
-  let str = "456";
-  let num = Number(str);  // 456
-  let bool = false;
-  let numBool = Number(bool);  // 0
-        </pre>
-  
-        <h5>轉換為布林值：</h5>
-        <ul>
-          <li>使用 <code>Boolean()</code> 函數來將其他類型轉換為布林值。</li>
-        </ul>
-        <pre class="prettyprint">
-  let str = "hello";
-  let bool = Boolean(str);  // true
-  let zero = 0;
-  let boolZero = Boolean(zero);  // false
-        </pre>
-  
-        <h3>2. <strong>隱性轉換（Implicit Conversion）</strong></h3>
-
-        <p>
-          在這裡，<code>obj1</code> 和
-          <code>obj2</code> 都引用了同一個物件，因此對
-          <code>obj1</code> 所做的修改會影響 <code>obj2</code>。
-        </p>
-
-        <h4>常見的隱性轉換情況：</h4>
-        <ul>
-          <li><strong>字串與其他類型的相加：</strong> 當字串與數字或其他類型相加時，JavaScript 會將其他類型轉換為字串進行拼接。</li>
-          <pre class="prettyprint">
-  let result = "The answer is " + 42;  // "The answer is 42"
-          </pre>
-  
-          <li><strong>數字運算中的布林值：</strong> 布林值會被轉換為數字：<code>true</code> 轉換為 1，<code>false</code> 轉換為 0。</li>
-          <pre class="prettyprint">
-  let sum = true + 2;  // 3
-  let difference = false - 1;  // -1
-          </pre>
-        </ul>
-  
-        <h3>顯性轉換 vs 隱性轉換：</h3>
-
-        <table>
-          <thead>
-            <tr>
-              <th>特性</th>
-              <th>原始型別（Primitive Types）</th>
-              <th>物件型別（Object Types）</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>可變性</strong></td>
-              <td>不可變，每次操作都返回新值</td>
-              <td>可變，可以直接修改屬性和方法</td>
-            </tr>
-            <tr>
-              <td><strong>比較方式</strong></td>
-              <td>比較值本身（按值比較）</td>
-              <td>比較引用（按引用比較）</td>
-            </tr>
-            <tr>
-              <td><strong>存儲方式</strong></td>
-              <td>直接存儲其值</td>
-              <td>存儲的是對象的引用地址（指向內存位置）</td>
-            </tr>
-            <tr>
-              <td><strong>傳遞方式</strong></td>
-              <td>按值傳遞，每個變數互相獨立</td>
-              <td>按引用傳遞，變數間共享對象</td>
-            </tr>
-            <tr>
-              <td><strong>類型數量</strong></td>
-              <td>
-                7 種：<code>string</code>, <code>number</code>,
-                <code>boolean</code>, <code>bigint</code>,
-                <code>undefined</code>, <code>null</code>, <code>symbol</code>
-              </td>
-              <td>
-                無限數量，包含 <code>Object</code>、<code>Array</code>、<code
-                  >Function</code
-                >
-                等
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h3>小結：</h3>
-        <ul>
-          <li>
-            <strong>原始型別</strong
-            >：是簡單且不可變的數據類型，按值存儲和傳遞，適合處理基本的數據。
-          </li>
-          <li>
-            <strong>物件型別</strong
-            >：是複雜且可變的數據類型，按引用存儲和傳遞，適合處理包含多個值的結構數據。
-          </li>
-        </ul>
-
-        <p>
-          這兩種型別的理解對於正確處理 JavaScript
-          中的數據結構至關重要，尤其是在變數賦值和比較時。
-        </p>
-      </div>
-    </div>
-
     <div id="header">
       <h2 id="_4">顯性轉換/隱性轉換</h2>
       <div class="sectionbody">
@@ -828,7 +685,7 @@ console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Sym
         console.log(Object.is(+0, -0));         // false
 
       </pre>
-  
+
       <h3>4. 使用場景</h3>
       <p>
         === 嚴格比較：在大多數情況下，應該使用 ===，因為它更加安全和清晰。
@@ -836,13 +693,13 @@ console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Sym
       <p>
         == 寬鬆比較：當你確實需要進行不同類型之間的比較，並且希望 JavaScript 自動進行類型轉換時，才考慮使用。
       </p>
-  
+
       <h3>常見陷阱</h3>
       <p>
         null 和 undefined 在 == 下相等，但在 === 下不相等。<br>
         NaN 與任何值都不相等，包括它自己，所以比較 NaN 值時應使用 isNaN() 或 Object.is()。
       </p>
-  
+
       <h3>總結</h3>
       <p>
         使用 === 進行嚴格比較可以避免 JavaScript 自動進行型別轉換時帶來的潛在錯誤。<br>
@@ -850,7 +707,7 @@ console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Sym
       </p>
     </div>
   </div>
-  
+
   <div id="footer" class="sub">
     <div id="footer-text" class="pageclick">
       <a href="./index.html" class="pageclick left">上一頁</a>
