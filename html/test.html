@@ -313,9 +313,36 @@ const foo = () => {}
       </p>
       <ul>
         <li><strong>稀疏陣列（Sparse Array）</strong>：指陣列中存在空洞或未定義的元素，而不是連續的值。這通常會導致迭代時的意外結果。</li>
+        <pre class="prettyprint">
+          let sparseArray = [1, , 3];  // 這裡第二個元素是空的
+          console.log(sparseArray.length);  // 3
+          console.log(sparseArray[1]);  // undefined
+        </pre>
         <li><strong>鍵值的強制轉型</strong>：陣列的索引其實是物件的鍵，這些鍵會自動轉型為字串，導致一些潛在的問題。</li>
+        <pre class="prettyprint">
+          let arr = [];
+          arr[1] = 'a';
+          arr['1'] = 'b';
+          console.log(arr[1]);  // 'b'
+        </pre>
         <li><strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong>：字串作為類陣列，字串與數字進行比較時，會自動進行類型轉換。</li>
+        <pre class="prettyprint">
+          console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
+          console.log('5' === 5);  // false，因為這裡類型不相同
+        </pre>
         <li><strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt 來處理非常大的整數，而對於小數和極小數字，則需要注意浮點運算的精度問題。</li>
+        <pre class="prettyprint">
+          const a = 1e20;
+          const b = a * 100;
+          const c = a / 0.001;
+
+          a; // 100000000000000000000
+          b; // 1e+22
+          c; // 1e+23
+
+          // 使用 toExponential 手動轉指數呈現
+          a.toExponential(); // "1e+20"
+        </pre>
         <li><strong>表達其他基數的數字</strong>：decimal（十進制）、binary（二進制）、octal（八進制）、hex（十六進制）。</li>
       </ul>
 
@@ -331,8 +358,7 @@ const foo = () => {}
         let obj1 = { name: "Alice" };
         let obj2 = obj1;  // obj2 引用同一個物件
         obj1.name = "Bob";
-        console.log(obj2.name);  // 輸出 "Bob"
-
+        console.log(obj2.name);  // 輸出 "Bob"，因為 obj1 和 obj2 都指向同一個物件
       </pre>
 
       <p>在這裡，<code>obj1</code> 和 <code>obj2</code> 都引用了同一個物件，因此對 <code>obj1</code> 所做的修改會影響 <code>obj2</code>。</p>
@@ -377,14 +403,11 @@ const foo = () => {}
 
       <h3>小結：</h3>
       <ul>
-        <li><strong>原始型別</strong>：是簡單且不可變的數據類型，按值存儲和傳遞，適合處理基本的數據。</li>
-        <li><strong>物件型別</strong>：是複雜且可變的數據類型，按引用存儲和傳遞，適合處理包含多個值的結構數據。</li>
+        <li><strong>原始型別</strong>：是簡單且不可變的數據類型，無法改變內容，每個變數都是獨立的，適合處理基本的資料。</li>
+        <li><strong>物件型別</strong>：是複雜且可變的數據類型，內容可以修改，變數之間是共享同一個資料它們更適合處理包含多個值的結構化數據。</li>
       </ul>
 
       <p>這兩種型別的理解對於正確處理 JavaScript 中的數據結構至關重要，尤其是在變數賦值和比較時。</p>
-
-      <h3>補充說明：</h3>
-      
     </div>
   </div>
 
