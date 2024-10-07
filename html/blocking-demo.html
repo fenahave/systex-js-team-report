@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blocking vs Non-Blocking Demo</title>
+  </head>
+  <body>
+    <h1>Blocking vs Non-Blocking Demo</h1>
+
+    <button id="block-btn">Synchornous Operation</button>
+    <button id="non-block-btn">Asynchronous Operation</button>
+    <button id="alert-btn">Click Me</button>
+    <a href="https://www.google.com/">Google</a>
+
+    <p id="message"></p>
+
+    <script>
+      // Blocking code
+      document
+        .getElementById("block-btn")
+        .addEventListener("click", function () {
+          document.getElementById("message").innerText =
+            "Blocking operation started...";
+
+          // Simulating a blocking operation with a long-running loop
+          let start = Date.now();
+          while (Date.now() - start < 5000) {
+            // This loop will block the entire UI for 5 seconds
+          }
+
+          document.getElementById("message").innerText =
+            "Blocking operation completed!";
+        });
+
+      // Non-Blocking code
+      document
+        .getElementById("non-block-btn")
+        .addEventListener("click", function () {
+          document.getElementById("message").innerText =
+            "Non-blocking operation started...";
+
+          // Simulating a non-blocking operation using setTimeout
+          setTimeout(function () {
+            document.getElementById("message").innerText =
+              "Non-blocking operation completed!";
+          }, 5000);
+
+          // This code runs immediately without waiting for setTimeout to complete
+          document.getElementById("message").innerText =
+            "Waiting for the non-blocking operation...";
+        });
+
+      // Non-Blocking operation with immediate alert
+      document
+        .getElementById("alert-btn")
+        .addEventListener("click", function () {
+          document.getElementById("message").innerText =
+            "Non-blocking alert operation started...";
+
+          // Non-blocking code using setTimeout
+          setTimeout(function () {
+            document.getElementById("message").innerText =
+              "Non-blocking operation with alert completed!";
+          }, 5000);
+
+          // Alert is shown immediately without blocking the rest of the operations
+          alert("The button is working! This is a non-blocking alert.");
+        });
+    </script>
+  </body>
+</html>
