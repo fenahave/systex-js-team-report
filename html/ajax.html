@@ -58,6 +58,7 @@
                     >為什麼 JavaScript 可以非同步？</a
                   >
                 </li>
+                <li><a href="#_為什麼需要非同步">為什麼需要非同步</a></li>
               </ul>
             </li>
             <li>
@@ -93,20 +94,6 @@
                     </li>
                   </ul>
                 </li>
-                <li>
-                  <a href="#_async_await">async / await</a>
-                  <ul>
-                    <li>
-                      <a href="#_什麼是_async_await">什麼是 async/await？</a>
-                    </li>
-                    <li><a href="#_async函數">async 函數</a></li>
-                    <li><a href="#_await表達式">await 表達式</a></li>
-                    <li><a href="#_異步操作錯誤處理">異步操作錯誤處理</a></li>
-                    <li>
-                      <a href="#_並行執行多個異步操作">並行執行多個異步操作</a>
-                    </li>
-                  </ul>
-                </li>
               </ul>
             </li>
           </ul>
@@ -120,8 +107,7 @@
             <h3>同步是什麼？</h3>
             <p>「同步」常讓人困惑，實際上它代表一次只能做一件事情。</p>
             <p>
-              JavaScript 是「單執行續
-              (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
+              JavaScript 是「單執行續 (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
             </p>
           </section>
 
@@ -132,7 +118,19 @@
             </p>
           </section>
 
-          <section id="_為什麼Javascript可以非同步">
+          <section id="_為什麼需要非同步">
+            <h3>為什麼需要非同步？什麼時候會用到？</h3>
+            <h4>Blocking</h4>
+            <p>阻塞（blocking） 是指程式在執行某個操作時，必須等待該操作完成，才能繼續執行後續的代碼。在阻塞過程中，程式的執行會暫停，等待某個資源或操作完成，這段時間內，其他操作無法進行。這通常發生在某些需要較長時間才能完成的操作上，比如以下：</p>
+            <ul>
+              <li><strong>向 API 發送請求：</strong>如果沒有非同步執行這些行為，那你呼叫了一支 API，在等待資料回傳的過程中，網頁什麼事都沒辦法執行，連渲染畫面都不行，user 只能等在那裡，那肯定是不行的。</li>
+              <li><strong>setTimeout：</strong>又或者你曾經使用過 setTimeout 去處理要晚一點發生的事情，這個 setTimeout 會等待你所指定的時間，等到時間到了，再將需要發生的事件丟回 Javascript，讓 Javascript 知道說有這個事情排隊著要來觸發了。</li>
+              <li><strong>document：</strong>使用 document.querySelector 去獲得你要操作的 DOM 其實也是瀏覽器提供的，是讓 Javascript 可以和瀏覽器溝通的方法。</li>
+            </ul>
+            <p><a href="./blocking-demo.html">Blocking Demo</a></p>
+
+          </section>
+          <section id="_為什麼Javascript可以非同步"></section>
             <h3>為什麼 JavaScript 可以非同步？</h3>
             <p>
               JavaScript 是單執行緒語言，但它可以與瀏覽器提供的 WebAPI
@@ -143,9 +141,11 @@
               這樣 JavaScript 引擎本身是同步的，而透過
               WebAPI，它可以同時處理多個任務 (Concurrency)。
             </p>
+            <p><a href="http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D">How does it work</a></p>
           </section>
         </section>
 
+      <section>
         <section id="_ajax與數據請求">
           <h2>AJAX 與數據請求</h2>
           <section id="_什麼是_ajax">
@@ -319,6 +319,7 @@ fetch('https://api.example.com/data')
           <h2>Promise 與異步處理</h2>
           <section id="_promise">
             <h3>Promise</h3>
+            <p>Promise 照字面意思是「承諾」，它代表的是一個異步操作在未來某個時刻會返回數據或錯誤給調用者。Promise 只會在操作成功（或失敗）時返回一次結果。根據 MDN 文件的定義，Promise 用來表示一個異步操作的最終完成（resolved）或失敗（rejected）及其結果值。</p>
             <h4 id="_promise的狀態">Promise 的狀態</h4>
             <ul>
               <li><strong>pending</strong>：初始狀態，尚未完成。</li>
