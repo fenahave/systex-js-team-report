@@ -360,19 +360,20 @@ promise.then(result => {
 
             <h4 id="_鏈式結構">鏈式結構</h4>
             <pre class="prettyprint">
-fetch('https://api.example.com/data')
-  .then(response => response.json())  // 解析 JSON 數據
-  .then(data => {
-    console.log('資料:', data);
-    return fetch('https://api.example.com/otherdata');
-  })
-  .then(response => response.json())
-  .then(otherData => {
-    console.log('其他資料:', otherData);
-  })
-  .catch(error => {
-    console.error('請求發生錯誤:', error);
-  });</pre
+fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  console.log(response);            // Logs the raw response object
+  return response.json();           // Call the `json()` method to parse the response as JSON
+})
+.then(data => {
+  console.log(data);                // Logs the parsed JSON data
+})
+.catch(error => {
+  console.error(error);             // Logs any error that occurs during the fetch or JSON parsing
+});</pre
             >
           </section>
 
@@ -421,26 +422,45 @@ Promise.all([promise1, promise2, promise3])
 
             <h4>Promise.all()實際範例</h4>
             <pre class="prettyprint">
-// Simulating API requests using fetch() with Promise.all()
-const userProfileUrl = 'https://jsonplaceholder.typicode.com/users/1';
-const userPostsUrl = 'https://jsonplaceholder.typicode.com/posts?userId=1';
-const userCommentsUrl = 'https://jsonplaceholder.typicode.com/comments?postId=1';
-
-// Use fetch to make multiple requests
-const fetchUserProfile = fetch(userProfileUrl).then(response => response.json());
-const fetchUserPosts = fetch(userPostsUrl).then(response => response.json());
-const fetchUserComments = fetch(userCommentsUrl).then(response => response.json());
-
-Promise.all([fetchUserProfile, fetchUserPosts, fetchUserComments])
-  .then(([profile, posts, comments]) => {
-    // Destructure the results from Promise.all
-    console.log('User Profile:', profile);      // Logs user profile data
-    console.log('User Posts:', posts);          // Logs user's posts data
-    console.log('User Comments:', comments);    // Logs user's comments data
-  })
-  .catch((error) => {
-    console.error('Failed to fetch data:', error);
+const fetchGatsby = fetch("https://openlibrary.org/search.json?q=the+great+gatsby")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
   });
+
+const fetchLordOfTheRings = fetch("https://openlibrary.org/search.json?q=the+lord+of+the+ring")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  });
+
+const fetchPrideAndPrejudice = fetch("https://openlibrary.org/search.json?q=pride+and+prejudice")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  });
+
+Promise.all([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
+  .then(([gatsbyData, lotrData, prideData]) => {
+    console.log('The Great Gatsby:', gatsbyData);
+    console.log('The Lord of the Rings:', lotrData);
+    console.log('Pride and Prejudice:', prideData);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+// for promise fail Demo
+const fetchPrideAndPrejudice = new Promise((resolve, reject) => {
+  // Simulating an error
+  setTimeout(() => reject(new Error('Simulated failure for Pride and Prejudice')), 1000);
+});
             </pre>
           </section>
 
