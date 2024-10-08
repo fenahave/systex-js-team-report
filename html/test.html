@@ -233,68 +233,6 @@ const foo = () => {}
           <p>在這裡，x 的修改不會影響 y，因為它們各自存儲了自己的值。</p>
         </div>
 
-        <h3>2. <strong>物件型別（Object Types）</strong></h3>
-        <p>
-          物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
-        </p>
-
-        <h4>常見的物件型別：</h4>
-        <ul>
-          <li>
-            <strong>物件（Object）</strong>：包含鍵值對，例如
-            <code>{ name: "John", age: 30 }</code>
-          </li>
-          <li>
-            <strong>陣列（Array）</strong
-            >：一種特殊的物件，用來存儲有序的數據列表，例如
-            <code>[1, 2, 3]</code>
-          </li>
-          <li>
-            <strong>函數（Function）</strong
-            >：也是物件類型，可以作為一等公民進行操作，例如
-            <code>function add(a, b) { return a + b; }</code>
-          </li>
-          <li>
-            <strong>日期（Date）</strong>：表示日期和時間的物件類型，例如
-            <code>new Date()</code>
-          </li>
-          <li>
-            <strong>正則表達式（RegExp）</strong
-            >：表示正則表達式的物件類型，例如 <code>/abc/</code>
-          </li>
-
-          <li>string：表示字串，例如 "Hello"</li>
-          <li>number：表示數字，包括整數和浮點數，例如 42、3.14</li>
-          <li>bigint：表示任意精度的整數，例如 9007199254740991n</li>
-          <li>boolean：表示布林值 true 或 false</li>
-          <li>undefined：當變數已聲明但尚未賦值時，其值是 undefined</li>
-          <li>null：表示空值，通常用來表示“無”的狀態</li>
-          <li>symbol：用來創建唯一的標識符，例如 Symbol("unique")</li>
-        </ul>
-
-        <h4>特點：</h4>
-        <ul>
-          <li>
-            <strong>可變性</strong
-            >：物件型別的值是可變的，可以在原來的基礎上修改或擴展。
-          </li>
-          <li>
-            <strong>按參考傳遞</strong
-            >：物件型別是按<strong>引用</strong>傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。
-          </li>
-        </ul>
-
-        <h4>範例：</h4>
-        <pre class="prettyprint">
-
-          let x = 10;
-          let y = x;  // y 是 x 的複製，不受 x 的變化影響
-          x = 20;
-          console.log(y);  // 輸出 10
-        </pre>
-        <p>在這裡，x 的修改不會影響 y，因為它們各自存儲了自己的值。</p>
-      </div>
-
       <h3>2. <strong>物件型別（Object Types）</strong></h3>
       <p>
         物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
