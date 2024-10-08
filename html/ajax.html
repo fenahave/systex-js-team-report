@@ -417,6 +417,30 @@ Promise.all([promise1, promise2, promise3])
                 會立即進入 <code>.catch()</code>，返回第一個失敗的錯誤。
               </li>
             </ul>
+
+            <h4>Promise.all()實際範例</h4>
+            <pre class="prettyprint">
+// Simulating API requests using fetch() with Promise.all()
+const userProfileUrl = 'https://jsonplaceholder.typicode.com/users/1';
+const userPostsUrl = 'https://jsonplaceholder.typicode.com/posts?userId=1';
+const userCommentsUrl = 'https://jsonplaceholder.typicode.com/comments?postId=1';
+
+// Use fetch to make multiple requests
+const fetchUserProfile = fetch(userProfileUrl).then(response => response.json());
+const fetchUserPosts = fetch(userPostsUrl).then(response => response.json());
+const fetchUserComments = fetch(userCommentsUrl).then(response => response.json());
+
+Promise.all([fetchUserProfile, fetchUserPosts, fetchUserComments])
+  .then(([profile, posts, comments]) => {
+    // Destructure the results from Promise.all
+    console.log('User Profile:', profile);      // Logs user profile data
+    console.log('User Posts:', posts);          // Logs user's posts data
+    console.log('User Comments:', comments);    // Logs user's comments data
+  })
+  .catch((error) => {
+    console.error('Failed to fetch data:', error);
+  });
+            </pre>
           </section>
 
       </main>
