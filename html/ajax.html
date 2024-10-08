@@ -109,6 +109,18 @@
             <p>
               JavaScript 是「單執行續 (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
             </p>
+            <pre class="prettyprint">
+// Synchronous code example
+console.log("Start");
+
+function syncTask() {
+  console.log("Performing a synchronous task");
+}
+
+syncTask();
+
+console.log("End");
+            </pre>
           </section>
 
           <section id="_非同步是什麼">
@@ -116,6 +128,16 @@
             <p>
               非同步則是相反的，它允許同時進行多個任務，無需等待前一件事完成後再做下一件。
             </p>
+            <pre class="prettyprint">
+console.log("hello");
+setTimeout(function() {
+  console.log("End");
+}, 1000);
+
+for(let i = 0; i < 4; i++) {
+    console.log(i);
+}
+            </pre>
           </section>
 
           <section id="_為什麼需要非同步">
