@@ -419,84 +419,6 @@ Promise.all([promise1, promise2, promise3])
             </ul>
           </section>
 
-          <section id="_async_await">
-            <h3>async / await</h3>
-            <h4 id="_什麼是_async_await">什麼是 async/await？</h4>
-            <p>
-              <strong>async/await</strong> 是基於
-              <strong>Promise</strong>
-              的語法，使非同步代碼看起來更像同步代碼。
-            </p>
-
-            <h4 id="_async函數">async 函數</h4>
-            <p>
-              將一個函數標記為 <code>async</code>，它會自動返回一個
-              <strong>Promise</strong>，即使沒有顯式返回
-              Promise，它也會將函數內部的值包裝成一個 Promise。
-            </p>
-            <pre class="prettyprint">
-async function myFunction() {
-  return 'Hello';
-}
-
-myFunction().then(result => console.log(result));  // 輸出 'Hello'</pre
-            >
-
-            <h4 id="_await表達式">await 表達式</h4>
-            <p>
-              <code>await</code> 用來等待一個 Promise
-              完成，並暫停函數內後續代碼的執行，直到 Promise 的結果返回。
-            </p>
-            <pre class="prettyprint">
-async function fetchData() {
-  let response = await fetch('https://api.example.com/data');
-  let data = await response.json();
-  console.log(data);
-}
-
-fetchData();</pre
-            >
-
-            <h4 id="_異步操作錯誤處理">異步操作錯誤處理</h4>
-            <pre class="prettyprint">
-async function fetchDataWithErrorHandling() {
-  try {
-    let response = await fetch('https://api.example.com/data');
-
-    if (!response.ok) {
-      throw new Error('網絡回應失敗');
-    }
-
-    let data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('發生錯誤:', error);
-  }
-}
-
-fetchDataWithErrorHandling();</pre
-            >
-
-            <h4 id="_並行執行多個異步操作">並行執行多個異步操作</h4>
-            <pre class="prettyprint">
-async function fetchMultipleData() {
-  try {
-    let [data1, data2] = await Promise.all([
-      fetch('https://api.example.com/data1').then(res => res.json()),
-      fetch('https://api.example.com/data2').then(res => res.json())
-    ]);
-
-    console.log('資料1:', data1);
-    console.log('資料2:', data2);
-  } catch (error) {
-    console.error('發生錯誤:', error);
-  }
-}
-
-fetchMultipleData();</pre
-            >
-          </section>
-        </section>
       </main>
     </div>
 
@@ -507,7 +429,7 @@ fetchMultipleData();</pre
       <div id="footer-text" class="pageclick">
         <a href="./function2.html" class="pageclick left">上一頁</a>
         <a href="./index.html" class="pageclick center">回目錄</a>
-        <!-- <a href="" class="pageclick right">下一頁</a> -->
+        <a href="./newmypart.html" class="pageclick right">下一頁</a>
       </div>
     </div>
   </body>
