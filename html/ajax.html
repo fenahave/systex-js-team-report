@@ -58,6 +58,7 @@
                     >為什麼 JavaScript 可以非同步？</a
                   >
                 </li>
+                <li><a href="#_為什麼需要非同步">為什麼需要非同步</a></li>
               </ul>
             </li>
             <li>
@@ -93,20 +94,6 @@
                     </li>
                   </ul>
                 </li>
-                <li>
-                  <a href="#_async_await">async / await</a>
-                  <ul>
-                    <li>
-                      <a href="#_什麼是_async_await">什麼是 async/await？</a>
-                    </li>
-                    <li><a href="#_async函數">async 函數</a></li>
-                    <li><a href="#_await表達式">await 表達式</a></li>
-                    <li><a href="#_異步操作錯誤處理">異步操作錯誤處理</a></li>
-                    <li>
-                      <a href="#_並行執行多個異步操作">並行執行多個異步操作</a>
-                    </li>
-                  </ul>
-                </li>
               </ul>
             </li>
           </ul>
@@ -120,9 +107,20 @@
             <h3>同步是什麼？</h3>
             <p>「同步」常讓人困惑，實際上它代表一次只能做一件事情。</p>
             <p>
-              JavaScript 是「單執行續
-              (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
+              JavaScript 是「單執行續 (Single-Thread)」語言，意思是它一次只能執行一個任務，事情會排隊依序完成。這是同步的概念。
             </p>
+            <pre class="prettyprint">
+// Synchronous code example
+console.log("Start");
+
+function syncTask() {
+  console.log("Performing a synchronous task");
+}
+
+syncTask();
+
+console.log("End");
+            </pre>
           </section>
 
           <section id="_非同步是什麼">
@@ -130,9 +128,31 @@
             <p>
               非同步則是相反的，它允許同時進行多個任務，無需等待前一件事完成後再做下一件。
             </p>
+            <pre class="prettyprint">
+console.log("hello");
+setTimeout(function() {
+  console.log("End");
+}, 1000);
+
+for(let i = 0; i < 4; i++) {
+    console.log(i);
+}
+            </pre>
           </section>
 
-          <section id="_為什麼Javascript可以非同步">
+          <section id="_為什麼需要非同步">
+            <h3>為什麼需要非同步？什麼時候會用到？</h3>
+            <h4>Blocking</h4>
+            <p>阻塞（blocking） 是指程式在執行某個操作時，必須等待該操作完成，才能繼續執行後續的代碼。在阻塞過程中，程式的執行會暫停，等待某個資源或操作完成，這段時間內，其他操作無法進行。這通常發生在某些需要較長時間才能完成的操作上，比如以下：</p>
+            <ul>
+              <li><strong>向 API 發送請求：</strong>如果沒有非同步執行這些行為，那你呼叫了一支 API，在等待資料回傳的過程中，網頁什麼事都沒辦法執行，連渲染畫面都不行，user 只能等在那裡，那肯定是不行的。</li>
+              <li><strong>setTimeout：</strong>又或者你曾經使用過 setTimeout 去處理要晚一點發生的事情，這個 setTimeout 會等待你所指定的時間，等到時間到了，再將需要發生的事件丟回 Javascript，讓 Javascript 知道說有這個事情排隊著要來觸發了。</li>
+              <li><strong>document：</strong>使用 document.querySelector 去獲得你要操作的 DOM 其實也是瀏覽器提供的，是讓 Javascript 可以和瀏覽器溝通的方法。</li>
+            </ul>
+            <p><a href="./blocking-demo.html">Blocking Demo</a></p>
+
+          </section>
+          <section id="_為什麼Javascript可以非同步"></section>
             <h3>為什麼 JavaScript 可以非同步？</h3>
             <p>
               JavaScript 是單執行緒語言，但它可以與瀏覽器提供的 WebAPI
@@ -143,9 +163,11 @@
               這樣 JavaScript 引擎本身是同步的，而透過
               WebAPI，它可以同時處理多個任務 (Concurrency)。
             </p>
+            <p><a href="http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D">How does it work</a></p>
           </section>
         </section>
 
+      <section>
         <section id="_ajax與數據請求">
           <h2>AJAX 與數據請求</h2>
           <section id="_什麼是_ajax">
@@ -319,6 +341,7 @@ fetch('https://api.example.com/data')
           <h2>Promise 與異步處理</h2>
           <section id="_promise">
             <h3>Promise</h3>
+            <p>Promise 照字面意思是「承諾」，它代表的是一個異步操作在未來某個時刻會返回數據或錯誤給調用者。Promise 只會在操作成功（或失敗）時返回一次結果。根據 MDN 文件的定義，Promise 用來表示一個異步操作的最終完成（resolved）或失敗（rejected）及其結果值。</p>
             <h4 id="_promise的狀態">Promise 的狀態</h4>
             <ul>
               <li><strong>pending</strong>：初始狀態，尚未完成。</li>
@@ -359,19 +382,20 @@ promise.then(result => {
 
             <h4 id="_鏈式結構">鏈式結構</h4>
             <pre class="prettyprint">
-fetch('https://api.example.com/data')
-  .then(response => response.json())  // 解析 JSON 數據
-  .then(data => {
-    console.log('資料:', data);
-    return fetch('https://api.example.com/otherdata');
-  })
-  .then(response => response.json())
-  .then(otherData => {
-    console.log('其他資料:', otherData);
-  })
-  .catch(error => {
-    console.error('請求發生錯誤:', error);
-  });</pre
+fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  console.log(response);            // Logs the raw response object
+  return response.json();           // Call the `json()` method to parse the response as JSON
+})
+.then(data => {
+  console.log(data);                // Logs the parsed JSON data
+})
+.catch(error => {
+  console.error(error);             // Logs any error that occurs during the fetch or JSON parsing
+});</pre
             >
           </section>
 
@@ -420,26 +444,45 @@ Promise.all([promise1, promise2, promise3])
 
             <h4>Promise.all()實際範例</h4>
             <pre class="prettyprint">
-// Simulating API requests using fetch() with Promise.all()
-const userProfileUrl = 'https://jsonplaceholder.typicode.com/users/1';
-const userPostsUrl = 'https://jsonplaceholder.typicode.com/posts?userId=1';
-const userCommentsUrl = 'https://jsonplaceholder.typicode.com/comments?postId=1';
-
-// Use fetch to make multiple requests
-const fetchUserProfile = fetch(userProfileUrl).then(response => response.json());
-const fetchUserPosts = fetch(userPostsUrl).then(response => response.json());
-const fetchUserComments = fetch(userCommentsUrl).then(response => response.json());
-
-Promise.all([fetchUserProfile, fetchUserPosts, fetchUserComments])
-  .then(([profile, posts, comments]) => {
-    // Destructure the results from Promise.all
-    console.log('User Profile:', profile);      // Logs user profile data
-    console.log('User Posts:', posts);          // Logs user's posts data
-    console.log('User Comments:', comments);    // Logs user's comments data
-  })
-  .catch((error) => {
-    console.error('Failed to fetch data:', error);
+const fetchGatsby = fetch("https://openlibrary.org/search.json?q=the+great+gatsby")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
   });
+
+const fetchLordOfTheRings = fetch("https://openlibrary.org/search.json?q=the+lord+of+the+ring")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  });
+
+const fetchPrideAndPrejudice = fetch("https://openlibrary.org/search.json?q=pride+and+prejudice")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  });
+
+Promise.all([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
+  .then(([gatsbyData, lotrData, prideData]) => {
+    console.log('The Great Gatsby:', gatsbyData);
+    console.log('The Lord of the Rings:', lotrData);
+    console.log('Pride and Prejudice:', prideData);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+// for promise fail Demo
+const fetchPrideAndPrejudice = new Promise((resolve, reject) => {
+  // Simulating an error
+  setTimeout(() => reject(new Error('Simulated failure for Pride and Prejudice')), 1000);
+});
             </pre>
           </section>
 
