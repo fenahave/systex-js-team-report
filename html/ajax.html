@@ -197,28 +197,24 @@
 
             <h4>例子展示非同步運作</h4>
             <pre class="prettyprint">
-        console.log("Start");
+console.log("Start");
 
-        setTimeout(() => {
-          console.log("Timeout callback");
-        }, 1000);
+setTimeout(() => {
+  console.log("Timeout callback");
+}, 1000);
 
-        Promise.resolve().then(() => {
-          console.log("Promise callback");
-        });
+Promise.resolve().then(() => {
+  console.log("Promise callback");
+});
 
-        console.log("End");
+console.log("End");
+
+// 這段代碼會輸出：
+// Start
+// End
+// Promise callback
+// Timeout callback
             </pre>
-
-            <p>
-              這段代碼會輸出：
-            </p>
-            <ul>
-              <li>Start</li>
-              <li>End</li>
-              <li>Promise callback</li>
-              <li>Timeout callback</li>
-            </ul>
             <p>原因是 Promise 的回調會進入微任務隊列（Microtask Queue），而 <code>setTimeout</code> 的回調則進入宏任務隊列（Macrotask Queue）。微任務會優先執行，因此 Promise 的回調會在 <code>setTimeout</code> 之前執行。</p>
 
             <h4 style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; text-align: center;">
