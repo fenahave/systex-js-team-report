@@ -112,12 +112,12 @@
               JavaScript 是「單執行緒 (Single-Thread)」語言，這意味著它一次只能執行一個任務。所有操作都會按順序執行，這是同步的概念。
             </p>
             <pre class="prettyprint">
-        // Synchronous code example
-        console.log("Start");
+// Synchronous code example
+console.log("Start");
 
-        console.log("Performing a synchronous task");
+console.log("Performing a synchronous task");
 
-        console.log("End");
+console.log("End");
             </pre>
           </section>
 
@@ -127,14 +127,14 @@
               非同步允許多個任務並行進行，無需等待前一個任務完成。非同步處理讓 JavaScript 可以在不阻塞主線程的情況下處理耗時操作，比如網絡請求或定時器。
             </p>
             <pre class="prettyprint">
-        console.log("hello");
-        setTimeout(function() {
-          console.log("End");
-        }, 1000);
+console.log("hello");
+setTimeout(function() {
+  console.log("End");
+}, 1000);
 
-        for(let i = 0; i < 4; i++) {
-            console.log(i);
-        }
+for(let i = 0; i < 4; i++) {
+    console.log(i);
+}
             </pre>
             <p>
               在這個例子中，<code>setTimeout</code> 是一個非同步操作，並不會阻塞 JavaScript 執行其他代碼。即使我們指定它在 1000 毫秒後執行，但 JavaScript 會繼續執行後續的 <code>for</code> 迴圈，而不必等待 <code>setTimeout</code> 完成。
@@ -179,6 +179,11 @@
               <li><strong>Microtask Queue (微任務隊列)：</strong>這是專門用來處理更高優先級的任務，比如 <code>Promise</code> 的回調。微任務在每次事件循環結束後會立即執行。</li>
               <li><strong>Macrotask Queue (宏任務隊列)：</strong>宏任務包括 <code>setTimeout</code> 和 <code>setInterval</code> 等異步操作。這些任務的回調會在微任務執行完畢後執行。</li>
             </ul>
+            <div style="display: flex; justify-content: space-around;">
+              <img src="../images/micro-task.png" alt="micro-macro-task" style="max-width: 45%; height: auto;">
+              <img src="../images/macro-task.png" alt="macro-macro-task" style="max-width: 45%; height: auto;">
+            </div>
+
 
             <h4>事件循環 (Event Loop)</h4>
             <p>
@@ -194,6 +199,10 @@
               <li>事件循環檢查 Call Stack 是否空閒，若空閒則依次處理回調隊列中的回調。</li>
               <li>Microtask Queue 會優先於 Macrotask Queue 執行。</li>
             </ol>
+
+            <img src="../images/eventloop.png" alt="eventloop">
+
+
 
             <h4>例子展示非同步運作</h4>
             <pre class="prettyprint">
