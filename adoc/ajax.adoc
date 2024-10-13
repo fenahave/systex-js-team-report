@@ -40,19 +40,19 @@
 
 *** Promise.all()
 
-*** Promise.all() 實際範例
+**** Promise.all() 實際範例
 
 *** Promise.allSettled()
 
-*** Promise.allSettled() 實際範例
+**** Promise.allSettled() 實際範例
 
 *** Promise.race()
 
-*** Promise.race() 實際範例
+**** Promise.race() 實際範例
 
 *** Promise.any()
 
-*** Promise.any() 實際範例
+**** Promise.any() 實際範例
 
 ** Promise 方法比較
 
