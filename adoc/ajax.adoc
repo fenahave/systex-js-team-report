@@ -145,8 +145,8 @@ console.log(i);
 
 * Macrotask Queue (宏任務隊列)：*宏任務包括 #setTimeout# 和 #setInterval# 等異步操作。這些任務的回調會在微任務執行完畢後執行。
 
-image::./images/micro-task.png[圖片說明]
-image::./images/macro-task.png[圖片說明]
+image::../images/micro-task.png[圖片說明]
+image::../images/macro-task.png[圖片說明]
 
 
 ==== 事件循環 (Event Loop)
@@ -168,7 +168,7 @@ JavaScript 使用「事件循環 (Event Loop)」來協調這些任務。事件�
 
 * Microtask Queue 會優先於 Macrotask Queue 執行。
 
-image::./images/eventloop.png[圖片說明]
+image::../images/eventloop.png[圖片說明]
 
 
 
@@ -356,7 +356,7 @@ readyState 變為 4（DONE），表示Response 已完整接收。
 
 *瀏覽器的內部機制與Thread*
 
-image::./images/ProcessModel10.png[圖片說明]
+image::../images/ProcessModel10.png[圖片說明]
 
 . Main Thread +
 JavaScript 執行：Main Thread負責執行所有的 JavaScript 程式碼，包括調用 send() 方法的程式碼。
