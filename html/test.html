@@ -394,57 +394,59 @@ const foo = () => {}
             </li>
           </ul>
           <pre class="prettyprint">
-console.log(Number('123'));           // 123
-console.log(Number('-123.239'));      // -123.239
-console.log(Number('123abc'));        // NaN
-console.log(Number(undefined));       // NaN
-console.log(Number(true));            // 1
-console.log(Number(false));           // 0
-console.log(Number(null));            // 0
-        </pre
-          >
+    console.log(Number('123'));           // 123
+    console.log(Number('-123.239'));      // -123.239
+    console.log(Number('123abc'));        // NaN
+    console.log(Number(undefined));       // NaN
+    console.log(Number(true));            // 1
+    console.log(Number(false));           // 0
+    console.log(Number(null));            // 0
+    console.log(Number("1e+5"));          // 100000
+    console.log(Number('  '));            // 0 (whitespace is trimmed)
+    console.log(Number('Infinity'));      // Infinity
+    console.log(Number('0xF'));           // 15 (Hexadecimal conversion)
+          </pre>
           <p>
-            💡
-            <code>Number()</code>
-            的目標是判斷值是否像數字，如果像數字則轉換成功，否則為 NaN，例如
-            true, false, null 分別為 1, 0, 0。
+            💡 <code>Number()</code> 的目標是判斷值是否像數字，如果像數字則轉換成功，否則為 NaN。例如 true, false, null 分別為 1, 0, 0。<br>
+            邊界情況：undefined 會轉換為 NaN，空字串或空白字符會轉換為 0，十六進制字串會轉換為對應的數值。
           </p>
 
           <h5>1.2 <code>parseInt()</code> 和 <code>parseFloat()</code>：</h5>
           <ul>
             <li>
-              <code>parseInt()</code> 會將值轉換成整數，而
-              <code>parseFloat()</code> 保留小數。
+              <code>parseInt()</code> 會將值轉換成整數，而 <code>parseFloat()</code> 保留小數。
             </li>
           </ul>
           <pre class="prettyprint">
-console.log(parseInt('123.2'));       // 123
-console.log(parseInt('123abc'));      // 123
-console.log(parseInt('a'));           // NaN
-console.log(parseFloat('123.239abc'));// 123.239
-        </pre
-          >
+    console.log(parseInt('123.2'));       // 123
+    console.log(parseInt('123abc'));      // 123
+    console.log(parseInt('a'));           // NaN
+    console.log(parseFloat('123.239abc'));// 123.239
+    console.log(parseInt('100px'));       // 100
+    console.log(parseInt('10', 16));      // 16 (interprets as hexadecimal)
+          </pre>
           <p>
-            💡 <code>parseInt()</code> 從第一位開始判斷，遇到非數字位就停止；而
-            <code>parseFloat()</code> 會保留小數。
+            💡 <code>parseInt()</code> 從第一位開始判斷，遇到非數字位就停止；而 <code>parseFloat()</code> 會保留小數。<br>
+            邊界情況：可以傳入進制參數給 parseInt()，非數字字符會導致停止轉換。
           </p>
 
           <h5>1.3 轉換為字串：</h5>
           <ul>
             <li>
-              使用 <code>String()</code> 函數或
-              <code>toString()</code> 方法將其他類型的數據轉換為字串。
+              使用 <code>String()</code> 函數或 <code>toString()</code> 方法將其他類型的數據轉換為字串。
             </li>
           </ul>
           <pre class="prettyprint">
-console.log(String(-123));            // "-123"
-console.log(String(true));            // "true"
-console.log((123).toString());        // "123"
-        </pre
-          >
+    console.log(String(-123));            // "-123"
+    console.log(String(true));            // "true"
+    console.log((123).toString());        // "123"
+    console.log(String([1, 2, 3]));       // "1,2,3"
+    console.log(String({}));              // "[object Object]"
+    console.log(String(undefined));       // "undefined"
+    console.log(String(null));            // "null"
+          </pre>
           <p>
-            💡 <code>undefined</code> 和 <code>null</code> 不能使用
-            <code>toString()</code>。
+            💡 <code>undefined</code> 和 <code>null</code> 不能使用 <code>toString()</code>。物件會返回 "[object Object]"，除非定義了自訂的 toString() 方法。
           </p>
 
           <h5>1.4 轉換為布林值：</h5>
@@ -452,68 +454,82 @@ console.log((123).toString());        // "123"
             <li>使用 <code>Boolean()</code> 函數來將其他類型轉換為布林值。</li>
           </ul>
           <pre class="prettyprint">
-console.log(Boolean(0));              // false
-console.log(Boolean(''));             // false
-console.log(Boolean('hello'));        // true
-console.log(Boolean(undefined));      // false
-        </pre
-          >
+    console.log(Boolean(0));              // false
+    console.log(Boolean(''));             // false
+    console.log(Boolean('hello'));        // true
+    console.log(Boolean(undefined));      // false
+    console.log(Boolean([]));             // true
+    console.log(Boolean({}));             // true
+          </pre>
           <p>
-            💡 除了 <code>0</code>, <code>""</code>, <code>undefined</code>,
-            <code>null</code>, <code>NaN</code>, 其餘值皆為 <code>true</code>。
+            💡 除了 <code>0</code>, <code>""</code>, <code>undefined</code>, <code>null</code>, <code>NaN</code>, 其餘值皆為 <code>true</code>。<br>
+            邊界情況：空陣列和空物件也是 <code>true</code>。
           </p>
 
           <h3>2. <strong>隱性轉換（Implicit Conversion）</strong></h3>
           <p>
-            隱性轉換是指 JavaScript
-            在進行某些運算或操作時<strong>自動</strong>將一種資料類型轉換為另一種，這通常發生在運算符處理不同類型的數據時。
+            隱性轉換是指 JavaScript 在進行某些運算或操作時<strong>自動</strong>將一種資料類型轉換為另一種，這通常發生在運算符處理不同類型的數據時。
           </p>
 
           <h4>常見的隱性轉換情況：</h4>
           <ul>
             <li>
               <strong>字串與其他類型的相加：</strong>
-              當字串與數字或其他類型相加時，JavaScript
-              會將其他類型轉換為字串進行拼接。
+              當字串與數字或其他類型相加時，JavaScript 會將其他類型轉換為字串進行拼接。
             </li>
             <pre class="prettyprint">
-let result = "The answer is " + 42;  // "The answer is 42"
-          </pre
-            >
+    let result = "The answer is " + 42;  // "The answer is 42"
+    let result2 = [1, 2, 3] + "";        // "1,2,3"
+    console.log([] + {});                // "[object Object]"
+    console.log({} + []);                // 0
+            </pre>
 
             <li>
-              <strong>數字運算中的布林值：</strong> 布林值會被轉換為數字：<code
-                >true</code
-              >
-              轉換為 1，<code>false</code> 轉換為 0。
+              <strong>數字運算中的布林值：</strong> 布林值會被轉換為數字：<code>true</code> 轉換為 1，<code>false</code> 轉換為 0。
             </li>
             <pre class="prettyprint">
-let sum = true + 2;                   // 3
-let difference = false - 1;           // -1
-          </pre
-            >
+    let sum = true + 2;                   // 3
+    let difference = false - 1;           // -1
+            </pre>
 
             <li>
               <strong>isNaN() 函數：</strong>
-              <code>isNaN()</code> 用來判斷值是否為「NaN」。它會隱式調用
-              <code>Number()</code> 來進行判斷。
+              <code>isNaN()</code> 用來判斷值是否為「NaN」。它會隱式調用 <code>Number()</code> 來進行判斷。
             </li>
             <pre class="prettyprint">
-console.log(isNaN("abc"));           // true
-console.log(isNaN(undefined));        // true
-          </pre
-            >
+    console.log(isNaN("abc"));           // true
+    console.log(isNaN(undefined));        // true
+    console.log(isNaN("123"));            // false (implicitly converts to number)
+            </pre>
 
             <li>
-              <strong>加法運算符（+）：</strong> 當
-              <code>+</code>
-              處理字串和其他類型時，會將其他類型轉換為字串進行拼接。
+              <strong>加法運算符（+）：</strong> 當 <code>+</code> 處理字串和其他類型時，會將其他類型轉換為字串進行拼接。
             </li>
             <pre class="prettyprint">
-console.log('10' + 1);                // "101"
-console.log('10' - 1);                // 9
-          </pre
-            >
+    console.log('10' + 1);                // "101"
+    console.log('10' - 1);                // 9
+            </pre>
+
+            <li>
+              <strong>乘法與除法運算（* 和 /）：</strong> 當使用乘法或除法運算符與字串進行運算時，JavaScript 會嘗試將字串轉換為數字。無法轉換的字串會返回 NaN。
+            </li>
+            <pre class="prettyprint">
+    console.log('6' * 2);                 // 12 (string '6' is converted to number 6)
+    console.log('10' / 2);                // 5  (string '10' is converted to number 10)
+    console.log('abc' * 2);               // NaN (string 'abc' cannot be converted)
+    console.log('5.5' * 2);               // 11 (string '5.5' is converted to 5.5)
+            </pre>
+
+            <li>
+              <strong>物件隱式轉換：</strong>
+              當物件與原始類型進行運算時，JavaScript 會調用物件的 <code>toString()</code> 或 <code>valueOf()</code> 方法進行隱式轉換。
+            </li>
+            <pre class="prettyprint">
+    let obj = {
+      valueOf() { return 10; }
+    };
+    console.log(obj + 1);  // 11
+            </pre>
           </ul>
 
           <h3>顯性轉換 vs 隱性轉換：</h3>
@@ -528,13 +544,33 @@ console.log('10' - 1);                // 9
             <tbody>
               <tr>
                 <td>誰發起轉換</td>
-                <td>由開發者明確進行轉換</td>
-                <td>由 JavaScript 引擎自動進行</td>
+                <td>開發者明確進行</td>
+                <td>JavaScript 引擎自動進行</td>
               </tr>
               <tr>
-                <td>控制程度</td>
-                <td>高，轉換是明確的</td>
-                <td>低，容易出現意外行為</td>
+                <td>轉換的控制</td>
+                <td>完全控制</td>
+                <td>無法控制，取決於上下文</td>
+              </tr>
+              <tr>
+                <td>轉換方式</td>
+                <td>使用明確的方法如 <code>Number()</code>, <code>String()</code></td>
+                <td>發生於運算符、比較、條件運算時</td>
+              </tr>
+              <tr>
+                <td>示例</td>
+                <td><code>Number('123')</code> 明確將字串轉數字</td>
+                <td><code>'123' - 1</code> 自動將字串轉換為數字</td>
+              </tr>
+              <tr>
+                <td>潛在問題</td>
+                <td>可預期，易於調試</td>
+                <td>隱式轉換有時會導致意外的結果，如字串拼接或布林轉換</td>
+              </tr>
+              <tr>
+                <td>性能</td>
+                <td>轉換有具體步驟，略微增加計算負擔</td>
+                <td>依賴 JavaScript 引擎處理，通常較快但難以預料</td>
               </tr>
             </tbody>
           </table>
@@ -547,10 +583,9 @@ console.log('10' - 1);                // 9
               用於字串拼接，而 <code>-</code> 會進行數字轉換。
             </li>
             <pre class="prettyprint">
-let result = "10" + 1;               // "101"
-let result2 = "10" - 1;              // 9
-          </pre
-            >
+    let result = "10" + 1;               // "101"
+    let result2 = "10" - 1;              // 9
+            </pre>
 
             <li>
               <strong>BigInt 和 Symbol：</strong> BigInt
@@ -558,14 +593,23 @@ let result2 = "10" - 1;              // 9
               也無法與其他類型進行運算。
             </li>
             <pre class="prettyprint">
-console.log(1 + 1n);                  // Uncaught TypeError: Cannot mix BigInt and other types
-console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Symbol value to a number
-          </pre
-            >
+    console.log(1 + 1n);                  // Uncaught TypeError: Cannot mix BigInt and other types
+    console.log(1 + Symbol("1"));         // Uncaught TypeError: Cannot convert a Symbol value to a number
+            </pre>
+
+            <li>
+              <strong>NaN 的處理：</strong> 任何與 NaN 進行的運算都會返回 NaN。
+            </li>
+            <pre class="prettyprint">
+    console.log(NaN + 5);                 // NaN
+    console.log("abc" - 1);               // NaN
+            </pre>
           </ul>
         </div>
       </div>
     </div>
+
+
 
     <div id="header">
       <h2 id="_5">型別比較</h2>

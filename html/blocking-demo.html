@@ -20,8 +20,8 @@
       document
         .getElementById("block-btn")
         .addEventListener("click", function () {
-          document.getElementById("message").innerText =
-            "Blocking operation started...";
+
+          console.log("Blocking Operation Satrted");
 
           // Simulating a blocking operation with a long-running loop
           let start = Date.now();
@@ -55,15 +55,6 @@
       document
         .getElementById("alert-btn")
         .addEventListener("click", function () {
-          document.getElementById("message").innerText =
-            "Non-blocking alert operation started...";
-
-          // Non-blocking code using setTimeout
-          setTimeout(function () {
-            document.getElementById("message").innerText =
-              "Non-blocking operation with alert completed!";
-          }, 5000);
-
           // Alert is shown immediately without blocking the rest of the operations
           alert("The button is working! This is a non-blocking alert.");
         });
