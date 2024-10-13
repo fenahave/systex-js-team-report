@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"
+    />
+    <script src="../js/run_pprettify.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/pretty.css" />
+  </head>
+  <body>
+    <div id="header">
+      <div id="toc" class="toc">
+        <div id="toctitle">Table of Contents</div>
+        <ul class="sectlevel1">
+          <li>
+            <a href="#_1">具名函式/匿名函式</a>
+          </li>
+          <li>
+            <a href="#_2">Automatic Semicolon Insertion, ASI</a>
+          </li>
+          <li>
+            <a href="#_3">原始型別/物件型別</a>
+          </li>
+          <li>
+            <a href="#_4">顯性轉換/隱性轉換</a>
+          </li>
+          <li>
+            <a href="#_5">型別比較</a>
+          </li>
+        </ul>
+      </div>
+
+      <div id="header">
+        <h2 id="_1">具名函式/匿名函式</h2>
+        <div class="sectionbody">
+          <div class="ulist">
+            <h3>1. 具名函式（Named Functions）</h3>
+            <p>
+              具名函式是指在定義函式時給它一個名稱。這樣可以方便在程式中調用這個函式。具名函式的主要優點是可以清晰地表達函式的目的，並且可以在調試時提供堆疊跟蹤信息。
+            </p>
+            <h4>定義：</h4>
+            <pre class="prettyprint">
+    function myFunction() {
+        console.log("這是一個具名函式");
+    }
+                </pre
+            >
+            <h4>使用：</h4>
+            <pre class="prettyprint">
+    myFunction();  // 輸出：這是一個具名函式
+                </pre
+            >
+            <h4>優點：</h4>
+            <ul>
+              <li>
+                <strong>可讀性：</strong
+                >具名函式通常更具可讀性，因為名稱可以描述函式的功能。
+              </li>
+              <li>
+                <strong>堆疊跟蹤：</strong
+                >在發生錯誤時，堆疊跟蹤會顯示具名函式的名稱，便於調試。
+              </li>
+            </ul>
+
+            <h3>2. 匿名函式（Anonymous Functions）</h3>
+            <p>
+              匿名函式是指在定義時沒有給它起名稱的函式。通常，匿名函式用於一次性使用的場景，例如作為回調函式或在立即執行函式表達式（IIFE）中使用。
+            </p>
+            <h4>定義：</h4>
+            <pre class="prettyprint">
+    const myAnonymousFunction = function() {
+        console.log("這是一個匿名函式");
+    };
+                </pre
+            >
+            <h4>使用：</h4>
+            <pre class="prettyprint">
+    myAnonymousFunction();  // 輸出：這是一個匿名函式
+                </pre
+            >
+            <h4>在回調中的使用：</h4>
+            <pre class="prettyprint">
+    setTimeout(function() {
+        console.log("這是一個匿名回調函式");
+    }, 1000);
+                </pre
+            >
+            <h4>優點：</h4>
+            <ul>
+              <li>
+                <strong>靈活性：</strong
+                >匿名函式可以在需要的地方直接使用，尤其是在傳遞給其他函式作為回調時。
+              </li>
+              <li>
+                <strong>簡潔性：</strong
+                >在簡單的場景中，不需要為函式命名，可以簡化代碼。
+              </li>
+            </ul>
+
+            <h3>3. 立即執行函式表達式（IIFE）</h3>
+            <p>
+              匿名函式經常與立即執行函式表達式一起使用，這是一種在定義函式後立即執行它的方式。
+            </p>
+            <h4>定義和使用：</h4>
+            <pre class="prettyprint">
+    (function() {
+        console.log("這是一個立即執行的匿名函式");
+    })();  // 輸出：這是一個立即執行的匿名函式
+                </pre
+            >
+            <h3>4. 具名函式堆疊跟蹤</h3>
+            <p>具名函式堆疊跟蹤（Named Function Stack Trace）是程式運行過程中，當發生錯誤或異常時，顯示出哪些函式依序被呼叫，直到出現問題的位置。這對於除錯非常有用，因為它可以幫助我們了解錯誤發生時的執行路徑。
+            </p>
+            <pre class="prettyprint">
+              function functionA() {
+                console.log("In function A");
+                functionB();
+            }
+            
+            function functionB() {
+                console.log("In function B");
+                functionC();
+            }
+            
+            function functionC() {
+                console.log("In function C");
+                throw new Error("Something went wrong!");
+            }
+            
+            try {
+                functionA();
+            } catch (error) {
+                console.error("Error caught:", error);
+                console.error(error.stack);
+            }
+            
+
+            </pre>
+            
+            <h4>解釋</h4>
+            
+            <ul>
+              <li>1.functionA 呼叫了 functionB，而 functionB 又呼叫了 functionC。</li>
+                <li>2.在 functionC 中，我們故意拋出一個錯誤 Error("Something went wrong!")。</li>
+                  <li>3.try-catch 塊抓取這個錯誤，並且打印出錯誤訊息和堆疊跟蹤。</li>
+          </ul>
+
+              <h4>堆疊跟蹤輸出（範例）</h4>
+              <p>當運行這個程式時，輸出的堆疊跟蹤可能看起來像這樣：</p>
+              <pre class="prettyprint">
+Error: Something went wrong!
+at functionC (index.js:12:11)
+at functionB (index.js:8:5)
+at functionA (index.js:4:5)
+at anonymous :16:5
+            </pre>
+            <h4>堆疊跟蹤說明</h4>
+            <ul>
+              <li>functionC 是最接近錯誤發生的函式，因此它在堆疊的頂端。</li>
+                <li>然後依序是 functionB 和 functionA，因為它們是呼叫 functionC 的函式。</li>
+                  <li>最後，堆疊回到了匿名函式（即最外層的 try-catch 區塊）。</li>
+          </ul>
+
+          <h4>圖片說明邏輯</h4>
+          <img src="../images/Stack.png" />
+          <p>
+          這張圖表顯示了函式呼叫堆疊的邏輯，從 functionA 開始呼叫 functionB，然後 functionB 再呼叫 functionC。在 functionC 發生錯誤，並且最終在程式的 try-catch 區塊中捕捉到這個錯誤。
+          <br><br>
+          堆疊跟蹤有助於了解程式在發生錯誤時的執行流程。你可以看到每個函式被呼叫的順序，並且瞭解錯誤出現的位置。
+
+          </p>
+            <h3>4. 總結</h3>
+            <ul>
+              <li>
+                <strong>具名函式：</strong
+                >有助於提高代碼的可讀性，適合重複使用的情況。
+              </li>
+              <li>
+                <strong>匿名函式：</strong
+                >靈活且簡潔，適合一次性使用或作為回調函式。
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="_2">Automatic Semicolon Insertion, ASI</h2>
+      
+        <p>
+          自動插入分號 (Automatic Semicolon Insertion, ASI) 是 JavaScript
+          的一個特性，允許在省略分號時自動補上。這在大部分情況下能正常運作，但也有可能導致意想不到的行為。
+        </p>
+      
+
+      
+      <div class="sectionbody">
+        <div class="_set1">
+          <h3 id="_asi_mechanism">自動插入分號機制</h3>
+          <p>
+            在某些情況下，當 JavaScript
+            解析器遇到一行無分號的結尾時，它會嘗試自動插入分號來修正代碼。
+          </p>
+          <pre class="prettyprint">
+// 沒有分號，JavaScript 自動插入
+let a = 5
+let b = 10
+console.log(a + b)
+//輸出15
+        </pre
+          >
+          <p>這裡，雖然每行末尾沒有分號，JavaScript 解析器會自動插入分號。</p>
+
+          <h3 id="_asi_rules">自動插入分號的規則</h3>
+          <p>JavaScript 會在以下情況下自動插入分號：</p>
+          <ul>
+            <li>當語句以換行符結束時</li>
+            <li>
+              在關鍵字 <code>break</code>, <code>return</code>,
+              <code>throw</code> 後跟著換行符時
+            </li>
+          </ul>
+          <pre class="prettyprint">
+return
+5 + 10
+        </pre
+          >
+          <p>
+            這段代碼會被解析為 <code>return;</code> 和
+            <code>5 + 10;</code>，而不是 <code>return 5 + 10;</code>。
+          </p>
+
+          
+
+      <h3>可能因 ASI 引發的錯誤</h3>
+    <p>以下是一些可能因 ASI 引發錯誤的情況：</p>
+    
+    <h4>1. 返回值的問題</h4>
+    <p>當 <code>return</code> 語句後面換行符出現時，可能導致無法返回預期值。</p>
+    <pre class="prettyprint">
+function calculate() {
+  return 
+  { value: 10 }
+}
+console.log(calculate())
+    </pre>
+    <p>這段代碼實際上會返回 <code>undefined</code>，因為 ASI 在 <code>return</code> 後插入了分號，導致 <code>{ value: 10 }</code> 被忽略。</p>
+
+    <h4>2. 陣列與函式的錯誤</h4>
+    <p>當函式結束後立即跟著開頭為 <code>[</code> 的陣列或 <code>(</code> 的括號時，可能會產生意外行為。</p>
+    <pre class="prettyprint">
+const foo = () => {}
+[1, 2].forEach(console.log)
+    </pre>
+    <p>這裡，JavaScript 會將兩行當作兩個分離的語句，而不是一個完整的邏輯，從而導致錯誤。</p>
+
+    <h4>3. 自增或自減運算符</h4>
+    <p>在使用自增 (++) 或自減 (--) 運算符時，如果放置位置不當，ASI 可能會錯誤地插入分號。</p>
+    <pre class="prettyprint">
+let i = 10
+i
+++
+console.log(i)
+    </pre>
+    <p>Compiler會將它視為兩個獨立語句，結果 <code>i++</code> 不會如預期那樣工作，最後輸出的還是 <code>10</code>。</p>
+
+      <h3>總結</h3>
+      <div class="sectionbody">
+        <p>
+          為了避免 ASI
+          帶來的潛在問題，開發者通常建議始終顯式地在語句末尾添加分號。這樣可以減少錯誤並提高代碼的可讀性。
+        </p>
+      </div>
+    </div>
+
+    <div id="header">
+      <h2 id="_3">原始型別/物件型別</h2>
+      <div class="sectionbody">
+        <div class="ulist">
+          <h3>1. 原始型別（Primitive Types）</h3>
+          <p>
+            原始型別是最基本的數據類型，它們是不可變的（immutable），且直接存儲其值。JavaScript
+            中的原始型別共有 7 種：
+          </p>
+          <ul>
+            <li><strong>string</strong>：表示字串，例如 "Hello"</li>
+            <li><strong>number</strong>：表示數字，包括整數和浮點數，例如 42、3.14</li>
+            <li><strong>bigint</strong>：表示任意精度的整數，例如 9007199254740991n</li>
+            <li><strong>boolean</strong>：表示布林值 true 或 false</li>
+            <li><strong>undefined</strong>：當變數已聲明但尚未賦值時，其值是 undefined</li>
+            <li><strong>null</strong>：表示空值，通常用來表示“無”的狀態</li>
+            <li><strong>symbol</strong>：用來創建唯一的標識符，例如 Symbol("unique")</li>
+          </ul>
+          <h4>特點：</h4>
+          <ul>
+            <li>不可變性：原始型別的值不能被修改，任何對其值的操作都會生成新值，而不是修改原值。</li>
+            <li>按值傳遞：當將原始型別賦值或傳遞給變數時，是以值的方式傳遞，也就是說它們之間互相獨立。</li>
+          </ul>
+          <h4>範例：</h4>
+          <pre class="prettyprint">
+            let numA = 10;
+            let numB = numA;  // numB 是 numA 的複製
+            numA = 20;
+            console.log(numB);  // 輸出 10
+          </pre>
+          <p>在這裡，numA 的修改不會影響 numB，因為它們各自存儲了自己的值。</p>
+        </div>
+        <h4>更多原始型別範例：</h4>
+        <pre class="prettyprint">
+      // string 範例
+      let greeting = "Hello, world!";
+      let anotherGreeting = greeting;
+      greeting = "Hi!";
+      console.log(anotherGreeting);  // "Hello, world!"
+      
+      // number 範例
+      let num = 10;
+      let anotherNum = num;
+      num = 20;
+      console.log(anotherNum);  // 10
+      
+      // boolean 範例
+      let isTrue = true;
+      let anotherBool = isTrue;
+      isTrue = false;
+      console.log(anotherBool);  // true
+      
+      // bigint 範例
+      let bigIntNum = 9007199254740991n;
+      let anotherBigInt = bigIntNum;
+      bigIntNum = bigIntNum + 1n;
+      console.log(anotherBigInt);  // 9007199254740991n
+      
+      // symbol 範例
+      let sym = Symbol("unique");
+      let anotherSym = sym;
+      console.log(sym === anotherSym);  // true
+        </pre>
+
+        <h3>2. <strong>物件型別（Object Types）</strong></h3>
+        <p>
+          物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
+        </p>
+    
+        <h4>常見的物件型別：</h4>
+        <ul>
+          <li>
+            <strong>物件（Object）</strong>：包含鍵值對，例如
+            <code>{ name: "John", age: 30 }</code>
+          </li>
+          <li>
+            <strong>陣列（Array）</strong>：一種特殊的物件，用來存儲有序的數據列表，例如
+            <code>[1, 2, 3]</code>
+          </li>
+          <li>
+            <strong>函數（Function）</strong>：也是物件類型，可以作為一等公民進行操作，例如
+            <code>function add(a, b) { return a + b; }</code>
+          </li>
+          <li>
+            <strong>日期（Date）</strong>：表示日期和時間的物件類型，例如
+            <code>new Date()</code>
+          </li>
+          <li>
+            <strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如
+            <code>/abc/</code>
+          </li>
+        </ul>
+    
+        <h5>補充說明：</h5>
+        <ul>
+          <li><strong>稀疏陣列（Sparse Array）</strong>：指陣列中存在空洞或未定義的元素。</li>
+          <pre class="prettyprint">
+            let sparseArr = [1, , 3];
+            console.log(sparseArr.length);  // 3
+            console.log(sparseArr[1]);  // undefined
+          </pre>
+          <li><strong>鍵值的強制轉型</strong>：陣列的索引實際上是物件的鍵，會自動轉型為字串。</li>
+          <pre class="prettyprint">
+            let arr1 = [];
+            arr1[1] = 'a';
+            arr1['1'] = 'b';
+            console.log(arr1[1]);  // 'b'
+          </pre>
+          <li>
+            <strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong>：字串作為類陣列，字串與數字進行比較時會自動進行類型轉換。
+          </li>
+          <pre class="prettyprint">
+            console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
+            console.log('5' === 5);  // false，因為這裡類型不相同
+          </pre>
+          <li>
+            <strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt 處理非常大的整數，浮點數則需注意運算精度問題。
+          </li>
+          <pre class="prettyprint">
+            const a = 1e20; // 1e20 的數值
+            const b = a * 100; // b 為 1e+22
+            const c = a / 0.001; // c 為 1e+23
+          
+            console.log(a); // 100000000000000000000
+            console.log(b); // 1e+22
+            console.log(c); // 1e+23
+          
+            console.log(a.toExponential()); // "1e+20"
+          </pre>
+        </ul>
+    
+        <h4>特點：</h4>
+        <ul>
+          <li>可變性：物件型別的值是可變的，可以在原來的基礎上修改或擴展。</li>
+          <li>
+            按引用傳遞：物件型別是按引用傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。
+          </li>
+        </ul>
+    
+        <h4>範例：</h4>
+        <pre class="prettyprint">
+            // 物件範例
+            let person = { name: "Alice", age: 25 };
+            let anotherPerson = person;
+            person.name = "Bob";
+            console.log(anotherPerson.name);  // "Bob"
+            //在這裡，obj1 和 obj2 都引用了同一個物件，因此對 obj1 所做的修改會影響 obj2。
+
+            // 陣列範例
+            let arr = [1, 2, 3];
+            let anotherArr = arr;
+            arr.push(4);
+            console.log(anotherArr);  // [1, 2, 3, 4]
+            
+            // 函數範例
+            function greet() {
+              return "Hello!";
+            }
+            let anotherGreet = greet;
+            console.log(anotherGreet());  // "Hello!"
+            
+            // 日期範例
+            let now = new Date();
+            let anotherDate = now;
+            now.setFullYear(2025);
+            console.log(anotherDate.getFullYear());  // 2025
+            
+            // 正則表達式範例
+            let regex = /abc/;
+            let anotherRegex = regex;
+            console.log(anotherRegex === regex);  // true
+        </pre>
+
+
+        
+    
+        <h3>3. 原始型別與物件型別的差異</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>特性</th>
+              <th>原始型別（Primitive Types）</th>
+              <th>物件型別（Object Types）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>可變性</strong></td>
+              <td>不可變，每次操作都返回新值</td>
+              <td>可變，可以直接修改屬性和方法</td>
+            </tr>
+            <tr>
+              <td><strong>比較方式</strong></td>
+              <td>比較值本身（按值比較）</td>
+              <td>比較引用（按引用比較）</td>
+            </tr>
+            <tr>
+              <td><strong>存儲方式</strong></td>
+              <td>直接存儲其值</td>
+              <td>存儲的是對象的引用地址（指向內存位置）</td>
+            </tr>
+            <tr>
+              <td><strong>傳遞方式</strong></td>
+              <td>按值傳遞，每個變數互相獨立</td>
+              <td>按引用傳遞，變數間共享對象</td>
+            </tr>
+            <tr>
+              <td><strong>類型數量</strong></td>
+              <td>7 種：<code>string</code>, <code>number</code>, <code>boolean</code>, <code>bigint</code>, <code>undefined</code>, <code>null</code>, <code>symbol</code></td>
+              <td>無限數量，包含 <code>Object</code>、<code>Array</code>、<code>Function</code> 等</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>範例：</h4>
+        <pre class="prettyprint">
+    // 按值比較 vs 按引用比較
+    let str1 = "hello";
+    let str2 = "hello";
+    console.log(str1 === str2);  // true
+    
+    let obj1 = { name: "John" };
+    let obj2 = { name: "John" };
+    console.log(obj1 === obj2);  // false
+    
+    // 按值傳遞 vs 按引用傳遞
+    let primitiveVal = 10;
+    function modifyPrimitive(val) {
+      val = 20;
+    }
+    modifyPrimitive(primitiveVal);
+    console.log(primitiveVal);  // 10
+    
+    let objVal = { value: 10 };
+    function modifyObject(val) {
+      val.value = 20;
+    }
+    modifyObject(objVal);
+    console.log(objVal.value);  // 20
+        </pre>
+        <h3>4. 總結：</h3>
+        <ul>
+          <li><strong>原始型別</strong>：是簡單且不可變的數據類型，適合表示基礎數據。</li>
+          <li>
+            <strong>物件型別</strong>：靈活且可變，適合存儲和操作複雜的數據結構。
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+
+    <div id="header">
+      <h2 id="_4">顯性轉換/隱性轉換</h2>
+      <div class="sectionbody">
+        <div class="ulist">
+          <p>
+            在 JavaScript 中，<strong>顯性轉換（Explicit Conversion）</strong
+            >和<strong>隱性轉換（Implicit Conversion）</strong
+            >指的是將一種資料類型轉換為另一種的過程。這兩種轉換的區別在於轉換是否是由開發者主動進行，或者是由
+            JavaScript 引擎自動進行。
+          </p>
+
+          <h3>1. <strong>顯性轉換（Explicit Conversion）</strong></h3>
+          <p>
+            顯性轉換是指開發者<strong>主動</strong>使用內建方法或運算符來將一種類型轉換為另一種類型。這是一個清晰、可控的過程，開發者確切地知道何時進行轉換。
+          </p>
+
+          <h4>常見的顯性轉換方法：</h4>
+
+          <h5>1.1 轉換為數字：</h5>
+          <ul>
+            <li>
+              使用 <code>Number()</code> 函數或 <code>parseInt()</code>、<code
+                >parseFloat()</code
+              >
+              方法將其他類型的數據轉換為數字。
+            </li>
+          </ul>
+          <pre class="prettyprint">
+    console.log(Number('123'));           // 123
+    console.log(Number('-123.239'));      // -123.239
+    console.log(Number('123abc'));        // NaN
+    console.log(Number(undefined));       // NaN
+    console.log(Number(true));            // 1
+    console.log(Number(false));           // 0
+    console.log(Number(null));            // 0
+    console.log(Number("1e+5"));          // 100000
+    console.log(Number('  '));            // 0 (whitespace is trimmed)
+    console.log(Number('Infinity'));      // Infinity
+    console.log(Number('0xF'));           // 15 (Hexadecimal conversion)
+          </pre>
+          <p>
+            💡 <code>Number()</code> 的目標是判斷值是否像數字，如果像數字則轉換成功，否則為 NaN。例如 true, false, null 分別為 1, 0, 0。<br>
+            邊界情況：undefined 會轉換為 NaN，空字串或空白字符會轉換為 0，十六進制字串會轉換為對應的數值。
+          </p>
+
+          <h5>1.2 <code>parseInt()</code> 和 <code>parseFloat()</code>：</h5>
+          <ul>
+            <li>
+              <code>parseInt()</code> 會將值轉換成整數，而 <code>parseFloat()</code> 保留小數。
+            </li>
+          </ul>
+          <pre class="prettyprint">
+    console.log(parseInt('123.2'));       // 123
+    console.log(parseInt('123abc'));      // 123
+    console.log(parseInt('a'));           // NaN
+    console.log(parseFloat('123.239abc'));// 123.239
+    console.log(parseInt('100px'));       // 100
+    console.log(parseInt('10', 16));      // 16 (interprets as hexadecimal)
+          </pre>
+          <p>
+            💡 <code>parseInt()</code> 從第一位開始判斷，遇到非數字位就停止；而 <code>parseFloat()</code> 會保留小數。<br>
+            邊界情況：可以傳入進制參數給 parseInt()，非數字字符會導致停止轉換。
+          </p>
+
+          <h5>1.3 轉換為字串：</h5>
+          <ul>
+            <li>
+              使用 <code>String()</code> 函數或 <code>toString()</code> 方法將其他類型的數據轉換為字串。
+            </li>
+          </ul>
+          <pre class="prettyprint">
+    console.log(String(-123));            // "-123"
+    console.log(String(true));            // "true"
+    console.log((123).toString());        // "123"
+    console.log(String([1, 2, 3]));       // "1,2,3"
+    console.log(String({}));              // "[object Object]"
+    console.log(String(undefined));       // "undefined"
+    console.log(String(null));            // "null"
+          </pre>
+          <p>
+            💡 <code>undefined</code> 和 <code>null</code> 不能使用 <code>toString()</code>。物件會返回 "[object Object]"，除非定義了自訂的 toString() 方法。
+          </p>
+
+          <h5>1.4 轉換為布林值：</h5>
+          <ul>
+            <li>使用 <code>Boolean()</code> 函數來將其他類型轉換為布林值。</li>
+          </ul>
+          <pre class="prettyprint">
+    console.log(Boolean(0));              // false
+    console.log(Boolean(''));             // false
+    console.log(Boolean('hello'));        // true
+    console.log(Boolean(undefined));      // false
+    console.log(Boolean([]));             // true
+    console.log(Boolean({}));             // true
+          </pre>
+          <p>
+            💡 除了 <code>0</code>, <code>""</code>, <code>undefined</code>, <code>null</code>, <code>NaN</code>, 其餘值皆為 <code>true</code>。<br>
+            邊界情況：空陣列和空物件也是 <code>true</code>。
+          </p>
+
+          <h3>2. <strong>隱性轉換（Implicit Conversion）</strong></h3>
+          <p>
+            隱性轉換是指 JavaScript 在進行某些運算或操作時<strong>自動</strong>將一種資料類型轉換為另一種，這通常發生在運算符處理不同類型的數據時。
+          </p>
+
+          <h4>常見的隱性轉換情況：</h4>
+          <ul>
+            <li>
+              <strong>字串與其他類型的相加：</strong>
+              當字串與數字或其他類型相加時，JavaScript 會將其他類型轉換為字串進行拼接。
+            </li>
+            <pre class="prettyprint">
+    let result = "The answer is " + 42;  // "The answer is 42"
+    let result2 = [1, 2, 3] + "";        // "1,2,3"
+    console.log([] + {});                // "[object Object]"
+    console.log({} + []);                // 0
+            </pre>
+
+            <li>
+              <strong>數字運算中的布林值：</strong> 布林值會被轉換為數字：<code>true</code> 轉換為 1，<code>false</code> 轉換為 0。
+            </li>
+            <pre class="prettyprint">
+    let sum = true + 2;                   // 3
+    let difference = false - 1;           // -1
+            </pre>
+
+            <li>
+              <strong>isNaN() 函數：</strong>
+              <code>isNaN()</code> 用來判斷值是否為「NaN」。它會隱式調用 <code>Number()</code> 來進行判斷。
+            </li>
+            <pre class="prettyprint">
+    console.log(isNaN("abc"));           // true
+    console.log(isNaN(undefined));        // true
+    console.log(isNaN("123"));            // false (implicitly converts to number)
+            </pre>
+
+            <li>
+              <strong>加法運算符（+）：</strong> 當 <code>+</code> 處理字串和其他類型時，會將其他類型轉換為字串進行拼接。
+            </li>
+            <pre class="prettyprint">
+    console.log('10' + 1);                // "101"
+    console.log('10' - 1);                // 9
+            </pre>
+
+            <li>
+              <strong>乘法與除法運算（* 和 /）：</strong> 當使用乘法或除法運算符與字串進行運算時，JavaScript 會嘗試將字串轉換為數字。無法轉換的字串會返回 NaN。
+            </li>
+            <pre class="prettyprint">
+    console.log('6' * 2);                 // 12 (string '6' is converted to number 6)
+    console.log('10' / 2);                // 5  (string '10' is converted to number 10)
+    console.log('abc' * 2);               // NaN (string 'abc' cannot be converted)
+    console.log('5.5' * 2);               // 11 (string '5.5' is converted to 5.5)
+            </pre>
+
+            <li>
+              <strong>物件隱式轉換：</strong>
+              當物件與原始類型進行運算時，JavaScript 會調用物件的 <code>toString()</code> 或 <code>valueOf()</code> 方法進行隱式轉換。
+            </li>
+            <pre class="prettyprint">
+    let obj = {
+      valueOf() { return 10; }
+    };
+    console.log(obj + 1);  // 11
+            </pre>
+          </ul>
+
+          <h3>顯性轉換 vs 隱性轉換：</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>特點</th>
+                <th>顯性轉換</th>
+                <th>隱性轉換</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>誰發起轉換</td>
+                <td>開發者明確進行</td>
+                <td>JavaScript 引擎自動進行</td>
+              </tr>
+              <tr>
+                <td>轉換的控制</td>
+                <td>完全控制</td>
+                <td>無法控制，取決於上下文</td>
+              </tr>
+              <tr>
+                <td>轉換方式</td>
+                <td>使用明確的方法如 <code>Number()</code>, <code>String()</code></td>
+                <td>發生於運算符、比較、條件運算時</td>
+              </tr>
+              <tr>
+                <td>示例</td>
+                <td><code>Number('123')</code> 明確將字串轉數字</td>
+                <td><code>'123' - 1</code> 自動將字串轉換為數字</td>
+              </tr>
+              <tr>
+                <td>潛在問題</td>
+                <td>可預期，易於調試</td>
+                <td>隱式轉換有時會導致意外的結果，如字串拼接或布林轉換</td>
+              </tr>
+              <tr>
+                <td>性能</td>
+                <td>轉換有具體步驟，略微增加計算負擔</td>
+                <td>依賴 JavaScript 引擎處理，通常較快但難以預料</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>隱性轉換的常見問題：</h3>
+          <p>隱性轉換有時會導致意外的行為，特別是在比較和運算時。例如：</p>
+          <ul>
+            <li>
+              <code>+</code> 和 <code>-</code> 的不同處理：<code>+</code>
+              用於字串拼接，而 <code>-</code> 會進行數字轉換。
+            </li>
+            <pre class="prettyprint">
+    let result = "10" + 1;               // "101"
+    let result2 = "10" - 1;              // 9
+            </pre>
+
+            <li>
+              <strong>BigInt 和 Symbol：</strong> BigInt
+              不能與其他原始類型混合運算，必須顯性轉換。Symbol
+              也無法與其他類型進行運算。
+            </li>
+            <pre class="prettyprint">
+    console.log(1 + 1n);                  // Uncaught TypeError: Cannot mix BigInt and other types
+    console.log(1 + Symbol("1"));         // Uncaught TypeError: Cannot convert a Symbol value to a number
+            </pre>
+
+            <li>
+              <strong>NaN 的處理：</strong> 任何與 NaN 進行的運算都會返回 NaN。
+            </li>
+            <pre class="prettyprint">
+    console.log(NaN + 5);                 // NaN
+    console.log("abc" - 1);               // NaN
+            </pre>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="header">
+      <h2 id="_5">型別比較</h2>
+      <div class="sectionbody">
+        <p>
+          在 JavaScript 中，型別比較（type comparison）是經常遇到的問題，因為
+          JavaScript
+          是動態型別語言，因此變數的型別可以在運行時期改變。JavaScript
+          提供了兩種主要的比較運算符：
+        </p>
+
+        <h3>1. 寬鬆比較（Loose Equality）：==</h3>
+        <p>
+          使用 == 進行比較時，JavaScript
+          會嘗試在比較前進行類型轉換，這意味著即使變數的類型不同，也可能返回
+          true。
+        </p>
+        <pre class="prettyprint">
+        console.log(5 == '5');  // true
+        console.log(0 == false); // true
+        console.log(null == undefined); // true
+      </pre
+        >
+
+        <h4>規則：</h4>
+        <ul>
+          <li>JavaScript 會自動將不同類型的數據轉換為相同類型再進行比較。</li>
+          <li>字符串和數字會轉換為數字比較。</li>
+          <li>null 和 undefined 被視為相等。</li>
+          <li>false 會被轉換為 0，true 會被轉換為 1。</li>
+        </ul>
+
+        <p>問題：</p>
+        <ul>
+          <li>
+            由於自動型別轉換，這種比較有時會導致意想不到的結果。因此，通常不推薦使用。
+          </li>
+        </ul>
+
+        <h3>2. 嚴格比較（Strict Equality）：===</h3>
+        <p>
+          使用 === 進行比較時，JavaScript
+          會不進行類型轉換，這意味著變數的類型和值必須完全相同才能返回 true。
+        </p>
+        <pre class="prettyprint">
+        console.log(5 === '5');  // false
+        console.log(0 === false); // false
+        console.log(null === undefined); // false
+      </pre
+        >
+
+        <h4>規則：</h4>
+        <ul>
+          <li>如果兩個值的類型不同，直接返回 false。</li>
+          <li>必須在類型和值都相等的情況下，才會返回 true。</li>
+        </ul>
+
+        <h4>優點：</h4>
+        <ul>
+          <li>避免自動型別轉換的混淆。</li>
+          <li>更加明確和可預測，適合大多數比較情境。</li>
+        </ul>
+
+        <h3>3. 其他比較方法</h3>
+        <p>
+          Object.is() 用於比較兩個值是否相同，與 ===
+          大致相同，但處理一些特殊值（如 NaN 和 -0）的方式不同。
+        </p>
+        <pre class="prettyprint">
+        console.log(Object.is(NaN, NaN));      // true
+        console.log(NaN === NaN);              // false
+        console.log(Object.is(+0, -0));         // false
+
+      </pre>
+
+        <h3>4. 使用場景</h3>
+        <p>
+          === 嚴格比較：在大多數情況下，應該使用 ===，因為它更加安全和清晰。
+        </p>
+        <p>
+          == 寬鬆比較：當你確實需要進行不同類型之間的比較，並且希望 JavaScript
+          自動進行類型轉換時，才考慮使用。
+        </p>
+
+        <h3>常見陷阱</h3>
+        <p>
+          null 和 undefined 在 == 下相等，但在 === 下不相等。<br />
+          NaN 與任何值都不相等，包括它自己，所以比較 NaN 值時應使用 isNaN() 或
+          Object.is()。
+        </p>
+        <h3>5. 各種型別比較範例</h3>
+        <h4>陣列</h4>
+        <pre class="prettyprint">
+      let arr1 = [1, 2, 3];
+      let arr2 = [1, 2, 3];
+      let arr3 = arr1;
+        
+      console.log(arr1 == arr2);   // false （不同的物件引用）
+      console.log(arr1 === arr2);  // false （不同的物件引用）
+      console.log(arr1 === arr3);  // true  （引用同一個物件）
+        
+      console.log([1, 2] == [1, 2]);   // false （不同的物件引用）
+      console.log([1, 2] === [1, 2]);  // false
+      </pre>
+
+      <h4>物件</h4>
+      <pre class="prettyprint">
+      let obj1 = { a: 1 };
+      let obj2 = { a: 1 };
+      let obj3 = obj1;
+
+      console.log(obj1 == obj2);   // false （不同的物件引用）
+      console.log(obj1 === obj2);  // false （不同的物件引用）
+      console.log(obj1 === obj3);  // true  （引用同一個物件）
+    </pre>
+    <h4>Infinity 和 -Infinity</h4>
+    <pre class="prettyprint">
+      console.log(Infinity == Infinity);   // true
+      console.log(Infinity === Infinity);  // true
+      console.log(Infinity > 999999999);   // true
+
+      console.log(-Infinity == -Infinity); // true
+      console.log(-Infinity === -Infinity);// true
+      console.log(-Infinity < -999999999); // true
+    </pre>
+
+    <h4>Symbol</h4>
+    <pre class="prettyprint">
+      let sym1 = Symbol('foo');
+      let sym2 = Symbol('foo');
+
+      console.log(sym1 == sym2);   // false （每個 Symbol 都是唯一的）
+      console.log(sym1 === sym2);  // false
+  </pre>
+
+  <h4>BigInt 和 Number</h4>
+  <pre class="prettyprint">
+      let bigInt1 = BigInt(1);
+      let num1 = 1;
+      
+      console.log(bigInt1 == num1);    // true  （寬鬆比較，會將 BigInt 和 Number 視為相等）
+      console.log(bigInt1 === num1);   // false （嚴格比較，不同型別）
+      
+      console.log(1n === 1);  // false  （BigInt 與 Number 嚴格比較不同）
+      console.log(1n == 1);   // true   （BigInt 與 Number 寬鬆比較相同）
+    
+</pre>
+
+
+
+
+        <h3>6. 總結</h3>
+        <ul>
+            <li>使用 === 進行嚴格比較可以避免 JavaScript
+            自動進行型別轉換時帶來的潛在錯誤。</li>
+            <li>== 可以依照業務需求特性使用。</li>
+              <li>在處理物件、陣列等複雜型別時，必須注意引用的相同與否，而不僅僅是值的相同。</li>
+        </ul>
+      </div>
+    </div>
+    
+
+    <div id="footer" class="sub">
+      <div id="footer-text" class="pageclick">
+        <a href="./index.html" class="pageclick left">上一頁</a>
+        <a href="./index.html" class="pageclick center">回目錄</a>
+        <a href="./function.html" class="pageclick right">下一頁</a>
+      </div>
+    </div>
+  </body>
+</html>
