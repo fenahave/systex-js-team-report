@@ -97,11 +97,11 @@ console.log("這是一個立即執行的匿名函式");
 
 
 === 自動插入分號機制
-  
+
 在某些情況下，當 JavaScript
 解析器遇到一行無分號的結尾時，它會嘗試自動插入分號來修正代碼。
-  
-  
+
+
 [source,javascript]
 ----
 // 沒有分號，JavaScript 自動插入
@@ -115,34 +115,34 @@ console.log(a + b)
 === 自動插入分號的規則
 
 JavaScript 會在以下情況下自動插入分號：
-  
+
 * 當語句以換行符結束時
 * 在關鍵字 `break`, `return`,`throw` 後跟著換行符時
 
-  
-  
+
+
 [source,javascript]
 ----
 return
 5 + 10
 ----
 
-  
+
 這段代碼會被解析為 `return;` 和
 `5 + 10;`，而不是 `return 5 + 10;`。
-  
+
 
 === 常見例外
 
 然而，自動插入分號機制並非總是有效，且有一些情況下會導致錯誤：
-  
+
 [source,javascript]
 ----
 const foo = () => {}
 [1, 2].forEach(console.log)
 ----
 
-  
+
 這段代碼會產生錯誤，因為 JavaScript
 會將這兩行解讀為兩個分離的語句，而不是一個函式後接一個陣列。
 
@@ -158,10 +158,10 @@ const foo = () => {}
 
 
 === 1. 原始型別（Primitive Types）
-  
+
 原始型別是最基本的數據類型，它們是不可變的（immutable），且直接存儲其值。JavaScript
 中的原始型別共有 7 種：
-  
+
 * *string*：表示字串，例如 "Hello"
 * *number*：表示數字，包括整數和浮點數，例如 42、3.14
 * *bigint*：表示任意精度的整數，例如 9007199254740991n
@@ -169,14 +169,14 @@ const foo = () => {}
 * *undefined*：當變數已聲明但尚未賦值時，其值是 undefined
 * *null*：表示空值，通常用來表示“無”的狀態
 * *symbol*：用來創建唯一的標識符，例如 Symbol("unique")
-  
+
 ==== 特點：
-  
+
 * 不可變性：原始型別的值不能被修改，任何對其值的操作都會生成新值，而不是修改原值。
 * 按值傳遞：當將原始型別賦值或傳遞給變數時，是以值的方式傳遞，也就是說它們之間互相獨立。
-  
+
 ==== 範例：
-  
+
 [source,javascript]
 ----
 let numA = 10;
@@ -210,7 +210,7 @@ console.log(numB);  // 輸出 10
 補充說明：
 
 * *稀疏陣列（Sparse Array）*：指陣列中存在空洞或未定義的元素。
-  
+
 [source,javascript]
 ----
 let sparseArr = [1, , 3];
@@ -219,7 +219,7 @@ console.log(sparseArr[1]);  // undefined
   ----
 
 * *鍵值的強制轉型*：陣列的索引實際上是物件的鍵，會自動轉型為字串。
-  
+
 [source,javascript]
 ----
 let arr1 = [];
@@ -229,7 +229,7 @@ console.log(arr1[1]);  // 'b'
   ----
 
 * *字串的類陣列處理與比較不同資料型態的儲存方式*：字串作為類陣列，字串與數字進行比較時會自動進行類型轉換。
-  
+
 [source,javascript]
 ----
 console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
@@ -237,17 +237,17 @@ console.log('5' === 5);  // false，因為這裡類型不相同
 ----
 
 * *非常大與非常小的數字*：JavaScript 中使用 BigInt 處理非常大的整數，浮點數則需注意運算精度問題。
-  
+
 [source,javascript]
 ----
 const a = 1e20; // 1e20 的數值
 const b = a * 100; // b 為 1e+22
 const c = a / 0.001; // c 為 1e+23
-  
+
 console.log(a); // 100000000000000000000
 console.log(b); // 1e+22
 console.log(c); // 1e+23
-  
+
 console.log(a.toExponential()); // "1e+20"
 ----
 
@@ -313,189 +313,181 @@ console.log(a.toExponential()); // "1e+20"
 
 
 == 顯性轉換/隱性轉換
-  
-在 JavaScript 中，*顯性轉換（Explicit Conversion）*和*隱性轉換（Implicit Conversion）*指的是將一種資料類型轉換為另一種的過程。這兩種轉換的區別在於轉換是否是由開發者主動進行，或者是由
-JavaScript 引擎自動進行。
-  
 
-=== 1. *顯性轉換（Explicit Conversion）*
-  
+在 JavaScript 中，*顯性轉換（Explicit Conversion）*和*隱性轉換（Implicit Conversion）*指的是將一種資料類型轉換為另一種的過程。這兩種轉換的區別在於轉換是否是由開發者主動進行，或者是由 JavaScript 引擎自動進行。
+
+=== 顯性轉換（Explicit Conversion）
+
 顯性轉換是指開發者*主動*使用內建方法或運算符來將一種類型轉換為另一種類型。這是一個清晰、可控的過程，開發者確切地知道何時進行轉換。
-  
 
-==== 常見的顯性轉換方法：
+==== 常見的顯性轉換方法
 
-===== 1.1 轉換為數字：
-  
-* 
-  使用 `Number()` 函數或 `parseInt()`、<code
->parseFloat()</code
-  >
-  方法將其他類型的數據轉換為數字。
+===== 轉換為數字
 
-  
-  
+* 使用 `Number()` 函數或 `parseInt()`、`parseFloat()` 方法將其他類型的數據轉換為數字。
+
 [source,javascript]
 ----
-console.log(Number('123'));   // 123
-console.log(Number('-123.239'));  // -123.239
-console.log(Number('123abc'));// NaN
-console.log(Number(undefined));   // NaN
-console.log(Number(true));// 1
-console.log(Number(false));   // 0
-console.log(Number(null));// 0
-console.log(Number("1e+5"));  // 100000
-console.log(Number('  '));// 0 (whitespace is trimmed)
-console.log(Number('Infinity'));  // Infinity
-console.log(Number('0xF'));   // 15 (Hexadecimal conversion)
+console.log(Number('123'));            // 123
+console.log(Number('-123.239'));       // -123.239
+console.log(Number('123abc'));         // NaN
+console.log(Number(undefined));        // NaN
+console.log(Number(true));             // 1
+console.log(Number(false));            // 0
+console.log(Number(null));             // 0
+console.log(Number('1e+5'));           // 100000
+console.log(Number('  '));             // 0 (whitespace is trimmed)
+console.log(Number('Infinity'));       // Infinity
+console.log(Number('0xF'));            // 15 (Hexadecimal conversion)
 ----
 
-  
- `Number()` 的目標是判斷值是否像數字，如果像數字則轉換成功，否則為 NaN。例如 true, false, null 分別為 1, 0, 0。<br>
-邊界情況：undefined 會轉換為 NaN，空字串或空白字符會轉換為 0，十六進制字串會轉換為對應的數值。
-  
+`Number()` 的目標是判斷值是否像數字，如果像數字則轉換成功，否則為 NaN。例如 true, false, null 分別為 1, 0, 0。
 
-===== 1.2 `parseInt()` 和 `parseFloat()`：
-  
+邊界情況：undefined 會轉換為 NaN，空字串或空白字符會轉換為 0，十六進制字串會轉換為對應的數值。
+
+===== `parseInt()` 和 `parseFloat()`
+
 * `parseInt()` 會將值轉換成整數，而 `parseFloat()` 保留小數。
 
-  
-  
 [source,javascript]
 ----
-console.log(parseInt('123.2'));   // 123
-console.log(parseInt('123abc'));  // 123
-console.log(parseInt('a'));   // NaN
-console.log(parseFloat('123.239abc'));// 123.239
-console.log(parseInt('100px'));   // 100
-console.log(parseInt('10', 16));  // 16 (interprets as hexadecimal)
+console.log(parseInt('123.2'));        // 123
+console.log(parseInt('123abc'));       // 123
+console.log(parseInt('a'));            // NaN
+console.log(parseFloat('123.239abc')); // 123.239
+console.log(parseInt('100px'));        // 100
+console.log(parseInt('10', 16));       // 16 (interprets as hexadecimal)
 ----
 
-  
-💡`parseInt()` 從第一位開始判斷，遇到非數字位就停止；而 `parseFloat()` 會保留小數。<br>
-邊界情況：可以傳入進制參數給 parseInt()，非數字字符會導致停止轉換。
-  
+💡 `parseInt()` 從第一位開始判斷，遇到非數字位就停止；而 `parseFloat()` 會保留小數。
 
-===== 1.3 轉換為字串：
-  
+邊界情況：可以傳入進制參數給 `parseInt()`，非數字字符會導致停止轉換。
+
+===== 轉換為字串
+
 * 使用 `String()` 函數或 `toString()` 方法將其他類型的數據轉換為字串。
 
-  
-  
 [source,javascript]
 ----
-console.log(String(-123));// "-123"
-console.log(String(true));// "true"
-console.log((123).toString());// "123"
-console.log(String([1, 2, 3]));   // "1,2,3"
-console.log(String({}));  // "[object Object]"
-console.log(String(undefined));   // "undefined"
-console.log(String(null));// "null"
-  ----
+console.log(String(-123));             // "-123"
+console.log(String(true));             // "true"
+console.log((123).toString());         // "123"
+console.log(String([1, 2, 3]));        // "1,2,3"
+console.log(String({}));               // "[object Object]"
+console.log(String(undefined));        // "undefined"
+console.log(String(null));             // "null"
+----
 
-  
-`undefined` 和 `null` 不能使用 `toString()`。物件會返回 "[object Object]"，除非定義了自訂的 toString() 方法。
-  
+`undefined` 和 `null` 不能使用 `toString()`。物件會返回 "[object Object]"，除非定義了自訂的 `toString()` 方法。
 
-===== 1.4 轉換為布林值：
-  
+===== 轉換為布林值
+
 * 使用 `Boolean()` 函數來將其他類型轉換為布林值。
-  
-  
+
 [source,javascript]
 ----
-console.log(Boolean(0));  // false
-console.log(Boolean('')); // false
-console.log(Boolean('hello'));// true
-console.log(Boolean(undefined));  // false
-console.log(Boolean([])); // true
-console.log(Boolean({})); // true
-  ----
+console.log(Boolean(0));               // false
+console.log(Boolean(''));              // false
+console.log(Boolean('hello'));         // true
+console.log(Boolean(undefined));       // false
+console.log(Boolean([]));              // true
+console.log(Boolean({}));              // true
+----
 
-  
-除了 `0`, `""`, `undefined`, `null`, `NaN`, 其餘值皆為 `true`。<br>
+除了 `0`, `""`, `undefined`, `null`, `NaN`，其餘值皆為 `true`。
+
 邊界情況：空陣列和空物件也是 `true`。
-  
 
-=== 2. *隱性轉換（Implicit Conversion）*
-  
+=== 隱性轉換（Implicit Conversion）
+
 隱性轉換是指 JavaScript 在進行某些運算或操作時*自動*將一種資料類型轉換為另一種，這通常發生在運算符處理不同類型的數據時。
-  
 
-==== 常見的隱性轉換情況：
-  
-* *字串與其他類型的相加*：
-  當字串與數字或其他類型相加時，JavaScript 會將其他類型轉換為字串進行拼接。
+==== 常見的隱性轉換情況
 
+* *字串與其他類型的相加*：當字串與數字或其他類型相加時，JavaScript 會將其他類型轉換為字串進行拼接。
 
 [source,javascript]
 ----
-let result = "The answer is " + 42;  // "The answer is 42"
-let result2 = [1, 2, 3] + "";// "1,2,3"
-console.log([] + {});// "[object Object]"
-console.log({} + []);// 0
+let result = "The answer is " + 42;   // "The answer is 42"
+let result2 = [1, 2, 3] + "";          // "1,2,3"
+console.log([] + {});                  // "[object Object]"
+console.log({} + []);                  // 0
 ----
 
-
-* *數字運算中的布林值*： 布林值會被轉換為數字：`true` 轉換為 1，`false` 轉換為 0。
-
+* *數字運算中的布林值*：布林值會被轉換為數字：`true` 轉換為 1，`false` 轉換為 0。
 
 [source,javascript]
 ----
-let sum = true + 2;   // 3
-let difference = false - 1;   // -1
+let sum = true + 2;                    // 3
+let difference = false - 1;            // -1
 ----
 
-
-* *isNaN() 函數*：
-  `isNaN()` 用來判斷值是否為「NaN」。它會隱式調用 `Number()` 來進行判斷。
-
+* *isNaN() 函數*：`isNaN()` 用來判斷值是否為「NaN」。它會隱式調用 `Number()` 來進行判斷。
 
 [source,javascript]
 ----
-console.log(isNaN("abc"));   // true
-console.log(isNaN(undefined));// true
-console.log(isNaN("123"));// false (implicitly converts to number)
+console.log(isNaN("abc"));            // true
+console.log(isNaN(undefined));         // true
+console.log(isNaN("123"));            // false (implicitly converts to number)
 ----
 
-
-* *加法運算符（+）*： 當 `+` 處理字串和其他類型時，會將其他類型轉換為字串進行拼接。
-
+* *加法運算符（+）*：當 + 處理字串和其他類型時，會將其他類型轉換為字串進行拼接。
 
 [source,javascript]
 ----
-console.log('10' + 1);// "101"
-console.log('10' - 1);// 9
+console.log('10' + 1);                 // "101"
+console.log('10' - 1);                 // 9
 ----
 
-
-* *乘法與除法運算（* 和 /）*： 當使用乘法或除法運算符與字串進行運算時，JavaScript 會嘗試將字串轉換為數字。無法轉換的字串會返回 NaN。
-
+* *乘法與除法運算*：當使用乘法或除法運算符與字串進行運算時，JavaScript 會嘗試將字串轉換為數字。無法轉換的字串會返回 NaN。
 
 [source,javascript]
 ----
-console.log('6' * 2); // 12 (string '6' is converted to number 6)
-console.log('10' / 2);// 5  (string '10' is converted to number 10)
-console.log('abc' * 2);   // NaN (string 'abc' cannot be converted)
-console.log('5.5' * 2);   // 11 (string '5.5' is converted to 5.5)
+console.log('6' * 2);                  // 12 (string '6' is converted to number 6)
+console.log('10' / 2);                 // 5 (string '10' is converted to number 10)
+console.log('abc' * 2);                // NaN (string 'abc' cannot be converted)
+console.log('5.5' * 2);                // 11 (string '5.5' is converted to 5.5)
 ----
 
-
-* *物件隱式轉換*： 
-  當物件與原始類型進行運算時，JavaScript 會調用物件的 `toString()` 或 `valueOf()` 方法進行隱式轉換。
-
+* *物件隱式轉換*：當物件與原始類型進行運算時，JavaScript 會調用物件的 `toString()` 或 `valueOf()` 方法進行隱式轉換。
 
 [source,javascript]
 ----
 let obj = {
   valueOf() { return 10; }
 };
-console.log(obj + 1);  // 11
+console.log(obj + 1);                  // 11
 ----
 
-  
+=== 隱性轉換的常見問題
 
-=== 顯性轉換 vs 隱性轉換：
+隱性轉換有時會導致意外的行為，特別是在比較和運算時。例如：
+
+* + 和 - 的不同處理：`+` 用於字串拼接，而 `-` 會進行數字轉換。
+
+[source,javascript]
+----
+let result = "10" + 1;                // "101"
+let result2 = "10" - 1;               // 9
+----
+
+* *BigInt 和 Symbol*：BigInt 不能與其他原始類型混合運算，必須顯性轉換。Symbol 也無法與其他類型進行運算。
+
+[source,javascript]
+----
+console.log(1 + 1n);                  // Uncaught TypeError: Cannot mix BigInt and other types
+console.log(1 + Symbol("1"));        // Uncaught TypeError: Cannot convert a Symbol value to a number
+----
+
+* *NaN 的處理*：任何與 NaN 進行的運算都會返回 NaN。
+
+[source,javascript]
+----
+console.log(NaN + 5);                 // NaN
+console.log("abc" - 1);              // NaN
+----
+=== 顯性轉換 vs 隱性轉換
+
 [cols="1,1,1", options="header"]
 |===
 | 特點 | 顯性轉換 | 隱性轉換
@@ -524,43 +516,6 @@ console.log(obj + 1);  // 11
 | 轉換有具體步驟，略微增加計算負擔
 | 依賴 JavaScript 引擎處理，通常較快但難以預料
 |===
-
-
-  === 隱性轉換的常見問題：
-  隱性轉換有時會導致意外的行為，特別是在比較和運算時。例如：
-  
-* `+` 和 `-` 的不同處理：`+`
-  用於字串拼接，而 `-` 會進行數字轉換。
-
-
-[source,javascript]
-----
-let result = "10" + 1;   // "101"
-let result2 = "10" - 1;  // 9
-----
-
-
-* *BigInt 和 Symbol*： BigInt
-  不能與其他原始類型混合運算，必須顯性轉換。Symbol
-  也無法與其他類型進行運算。
-
-
-[source,javascript]
-----
-console.log(1 + 1n);  // Uncaught TypeError: Cannot mix BigInt and other types
-console.log(1 + Symbol("1")); // Uncaught TypeError: Cannot convert a Symbol value to a number
-----
-
-
-* *NaN 的處理*： 任何與 NaN 進行的運算都會返回 NaN。
-
-
-[source,javascript]
-----
-console.log(NaN + 5); // NaN
-console.log("abc" - 1);   // NaN
-----
-
 
 
 == 型別比較

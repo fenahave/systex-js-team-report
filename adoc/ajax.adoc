@@ -40,19 +40,19 @@
 
 *** Promise.all()
 
-*** Promise.all() 實際範例
+**** Promise.all() 實際範例
 
 *** Promise.allSettled()
 
-*** Promise.allSettled() 實際範例
+**** Promise.allSettled() 實際範例
 
 *** Promise.race()
 
-*** Promise.race() 實際範例
+**** Promise.race() 實際範例
 
 *** Promise.any()
 
-*** Promise.any() 實際範例
+**** Promise.any() 實際範例
 
 ** Promise 方法比較
 
@@ -77,7 +77,7 @@ console.log("Start");
 console.log("Performing a synchronous task");
 
 console.log("End");
- 
+
 ----
 
 ==== 非同步是什麼？
@@ -96,7 +96,7 @@ console.log("End");
 for(let i = 0; i < 4; i++) {
 console.log(i);
 }
- 
+
 ----
 
 在這個例子中，#setTimeout# 是一個非同步操作，並不會阻塞 JavaScript 執行其他代碼。即使我們指定它在 1000 毫秒後執行，但 JavaScript 會繼續執行後續的 #for# 迴圈，而不必等待 #setTimeout# 完成。
@@ -120,7 +120,7 @@ console.log(i);
 
 
 
-=== link:../blocking-demo.html[點擊這裡操作頁面以了解阻塞概念]
+=== link:../html/blocking-demo.html[點擊這裡操作頁面以了解阻塞概念]
 
 
 === 為什麼 JavaScript 可以非同步？
@@ -135,18 +135,21 @@ console.log(i);
 為了理解 JavaScript 是如何處理非同步操作的，我們需要了解它的執行機制，主要包括以下幾個部分：
 
 
-* Call Stack (調用堆疊)：*JavaScript 執行同步代碼時，會依次將函數推入調用堆疊，並從堆疊中彈出執行完成的函數。
+* *Call Stack (調用堆疊)*：JavaScript 執行同步代碼時，會依次將函數推入調用堆疊，並從堆疊中彈出執行完成的函數。
 
-* Web API：*Web API 是由瀏覽器提供的，專門用來處理異步操作。當 JavaScript 遇到像 #setTimeout# 或 #fetch# 這樣的異步操作時，會將它們委託給 Web API 處理，並繼續執行其他同步代碼。
+* *Web API* : Web API 是由瀏覽器提供的，專門用來處理異步操作。當 JavaScript 遇到像 #setTimeout# 或 #fetch# 這樣的異步操作時，會將它們委託給 Web API 處理，並繼續執行其他同步代碼。
 
-* Callback Queue (回調隊列)：*當 Web API 完成異步操作後，會將回調函數放入回調隊列，等待主線程空閒時執行。
+* *Callback Queue (回調隊列)*：當 Web API 完成異步操作後，會將回調函數放入回調隊列，等待主線程空閒時執行。
 
-* Microtask Queue (微任務隊列)：*這是專門用來處理更高優先級的任務，比如 #Promise# 的回調。微任務在每次事件循環結束後會立即執行。
+* *Microtask Queue (微任務隊列)*：這是專門用來處理更高優先級的任務，比如 #Promise# 的回調。微任務在每次事件循環結束後會立即執行。
 
-* Macrotask Queue (宏任務隊列)：*宏任務包括 #setTimeout# 和 #setInterval# 等異步操作。這些任務的回調會在微任務執行完畢後執行。
+* *Macrotask Queue (宏任務隊列)*：宏任務包括 #setTimeout# 和 #setInterval# 等異步操作。這些任務的回調會在微任務執行完畢後執行。
 
-image::../images/micro-task.png[圖片說明]
-image::../images/macro-task.png[圖片說明]
+[cols="2*a", frame="none", grid="none"]
+|===
+|image::../images/micro-task.png[scaledwidth=50%]
+|image::../images/macro-task.png[scaledwidth=50%]
+|===
 
 
 ==== 事件循環 (Event Loop)
@@ -194,12 +197,12 @@ console.log("End");
 // End
 // Promise callback
 // Timeout callback
- 
+
 ----
 
 原因是 Promise 的回調會進入微任務隊列（Microtask Queue），而 #setTimeout# 的回調則進入宏任務隊列（Macrotask Queue）。微任務會優先執行，因此 Promise 的回調會在 #setTimeout# 之前執行。
 
-===== link:http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D[🎥 *點擊這裡查看完整的事件循環可視化演示*]
+=== link:http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D[🎥 *點擊這裡查看完整的事件循環可視化演示*]
 
 
 === AJAX 與數據請求
@@ -237,10 +240,10 @@ AJAX 的重要組成部分，能讓網頁內容動態更新。雖然現在常用
 ====== 1. 建立 XMLHttpRequest 物件
 [source,javascript]
 ----
-let xhr = new XMLHttpRequest(); 
+let xhr = new XMLHttpRequest();
 ----
 
-0 
+0
 此時仍為同步語句，非同步操作尚未開始
 物件創建：創建了一個新的XMLHttpRequest物件
 記憶體分配：xhr物件被分配在記憶體的Heap中
@@ -274,12 +277,12 @@ xhr.open('GET', 'https://api.example.com/data', true);
 調用 `open()` 方法僅僅是設定請求參數，還沒開始網路通訊
 
 
- 
+
 ====== 3. 發送請求 (send)
 
 [source,javascript]
 ----
-xhr.send(); 
+xhr.send();
 ----
 
 如果是 POST 請求，可以將資料以字串格式傳入 send() 中：
@@ -331,7 +334,7 @@ readyState 變化：請求發送後，readyState 仍為 1。隨著請求的進�
 onreadystatechange 事件：每當 readyState 發生變化時，瀏覽器會調用 onreadystatechange 回調函數。
 
 
-四、接收Response 
+四、接收Response
 
 . 收到Response Header +
 狀態碼和狀態文本：瀏覽器接收到伺服器的Response Header，獲取 HTTP 狀態碼（如 200、404）和狀態文本（如 OK、Not Found）。
@@ -398,7 +401,7 @@ Main Thread的事件循環調度並執行回調函數
  |
  V
  在回調函數中處理Response 數據，更新頁面等
- 
+
 ----
 
 ====== 4. 處理回應 (response)
@@ -508,7 +511,7 @@ xhr.onerror = function() {
 console.error('Request failed');
 };
 xhr.send();
- 
+
 ----
 
 
@@ -527,15 +530,15 @@ fetch('https://api.example.com/data')
 | 比較 | Fetch API | XMLHttpRequest
 
 | *語法和易用性*
-| - 基於 Promise，語法更簡潔 + 
+| - 基於 Promise，語法更簡潔 +
   - 更易於閱讀和維護
-| - 基於回調函數，語法較為繁瑣 + 
+| - 基於回調函數，語法較為繁瑣 +
   - 需要處理多個事件
 
 | *非同步處理方式*
-| - 使用 Promise + 
+| - 使用 Promise +
   - 支持 `async/await` 語法
-| - 使用事件和回調函數 + 
+| - 使用事件和回調函數 +
   - 不支援 Promise
 
 | *同步請求*
@@ -547,15 +550,15 @@ fetch('https://api.example.com/data')
 | - 可使用 `xhr.abort()` 方法取消請求
 
 | *請求進度監聽*
-| - 無法直接監聽請求進度 + 
+| - 無法直接監聽請求進度 +
   - 不支援上傳進度監聽
-| - 支持 `onprogress` 事件 + 
+| - 支持 `onprogress` 事件 +
   - 可監聽下載和上傳進度
 
 | *錯誤處理*
-| - 只有在網絡錯誤時會拒絕 Promise + 
+| - 只有在網絡錯誤時會拒絕 Promise +
   - HTTP 錯誤（如 404、500）不會拋出錯誤，需要手動檢查 `response.ok`
-| - 可通過 `xhr.status` 判斷 HTTP 狀態碼 + 
+| - 可通過 `xhr.status` 判斷 HTTP 狀態碼 +
   - 在錯誤時觸發 `onerror` 事件
 
 | *Response 類型*
@@ -563,21 +566,21 @@ fetch('https://api.example.com/data')
 | - Response 存儲在 `responseText`（字符串）和 `responseXML`（XML 文檔）中
 
 | *Request header 設置*
-| - 使用 `Headers` 物件設置 Request header + 
+| - 使用 `Headers` 物件設置 Request header +
   - 某些頭部不可修改（如 `Referer`、`User-Agent`）
-| - 使用 `setRequestHeader()` 方法設置 Request header + 
+| - 使用 `setRequestHeader()` 方法設置 Request header +
   - 可以設置更多自定義頭部
 
 | *跨域請求（CORS）*
-| - 默認採用 CORS + 
+| - 默認採用 CORS +
   - 支持跨域請求，但需要伺服器允許
-| - 需要額外設定才能進行跨域請求 + 
+| - 需要額外設定才能進行跨域請求 +
   - 可能受到更多限制
 
 | *流式處理*
-| - 支持流式 Response（Streaming） + 
+| - 支持流式 Response（Streaming） +
   - 可逐步處理大型數據
-| - 不支持流式 Response + 
+| - 不支持流式 Response +
   - 必須在 Response 完全接收後才能處理
 
 | *請求取消（Abort）*
@@ -585,22 +588,22 @@ fetch('https://api.example.com/data')
 | - 可使用 `xhr.abort()` 方法取消請求
 
 | *超時設置*
-| - 不直接支持超時設置 + 
+| - 不直接支持超時設置 +
   - 需要使用 `Promise.race()` 實現超時控制
-| - 支持 `xhr.timeout` 屬性設置超時時間 + 
+| - 支持 `xhr.timeout` 屬性設置超時時間 +
   - 可監聽 `ontimeout` 事件
 
 | *上傳文件*
-| - 支持通過 `fetch` 上傳文件 + 
+| - 支持通過 `fetch` 上傳文件 +
   - 但無法監聽上傳進度
-| - 支持上傳文件 + 
+| - 支持上傳文件 +
   - 可通過 `xhr.upload.onprogress` 監聽上傳進度
 
 | *自動發送 Cookie*
-| - 默認不發送 Cookie + 
-  - 需要設置 `credentials` 選項 + 
+| - 默認不發送 Cookie +
+  - 需要設置 `credentials` 選項 +
   - `credentials: 'same-origin'` 或 `credentials: 'include'`
-| - 默認會發送並接收 Cookie + 
+| - 默認會發送並接收 Cookie +
   - 可通過 `withCredentials` 屬性控制
 
 | *HTTP Response 碼處理*
@@ -608,7 +611,7 @@ fetch('https://api.example.com/data')
 | - 可直接通過 `xhr.status` 判斷請求是否成功
 
 | *原生支援度*
-| - 現代瀏覽器原生支持 + 
+| - 現代瀏覽器原生支持 +
   - IE 不支持 Fetch API，需要使用 polyfill
 | - 所有主流瀏覽器均支持，包括較舊版本的 IE
 
@@ -617,25 +620,25 @@ fetch('https://api.example.com/data')
 | - 調試較為方便，可在開發者工具中查看請求詳細信息
 
 | *HTTP 改寫或重導向*
-| - `fetch` 會自動處理 HTTP 重導向 + 
+| - `fetch` 會自動處理 HTTP 重導向 +
   - 可設置 `redirect` 選項控制
 | - 需要手動處理重導向，較為麻煩
 
 | *安全性*
-| - 遵循嚴格的 CORS 政策 + 
+| - 遵循嚴格的 CORS 政策 +
   - 某些頭部不可修改，增強安全性
 | - 可能存在被利用的風險，需要謹慎處理
 
 | *使用場景*
-| - 適合現代化的應用開發 + 
+| - 適合現代化的應用開發 +
   - 需要處理 Promise 的情況
-| - 適合需要兼容舊瀏覽器 + 
+| - 適合需要兼容舊瀏覽器 +
   - 需要監聽進度或同步請求
 
 | *API 靈活性*
-| - API 簡潔但某些功能有限 + 
+| - API 簡潔但某些功能有限 +
   - 需要結合其他 API（如 Streams、AbortController）實現高級功能
-| - API 功能全面 + 
+| - API 功能全面 +
   - 支持更多細節控制和設定
 |===
 
@@ -685,7 +688,7 @@ console.log(result);// 輸出 '操作成功'
 .catch(error => {
 console.error(error);// 輸出 '操作失敗'
 });
- 
+
 ----
 
 
@@ -710,14 +713,14 @@ console.log(data);// 處理解析後的數據
 .catch(error => {
 console.error(error); // 捕獲異常，處理錯誤
 });
- 
+
 ----
 
 Promise 還提供了多種強大的方法來處理多個異步操作，如 #Promise.all()#, #Promise.allSettled()#, #Promise.race()#, 和 #Promise.any()#。每個方法都有不同的用途和行為，適合不同的異步場景。
 
 
 
-1. `Promise.all()`
+==== 1. `Promise.all()`
 
 
 *Promise.all()* 並行執行所有傳入的
@@ -748,7 +751,7 @@ console.log('Pride and Prejudice:', prideData);
 .catch(error => {
 console.error('Error fetching data:', error);
 });
- 
+
 ----
 
 
@@ -772,11 +775,11 @@ console.log('失敗:', result.reason);
 }
 });
 });
- 
+
 ----
 
 
-===== 3. `Promise.race()`
+==== 3. `Promise.race()`
 
 *Promise.race()* 返回第一個解決或拒絕的 Promise。無論是哪個 Promise 最先完成（成功或失敗），它都會將結果作為新的 Promise 返回。如果你只需要第一個完成的結果，這是一個非常有用的工具。
 
@@ -797,7 +800,7 @@ console.log(result);// 只返回 '快的'
 .catch(error => {
 console.error(error);
 });
- 
+
 ----
 
 
@@ -823,7 +826,7 @@ Promise.any([failedFetch1, failedFetch2, successfulFetch])
 .catch(error => {
     console.error('所有 Promise 都失敗:', error);
 });
- 
+
 ----
 
 
