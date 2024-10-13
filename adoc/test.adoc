@@ -26,9 +26,52 @@ console.log("這是一個具名函式");
 myFunction();  // 輸出：這是一個具名函式
 ----
 
+通常具名函式用於有個相同的功能需要被重複被使用的，或是想將複雜的邏輯拆解的情況，
+比如現在要寫一個點擊button後，根據input內的值回傳對應的結果。
+在沒有使用具名方法的情況，若之後有越來越多的 button，程式會越來越難維護。
+
+[source,javascript]
+----
+//  button1
+document.getElementById("button1").addEventListener("click",function() {
+    let value = document.getElementById("input2").value;
+    console.log(value);
+})
+
+// button2
+document.getElementById("button2").addEventListener("click",function() {
+    let value = document.getElementById("input2").value;
+    console.log(value);
+})
+----
+
+
+這時候將重複的程式碼內容取出寫成方法，可以看到程式碼變得比較簡單易懂一些，就
+算今天有5個button要監聽，也比沒有用的情況好理解一點。重點是未來要修改時，
+只需要修改 function 本身就可以一次性修改所有 button 的監聽事件
+
+[source,javascript]
+----
+/**
+ * 添加監聽，並印出 input 的 value
+ * @param button 要監聽的button id
+ * @param input 要讀取的input id
+ */
+function getValueAndConsole(button, input) {
+    document.getElementById(button).addEventListener("click",function() {
+        let value = document.getElementById(input).value;
+        console.log(value);
+    })
+}
+
+getValueAndConsole("button1", "input1");
+getValueAndConsole("button2", "input2");
+----
+
 ==== 優點：
 
 * *可讀性*：具名函式通常更具可讀性，因為名稱可以描述函式的功能。
+* *模組化*： 可以讓程式更易於拆分為可重用的模組，每個函式都有明確的名稱和功能，促進代碼的組織性和維護性
 * *堆疊跟蹤*：在發生錯誤時，堆疊跟蹤會顯示具名函式的名稱，便於調試。
 
 
@@ -67,7 +110,7 @@ console.log("這是一個匿名回調函式");
 * *簡潔性*：在簡單的場景中，不需要為函式命名，可以簡化代碼。
 
 
-=== 3. 立即執行函式表達式（IIFE）
+==== 3. 立即執行函式表達式（IIFE）
 
 匿名函式經常與立即執行函式表達式一起使用，這是一種在定義函式後立即執行它的方式。
 
