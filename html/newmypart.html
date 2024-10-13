@@ -5,7 +5,7 @@
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"
         />
-        <script src="../js/run_pprettify.js"></script>
+        <script src="../js/13/run_pprettify.js"></script>
         <link rel="stylesheet" href="../css/style.css" />
         <link rel="stylesheet" href="../css/pretty.css" />
       </head>
@@ -90,23 +90,144 @@ function getData() {
             <pre class="prettyprint">
 async function getData(url) {
     try {
-        const res = await fetch(url);
-        const data = await res.json();
-        console.log(data);
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+        const data = await response.json();   // 將回應轉換為JSON
+        console.log(data);      // 處理取得的資料
     } catch (error) {
-        console.error(error);
+        console.error(error);   // 捕獲並處理錯誤
     }
 }
 
 getData("https://example.com/data");
             </pre>
 
-            <h3>總結</h3>
+            <h3>5. Async/Await 的優缺點</h3>
+            <h4>適合情境：</h4>
+            
             <ul>
-                <li><strong>可讀性：</strong>async/await 提供了更簡潔、更直觀的語法，使得非同步程式碼更易讀和維護。Promise 
-                    則需要使用 then 和 catch 方法來處理結果和錯誤，語法上較為冗長。</li>
-                <li><strong>錯誤處理：</strong>在 async/await 中，可以直接使用 try...catch 來捕獲錯誤，而在 Promise 中需要使用 catch 方法。</li>
+                <li>當有順序依賴的非同步操作時，async/await 可以讓程式碼更加直觀和清晰。</li>
+
             </ul>
+        
+            <h4>優點：</h4>
+            <ul>
+            <li>
+            使非同步程式碼看起來像同步程式碼，易於閱讀和維護。</li>
+            <li>可以使用 try/catch 來統一處理錯誤，比 Promise 的 catch() 鏈條更清晰。</li>
+            </ul>
+            <h4>缺點：</h4>
+            <ul>
+            <li>當需要執行多個非同步操作且彼此無依賴性時，async/await 會順序執行，無法並行。這時需要輔以 Promise.all 來解決。</li>
+            <li>在某些情況下可能會降低性能，特別是有多個不相關的非同步操作時。</li>
+        </ul>
+
+            <h4>Promise.all 和 Async/Await 的合併處理</h4>
+            <p>Promise.all範例</p>
+            <pre class="prettyprint">
+            Promise.all([fetchData('valid-url'), fetchData('another-valid-url')])
+            .then(responses => {
+                console.log(responses[0]);  // 第一個請求的結果
+                console.log(responses[1]);  // 第二個請求的結果
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        </pre>
+            <p>利用async/await改寫</p>
+            <pre class="prettyprint">
+            async function fetchConcurrentData() {
+                try {
+                    const [response1, response2] = await Promise.all([
+                        fetchData('valid-url'),
+                        fetchData('another-valid-url')
+                    ]);
+                    console.log(response1);
+                    console.log(response2);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            
+            fetchConcurrentData();
+        </pre>
+
+            <p>
+            Promise.all 讓 async/await 支援併發處理，避免順序執行降低效能。
+            </p>
+
+            <h3>6.async/await的使用範例</h3>
+            <h4>1. 與 for...of 搭配：</h4>
+            <p>在需要順序處理非同步操作時，可以結合 for...of 與 async/await，讓每次迭代都等待上一個非同步操作完成後再進行下一個，避免它們同時執行。</p>
+            <pre class="prettyprint">
+            async function processItems(items) {
+                for (let item of items) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));  // 模擬非同步操作
+                    console.log(item);
+                }
+            }
+            
+            processItems([1, 2, 3, 4]);  // 每隔 1 秒輸出一個數字
+            </pre>
+
+
+
+            <h4>2. 與 Array.prototype.map 搭配：</h4>
+            <p>map 方法可以用來對陣列中的每個元素進行操作，但需要注意的是，map 本身不會等待非同步操作完成，所以需要結合 Promise.all 來等待所有非同步操作完成後，獲取最終結果。</p>
+            <p>錯誤用法 :</p>
+            <pre class="prettyprint">
+                const items = [1, 2, 3];
+
+                async function processItems() {
+                    const results = items.map(async (item) => {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        return item * 2;
+                    });
+                    console.log(results);  // 這裡輸出的會是 Promise 陣列
+                }
+                
+                processItems();
+                
+            </pre>
+
+            <p>正確用法 :</p>
+            <pre class="prettyprint">
+                const items = [1, 2, 3];
+
+                async function processItems() {
+                    const results = await Promise.all(items.map(async (item) => {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        return item * 2;
+                    }));
+                    console.log(results);  // [2, 4, 6]
+                }
+
+                processItems();
+
+                
+            </pre>
+            
+            <h4>3. 與 reduce 搭配：</h4>
+            <p>如果需要將非同步操作累加或鏈式執行，可以將 reduce 與 async/await 搭配使用，讓每次操作都等待上一次完成後再執行。accPromise 確保每個非同步步驟依次執行並返回結果。</p>
+            <pre class="prettyprint">
+            async function processSequentially(items) {
+            const result = await items.reduce(async (accPromise, item) => {
+            const acc = await accPromise;
+            const value = await new Promise(resolve => setTimeout(() => resolve(item *2), 1000));
+            return acc + value;
+            }, Promise.resolve(0));
+                            
+            console.log(result);  // 累加結果
+            }
+                            
+            processSequentially([1, 2, 3]);
+                
+            </pre>
+
+
+
         </div>
     </div>
 </div>
@@ -117,13 +238,11 @@ getData("https://example.com/data");
     <h2 id="_1">try/catch 錯誤處理</h2>
     <div class="sectionbody">
         <div class="ulist">
-            <p>
-                Promise：使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
-            </p>
+            
 
             <h3>1. 使用 Promise + .then() 和 .catch() 處理錯誤</h3>
             <p>
-                在此範例中，使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
+                在此範例中，使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。
             </p>
             <pre class="prettyprint">
 function fetchDataWithPromise() {
@@ -165,7 +284,7 @@ function fetchDataWithPromise() {
 fetchDataWithPromise();
             </pre>
 
-            <p>我們串接了多個 .then() 來處理不同的 API 請求，每個請求都有各自的錯誤處理邏輯。如果其中任何一個請求失敗，錯誤會傳遞到最後的 .catch()，但這種方式下，錯誤處理的邏輯較為分散，所以重複撰寫 if (!response.ok) 來檢查每個回應。</p>
+            <p>我們串接了多個 .then() 來處理不同的 API 請求，每個請求都有各自的錯誤處理邏輯。如果其中任何一個請求失敗，錯誤會傳遞到最後的 .catch()。</p>
 
             <h3>2. 使用 async/await 與 try/catch 集中錯誤處理</h3>
             <p>
@@ -204,24 +323,26 @@ fetchDataWithAsyncAwait();
 
             <p>如果任何一個請求失敗，錯誤會直接跳轉到 catch，不需要在每個 await 後面特別進行錯誤捕捉。這種結構使得錯誤處理邏輯集中在一個區塊內，程式碼更容易維護且可讀性更高。</p>
 
+
+            
+
+
+
+
+
             <h3>結論</h3>
             <ul>
-                <li><strong>Promise + .then()/.catch()：</strong>Promise 的錯誤處理會隨著 .then() 層級的增多而變得分散。</li>
-                <li><strong>async/await + try/catch：</strong>可以將所有的非同步操作包裹在一個 try/catch 區塊中，錯誤處理更集中，結構更簡單清晰。</li>
-                <br><br>
+            <li>Promise 更適合處理需要併發的多個非相依的非同步操作。</li>
+            <li>Async/Await 更適合處理順序依賴的非同步操作，使程式碼更具可讀性。</li>
+            <li>若多個非同步操作沒有依賴關係，應使用 Promise.all 進行併發處理，無論是用於 Promise 還是 async/await。</li>
+            <br>兩者在實務中的選擇，應根據非同步操作的數量和依賴性來決定。
                 
             </ul>
 
         </div>
     </div>
-  </div>
+
   
-  <div id="footer">
-    <div id="footer-text" class="pageclick">
-      <a href="./ajax.html" class="pageclick left">上一頁</a>
-      <a href="./index.html" class="pageclick center">回目錄</a>
-      <!-- <a href="./newmypart.html" class="pageclick right">下一頁</a> -->
-    </div>
-  </div>
+
 </body>
 </html>
