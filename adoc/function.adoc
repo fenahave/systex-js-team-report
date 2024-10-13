@@ -1,0 +1,438 @@
+= Javascript 分組報告
+
+== IIFE 與 高階函式
+
+=== 高階函式
+
+=== Immediately Invoked Function Expression, IIFE
+
+==== 表達式（Expressions）和陳述句（Statements）的差異
+
+在說明IIFE之前，要先說明一下 function statements 和 function
+expressions 這兩種不同建立函式的方式
+
+
+===== 表達式 ( Expressions )
+
+
+Expressions 指的是輸入後能夠直接回傳值的一串程式（a unit of code
+that results in a value），
+一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
+簡單來說，只要輸入的那串程式執行後能直接回傳一個值，那麼它就是個
+expression。 舉例來說，在瀏覽器的 console 中輸入 a = 3
+時，它會直接回傳 3 這個值；輸入 2 + 3 的時候， 它會直接回傳 5；輸入
+a = { }
+的時候，它會回傳一個為物件的值。這種輸入一段程式後，會直接取得回傳一個值的程式內容，我們就稱為
+Expressions。
+
+
+===== 陳述句 ( Statements )
+
+下方是個陳述句的範例
+
+[source,javascript]
+----
+
+var a = 3;
+if (a === 3) {
+console.log('Hello');
+}
+----
+
+
+
+在這段程式中 a === 3
+是一個表達式（expression），因為它可以直接回傳值（即，true 或
+false）； 而 if 這個指令，則是一個
+statement，因為它不會直接回傳一個值，我們也不能將它指定為一個變數：
+
+
+[source,javascript]
+----
+
+// 錯誤的寫法
+var a = 3;
+const b = if (a === 3) {
+console.log('Hello');
+}
+----
+
+
+但改為三元運算子可以使用
+
+[source,javascript]
+----
+
+var a = 3;
+const b = (a === 3) 
+? console.log('Hello') 
+: null;
+----
+
+
+
+這是因為三元運算子是屬於表達式的一種，
+並且一定會有回傳值，而陳述句則不一定。
+
+
+==== IIFE 是什麼?
+
+如同字面上所敘述的，IIFE 指的就是透過 function expression
+的方式來建立函式，並且立即執行它。 舉例來說，可以用 console.log
+來看一下剛剛建立的 iife1Print 呼叫出來會長什麼樣子。
+
+
+[source,javascript]
+----
+
+var iife1Print = function (user) {
+console.log('helloWorld, ' + user);
+}
+console.log(iife1Print);
+----
+
+
+
+結果會發現，把 iife1Print
+呼叫出來後，它會直接回傳整個函式的程式碼內容，這是尚未執行程式碼前的結果。
+
+
+
+如果是 IIFE 就在這段程式碼的最後，加上一個執行的指令，也就是括號 ()
+
+
+
+[source,javascript]
+----
+
+var iife2ImmediatelyRun = function (name) {
+console.log('Welcome ' + name);
+}();
+console.log(iife2ImmediatelyRun);
+----
+
+
+
+在建立函式的同時，這段函式就會立即被執行，這裡面同樣可以帶入參數
+
+
+[source,javascript]
+----
+
+var iife3ImmediatelyRun= function (name) {
+console.log('Welcome ' + name);
+}('Guest');
+console.log(iife3ImmediatelyRun);
+----
+
+
+
+這樣就會直接得到 "Welcome Guest" 的結果： 要注意的是，在利用 IIFE
+的寫法後，原本的變數 iife4ImmediatelyRun
+已經變成函式執行後回傳的「字串」
+，它已經是字串了，所以沒辦法再去執行它！ 如果硬要在後面使用
+() 執行的話，就會報錯
+
+
+[source,javascript]
+----
+
+var iife4ImmediatelyRun = function(name) {
+return('Welcome ' + name);
+}('Guest'); // 立即執行，並回傳字串
+console.log(iife4ImmediatelyRun()); // 所以這邊會報錯
+----
+
+
+
+再把 function 裡面的 console.log 改成 return
+
+[source,javascript]
+----
+
+var iife5PrintCode = function(name) {
+return('Welcome ' + name);
+};
+console.log(iife5PrintCode);
+----
+
+
+
+這時候，如果使用 console.log 把 iife5PrintCode
+這個變數顯示出來看的話，可以發現它還是一個函式
+
+
+
+
+
+==== 更深入的應用 IIFE
+
+這時就要回來提 expression 的概念，Expressions
+指的是輸入後能夠直接回傳值的一串程式，
+一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
+比如可以直接在程式中輸入，數值、字串、甚至是物件，這時候去執行程式的時候，
+程式可以正確執行，且 console 視窗並不會有任何內容：
+
+
+[source,javascript]
+----
+
+// Expression
+3;
+
+'Guest';
+
+{
+name: 'Guest'
+}
+----
+
+
+
+如果希望的 function
+也可以用這種方式來執行，而不用去把它建立在任何變數的話。
+可能會想這麼做：
+
+
+[source,javascript]
+----
+
+// 不可行的做法
+function(name) {
+return('Welcome, ' + name);
+}
+----
+
+
+
+但是這麼做是不可行的，因為 JavaScript 引擎在解析程式碼的時候，
+因為用 function 做為開頭，它會認為現在要輸入 function statement，
+可是卻沒有給該 function
+的名稱，於是它無法正確理解這段程式碼便拋出錯誤：
+
+
+
+所以，這時候要做的是告訴 JavaScript 引擎說，這一整個並不是
+function statement。
+要達到這樣的目的，我們要讓引擎在解析程式的時候，不是以讀到 function
+做為開頭。 為了要達到這樣的目的，我們最常使用的做法就是用括號 () 把
+function(){ ...} 包起來，像是這樣：
+
+
+[source,javascript]
+----
+
+(function(name) {
+return('Welcome, ' + name);
+});
+----
+
+
+
+因為我們只會在括弧內放入 expression，例如 (3+2)，而不會放 statement
+在括弧內， 所以JavaScript 就會以 expression 的方式來讀取這段函式。
+在這種情況下，這個 function
+會被建立，但是不會被存在任何變數當中，也不會被執行。 結合剛剛上面
+IIFEs 的概念，我們可以在建立這個函式的同時，
+將這個函式加以執行，我們同樣只需要在最後加上括號 () 就可以了：
+
+
+[source,javascript]
+----
+
+(function(name) {
+return('Welcome, ' + name);
+})('Guest');
+----
+
+
+
+這樣 IIFE 的型式，會在許多的 JavaScript
+框架中都看得到，透過這樣的方式，
+可以「直接執行某個函式」，還有很重要的一點是， 在 IIFE
+內所定義的變數並不會跑出去這個函式之外而干擾到程式其他的部分，
+附帶一提的是，如果想要把物件也直接用 expression 來表示的話，
+同樣也可以用 ( ) 來把物件包起來就可以了：
+
+
+[source,javascript]
+----
+
+({
+name: 'Guest',
+interest: 'Website Developer'
+})
+----
+
+===== 程式範例
+[source,javascript]
+----
+
+// Function Statement
+function sayHello(name) {
+console.log('Hello ' + name);
+}
+sayHello('Guest');
+
+// Function Expression;
+var sayWelcome = function(name) {
+console.log('Welcome, ' + name);
+};
+sayWelcome('Guest');
+console.log(sayWelcome);
+
+// Immediately Invoked Functions Expressions (IIFEs)
+var sayWelcomeIIFEs = (function(name) {
+return 'Welcome, ' + name;
+})('Guest');
+
+// Throw Error HERE!!
+console.log(sayWelcomeIIFEs());
+
+//Expression
+(function(name) {
+console.log('Welcome, ' + name);
+})('Guest');
+
+({
+name: 'Guest',
+interest: 'web'
+});
+----
+
+=== 高階函式 (Higher-Order Functions)
+
+==== 高階函式是什麼？
+
+高階函式是指可以接受另一個函式作為參數或返回一個函式作為結果的函式。這個概念在多種程式語言中都支援，
+例如：JavaScript、Python、Swift 等。高階函式有助於提高程式碼的模塊化與可維護性，特別是在處理多重迴圈邏輯的拆解時。
+
+
+==== 高階函式的應用
+. 
+. 
+*回調函式 (Callback Functions)：* 可以將回調函式作為參數傳遞，實現自定義行為。
+. 
+. 
+*抽象操作：* 高階函式能封裝操作，如過濾和轉換。
+. 
+. 
+*函式組合：* 高階函式可組合多個函式，創建新的函式。
+. 
+. 
+
+==== 高階函式的範例
+
+*常見的高階函式：*
+
+.1. #Array.prototype.map#：對陣列每個元素操作，返回新陣列。. 
+[source,javascript]
+----
+const numArrayMap = [1, 2, 3, 4, 5];
+const doubledNumbersMap = numArrayMap.map((num) => num * 2);
+console.log(doubledNumbersMap); // [2, 4, 6, 8, 10]
+----
+.2. #Array.prototype.filter#：過濾符合條件的元素。. 
+[source,javascript]
+----
+const numArrayFilter = [1, 2, 3, 4, 5];
+const evenNumbersFilter = numArrayFilter.filter((num) => num % 2 === 0);
+console.log(evenNumbersFilter); // [2, 4]
+----
+
+另一種方式是直接將函式作為參數：
+[source,javascript]
+----
+const numArrayFilter2 = [2, 4, 6, 8, 10];
+const filteredNumbers = numArrayFilter2.filter(function (item) {
+return item % 5 === 0;
+});
+console.log(filteredNumbers); // [10]
+----
+
+.3. #Array.prototype.reduce#：累積陣列元素，返回單一結果。. 
+[source,javascript]
+----
+const numArrayReduce = [1, 2, 3, 4, 5];
+const sumArrayReduce = numArrayReduce.reduce((total, num) => total + num, 0);
+console.log(sumArrayReduce); // 15
+----
+
+.4. #setTimeout# / #setInterval#：將回調函式作為參數。. 
+
+使用 #setTimeout# 方法將回調函式作為參數，延遲執行指定的函式：
+[source,javascript]
+----
+setTimeout(() => {
+console.log("這是延遲的訊息 setTimeout");
+}, 1000);
+----
+回傳結果：#這是延遲的訊息 setTimeout# (延遲 1 秒後輸出)
+
+使用 #setInterval# 方法每隔指定時間執行一次回調函式：
+[source,javascript]
+----
+let countInterval = 0;
+const intervalIdCustom = setInterval(() => {
+countInterval += 1;
+console.log("這是第 " + countInterval + " 次執行 setInterval");
+if (countInterval === 5) {
+clearInterval(intervalIdCustom); // 停止 setInterval
+}
+}, 1000);
+----
+回傳結果：
+
+. 1 秒後輸出：#這是第 1 次執行 setInterval#. 
+. 2 秒後輸出：#這是第 2 次執行 setInterval#. 
+. 3 ..持續到第 5 次，並停止。 
+
+
+==== 自行實現高階函式：#myCustomFilter#
+自定義一個 #myCustomFilter# 函式，實現與 #filter# 類似的功能：
+
+[source,javascript]
+----
+function myCustomFilter(callbackFn, arrayToFilter) {
+const filteredArrayResult = [];
+for (let i = 0; i < arrayToFilter.length; i++) {
+if (callbackFn(arrayToFilter[i])) {
+filteredArrayResult.push(arrayToFilter[i]);
+}
+}
+return filteredArrayResult;
+}
+const numArrayToFilter = [1, 2, 3, 4, 5];
+const evenNumResult = myCustomFilter((item) => item % 2 === 0, numArrayToFilter);
+console.log(evenNumResult); // [2, 4]
+----
+
+不使用高階函式時，範例如下：
+
+[source,javascript]
+----
+function myBasicFilter(arrayToFilterBasic) {
+const filteredArrayBasic = [];
+for (let i = 0; i < arrayToFilterBasic.length; i++) {
+if (arrayToFilterBasic[i] % 2 === 0) {
+filteredArrayBasic.push(arrayToFilterBasic[i]);
+}
+}
+return filteredArrayBasic;
+}
+const numArrayToFilterBasic = [1, 2, 3, 4, 5];
+const evenNumResultBasic = myBasicFilter(numArrayToFilterBasic);
+console.log(evenNumResultBasic); // [2, 4]
+----
+
+未使用高階函式時，邏輯較為混亂，且需要重複編寫篩選條件的函式，這會增加代碼的冗餘和維護成本。
+
+==== 補充：一級函式 (First-class Functions) 是什麼？
+
+一級函式指函式可以像變數一樣被傳遞、賦值或作為返回值。這使得高階函式的實現變得可能，因為函式可以作為參數傳入或返回。
+現代程式語言如 JavaScript、Python 均支援一級函式。
+
+
+==== 結論
+高階函式允許更靈活的邏輯組合，能有效提升程式碼的重用性和可讀性，減少代碼的重複和冗餘。
+
