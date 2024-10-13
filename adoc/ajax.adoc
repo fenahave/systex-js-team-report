@@ -135,15 +135,15 @@ console.log(i);
 為了理解 JavaScript 是如何處理非同步操作的，我們需要了解它的執行機制，主要包括以下幾個部分：
 
 
-* Call Stack (調用堆疊)：*JavaScript 執行同步代碼時，會依次將函數推入調用堆疊，並從堆疊中彈出執行完成的函數。
+* *Call Stack (調用堆疊)*：JavaScript 執行同步代碼時，會依次將函數推入調用堆疊，並從堆疊中彈出執行完成的函數。
 
-* Web API：*Web API 是由瀏覽器提供的，專門用來處理異步操作。當 JavaScript 遇到像 #setTimeout# 或 #fetch# 這樣的異步操作時，會將它們委託給 Web API 處理，並繼續執行其他同步代碼。
+* *Web API* : Web API 是由瀏覽器提供的，專門用來處理異步操作。當 JavaScript 遇到像 #setTimeout# 或 #fetch# 這樣的異步操作時，會將它們委託給 Web API 處理，並繼續執行其他同步代碼。
 
-* Callback Queue (回調隊列)：*當 Web API 完成異步操作後，會將回調函數放入回調隊列，等待主線程空閒時執行。
+* *Callback Queue (回調隊列)*：當 Web API 完成異步操作後，會將回調函數放入回調隊列，等待主線程空閒時執行。
 
-* Microtask Queue (微任務隊列)：*這是專門用來處理更高優先級的任務，比如 #Promise# 的回調。微任務在每次事件循環結束後會立即執行。
+* *Microtask Queue (微任務隊列)*：這是專門用來處理更高優先級的任務，比如 #Promise# 的回調。微任務在每次事件循環結束後會立即執行。
 
-* Macrotask Queue (宏任務隊列)：*宏任務包括 #setTimeout# 和 #setInterval# 等異步操作。這些任務的回調會在微任務執行完畢後執行。
+* *Macrotask Queue (宏任務隊列)*：宏任務包括 #setTimeout# 和 #setInterval# 等異步操作。這些任務的回調會在微任務執行完畢後執行。
 
 image::../images/micro-task.png[圖片說明]
 image::../images/macro-task.png[圖片說明]
