@@ -204,205 +204,166 @@ const foo = () => {}
             中的原始型別共有 7 種：
           </p>
           <ul>
-            <li>string：表示字串，例如 "Hello"</li>
-            <li>number：表示數字，包括整數和浮點數，例如 42、3.14</li>
-            <li>bigint：表示任意精度的整數，例如 9007199254740991n</li>
-            <li>boolean：表示布林值 true 或 false</li>
-            <li>undefined：當變數已聲明但尚未賦值時，其值是 undefined</li>
-            <li>null：表示空值，通常用來表示“無”的狀態</li>
-            <li>symbol：用來創建唯一的標識符，例如 Symbol("unique")</li>
+            <li><strong>string</strong>：表示字串，例如 "Hello"</li>
+            <li><strong>number</strong>：表示數字，包括整數和浮點數，例如 42、3.14</li>
+            <li><strong>bigint</strong>：表示任意精度的整數，例如 9007199254740991n</li>
+            <li><strong>boolean</strong>：表示布林值 true 或 false</li>
+            <li><strong>undefined</strong>：當變數已聲明但尚未賦值時，其值是 undefined</li>
+            <li><strong>null</strong>：表示空值，通常用來表示“無”的狀態</li>
+            <li><strong>symbol</strong>：用來創建唯一的標識符，例如 Symbol("unique")</li>
           </ul>
           <h4>特點：</h4>
           <ul>
-            <li>
-              不可變性：原始型別的值不能被修改，任何對其值的操作都會生成新值，而不是修改原值。
-            </li>
-            <li>
-              按值傳遞：當將原始型別賦值或傳遞給變數時，是以值的方式傳遞，也就是說它們之間互相獨立。
-            </li>
+            <li>不可變性：原始型別的值不能被修改，任何對其值的操作都會生成新值，而不是修改原值。</li>
+            <li>按值傳遞：當將原始型別賦值或傳遞給變數時，是以值的方式傳遞，也就是說它們之間互相獨立。</li>
           </ul>
-
           <h4>範例：</h4>
           <pre class="prettyprint">
-          let x = 10;
-          let y = x;  // y 是 x 的複製，不受 x 的變化影響
-          x = 20;
-          console.log(y);  // 輸出 10
-        </pre
-          >
-          <p>在這裡，x 的修改不會影響 y，因為它們各自存儲了自己的值。</p>
+            let numA = 10;
+            let numB = numA;  // numB 是 numA 的複製
+            numA = 20;
+            console.log(numB);  // 輸出 10
+          </pre>
+          <p>在這裡，numA 的修改不會影響 numB，因為它們各自存儲了自己的值。</p>
         </div>
-
-      <h3>2. <strong>物件型別（Object Types）</strong></h3>
-      <p>
-        物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
-      </p>
-
-      <h4>常見的物件型別：</h4>
-      <ul>
-        <li>
-          <strong>物件（Object）</strong>：包含鍵值對，例如
-          <code>{ name: "John", age: 30 }</code>
-        </li>
-        <li>
-          <strong>陣列（Array）</strong
-          >：一種特殊的物件，用來存儲有序的數據列表，例如 <code>[1, 2, 3]</code>
-        </li>
-        <li>
-          <strong>函數（Function）</strong
-          >：也是物件類型，可以作為一等公民進行操作，例如
-          <code>function add(a, b) { return a + b; }</code>
-        </li>
-        <li>
-          <strong>日期（Date）</strong>：表示日期和時間的物件類型，例如
-          <code>new Date()</code>
-        </li>
-        <li>
-          <strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如
-          <code>/abc/</code>
-        </li>
-      </ul>
-      <p>補充說明：</p>
-      <ul>
-        <li>
-          <strong>稀疏陣列（Sparse Array）</strong
-          >：指陣列中存在空洞或未定義的元素，而不是連續的值。這通常會導致迭代時的意外結果。
-        </li>
+    
+        <h3>2. <strong>物件型別（Object Types）</strong></h3>
+        <p>
+          物件型別是由鍵值對組成的可變集合。所有非原始型別的數據都是物件型別，包括陣列、函數、日期等。
+        </p>
+    
+        <h4>常見的物件型別：</h4>
+        <ul>
+          <li>
+            <strong>物件（Object）</strong>：包含鍵值對，例如
+            <code>{ name: "John", age: 30 }</code>
+          </li>
+          <li>
+            <strong>陣列（Array）</strong>：一種特殊的物件，用來存儲有序的數據列表，例如
+            <code>[1, 2, 3]</code>
+          </li>
+          <li>
+            <strong>函數（Function）</strong>：也是物件類型，可以作為一等公民進行操作，例如
+            <code>function add(a, b) { return a + b; }</code>
+          </li>
+          <li>
+            <strong>日期（Date）</strong>：表示日期和時間的物件類型，例如
+            <code>new Date()</code>
+          </li>
+          <li>
+            <strong>正則表達式（RegExp）</strong>：表示正則表達式的物件類型，例如
+            <code>/abc/</code>
+          </li>
+        </ul>
+    
+        <p>補充說明：</p>
+        <ul>
+          <li><strong>稀疏陣列（Sparse Array）</strong>：指陣列中存在空洞或未定義的元素。</li>
+          <pre class="prettyprint">
+            let sparseArr = [1, , 3];
+            console.log(sparseArr.length);  // 3
+            console.log(sparseArr[1]);  // undefined
+          </pre>
+          <li><strong>鍵值的強制轉型</strong>：陣列的索引實際上是物件的鍵，會自動轉型為字串。</li>
+          <pre class="prettyprint">
+            let arr1 = [];
+            arr1[1] = 'a';
+            arr1['1'] = 'b';
+            console.log(arr1[1]);  // 'b'
+          </pre>
+          <li>
+            <strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong>：字串作為類陣列，字串與數字進行比較時會自動進行類型轉換。
+          </li>
+          <pre class="prettyprint">
+            console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
+            console.log('5' === 5);  // false，因為這裡類型不相同
+          </pre>
+          <li>
+            <strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt 處理非常大的整數，浮點數則需注意運算精度問題。
+          </li>
+          <pre class="prettyprint">
+            const a = 1e20; // 1e20 的數值
+            const b = a * 100; // b 為 1e+22
+            const c = a / 0.001; // c 為 1e+23
+          
+            console.log(a); // 100000000000000000000
+            console.log(b); // 1e+22
+            console.log(c); // 1e+23
+          
+            console.log(a.toExponential()); // "1e+20"
+          </pre>
+        </ul>
+    
+        <h4>特點：</h4>
+        <ul>
+          <li>可變性：物件型別的值是可變的，可以在原來的基礎上修改或擴展。</li>
+          <li>
+            按引用傳遞：物件型別是按引用傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。
+          </li>
+        </ul>
+    
+        <h4>範例：</h4>
         <pre class="prettyprint">
-          let sparseArray = [1, , 3];  // 這裡第二個元素是空的
-          console.log(sparseArray.length);  // 3
-          console.log(sparseArray[1]);  // undefined
+          let objA = { name: "Alice" };
+          let objB = objA;  // objB 引用同一個物件
+          objA.name = "Bob";
+          console.log(objB.name);  // 輸出 "Bob"
         </pre>
-        <li>
-          <strong>鍵值的強制轉型</strong
-          >：陣列的索引其實是物件的鍵，這些鍵會自動轉型為字串，導致一些潛在的問題。
-        </li>
-        <pre class="prettyprint">
-          let arr = [];
-          arr[1] = 'a';
-          arr['1'] = 'b';
-          console.log(arr[1]);  // 'b'
-        </pre>
-        <li>
-          <strong>字串的類陣列處理與比較不同資料型態的儲存方式</strong
-          >：字串作為類陣列，字串與數字進行比較時，會自動進行類型轉換。
-        </li>
-        <pre class="prettyprint">
-          console.log('5' == 5);  // true，因為 '5' 被轉型為數字 5
-          console.log('5' === 5);  // false，因為這裡類型不相同
-        </pre>
-        <li>
-          <strong>非常大與非常小的數字</strong>：JavaScript 中使用 BigInt
-          來處理非常大的整數，而對於小數和極小數字，則需要注意浮點運算的精度問題。
-        </li>
-        <pre class="prettyprint">
-          const a = 1e20;
-          const b = a * 100;
-          const c = a / 0.001;
-
-          a; // 100000000000000000000
-          b; // 1e+22
-          c; // 1e+23
-
-          // 使用 toExponential 手動轉指數呈現
-          a.toExponential(); // "1e+20"
-        </pre>
-        <li>
-          <strong>表達其他基數的數字</strong
-          >：decimal（十進制）、binary（二進制）、octal（八進制）、hex（十六進制）。
-        </li>
-      </ul>
-
-      <h4>特點：</h4>
-      <ul>
-        <li>
-          <strong>可變性</strong
-          >：物件型別的值是可變的，可以在原來的基礎上修改或擴展。
-        </li>
-        <li>
-          <strong>按參考傳遞</strong
-          >：物件型別是按<strong>引用</strong>傳遞的，這意味著如果多個變數引用同一個物件，對其中一個變數所作的改變會影響到所有引用該物件的變數。
-        </li>
-      </ul>
-
-      <h4>範例：</h4>
-      <pre class="prettyprint">
-
-        let obj1 = { name: "Alice" };
-        let obj2 = obj1;  // obj2 引用同一個物件
-        obj1.name = "Bob";
-        console.log(obj2.name);  // 輸出 "Bob"，因為 obj1 和 obj2 都指向同一個物件
-      </pre>
-
-      <p>
-        在這裡，<code>obj1</code> 和
-        <code>obj2</code> 都引用了同一個物件，因此對
-        <code>obj1</code> 所做的修改會影響 <code>obj2</code>。
-      </p>
-
-      <h3>原始型別與物件型別的差異</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>特性</th>
-            <th>原始型別（Primitive Types）</th>
-            <th>物件型別（Object Types）</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>可變性</strong></td>
-            <td>不可變，每次操作都返回新值</td>
-            <td>可變，可以直接修改屬性和方法</td>
-          </tr>
-          <tr>
-            <td><strong>比較方式</strong></td>
-            <td>比較值本身（按值比較）</td>
-            <td>比較引用（按引用比較）</td>
-          </tr>
-          <tr>
-            <td><strong>存儲方式</strong></td>
-            <td>直接存儲其值</td>
-            <td>存儲的是對象的引用地址（指向內存位置）</td>
-          </tr>
-          <tr>
-            <td><strong>傳遞方式</strong></td>
-            <td>按值傳遞，每個變數互相獨立</td>
-            <td>按引用傳遞，變數間共享對象</td>
-          </tr>
-          <tr>
-            <td><strong>類型數量</strong></td>
-            <td>
-              7 種：<code>string</code>, <code>number</code>,
-              <code>boolean</code>, <code>bigint</code>, <code>undefined</code>,
-              <code>null</code>, <code>symbol</code>
-            </td>
-            <td>
-              無限數量，包含 <code>Object</code>、<code>Array</code>、<code
-                >Function</code
-              >
-              等
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>小結：</h3>
-      <ul>
-        <li>
-          <strong>原始型別</strong
-          >：是簡單且不可變的數據類型，無法改變內容，每個變數都是獨立的，適合處理基本的資料。
-        </li>
-        <li>
-          <strong>物件型別</strong
-          >：是複雜且可變的數據類型，內容可以修改，變數之間是共享同一個資料它們更適合處理包含多個值的結構化數據。
-        </li>
-      </ul>
-
-      <p>
-        這兩種型別的理解對於正確處理 JavaScript
-        中的數據結構至關重要，尤其是在變數賦值和比較時。
-      </p>
+    
+        <p>
+          在這裡，<code>objA</code> 和 <code>objB</code> 都引用了同一個物件，因此對 <code>objA</code> 所做的修改會影響 <code>objB</code>。
+        </p>
+    
+        <h3>3. 原始型別與物件型別的差異</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>特性</th>
+              <th>原始型別（Primitive Types）</th>
+              <th>物件型別（Object Types）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>可變性</strong></td>
+              <td>不可變，每次操作都返回新值</td>
+              <td>可變，可以直接修改屬性和方法</td>
+            </tr>
+            <tr>
+              <td><strong>比較方式</strong></td>
+              <td>比較值本身（按值比較）</td>
+              <td>比較引用（按引用比較）</td>
+            </tr>
+            <tr>
+              <td><strong>存儲方式</strong></td>
+              <td>直接存儲其值</td>
+              <td>存儲的是對象的引用地址（指向內存位置）</td>
+            </tr>
+            <tr>
+              <td><strong>傳遞方式</strong></td>
+              <td>按值傳遞，每個變數互相獨立</td>
+              <td>按引用傳遞，變數間共享對象</td>
+            </tr>
+            <tr>
+              <td><strong>類型數量</strong></td>
+              <td>7 種：<code>string</code>, <code>number</code>, <code>boolean</code>, <code>bigint</code>, <code>undefined</code>, <code>null</code>, <code>symbol</code></td>
+              <td>無限數量，包含 <code>Object</code>、<code>Array</code>、<code>Function</code> 等</td>
+            </tr>
+          </tbody>
+        </table>
+    
+        <h3>小結：</h3>
+        <ul>
+          <li><strong>原始型別</strong>：是簡單且不可變的數據類型，適合表示基礎數據。</li>
+          <li>
+            <strong>物件型別</strong>：靈活且可變，適合存儲和操作複雜的數據結構。
+          </li>
+        </ul>
+        <p>
+          這兩種型別的理解對於正確處理 JavaScript
+          中的數據結構至關重要，尤其是在變數賦值和比較時。
+        </p>
+      </div>
     </div>
 
     <div id="header">

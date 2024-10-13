@@ -73,7 +73,7 @@
               </ul>
             </li>
             <li>
-              <a href="#_promise與異步處理">Promise 與異步處理</a>
+              <a href="#_promise與非同步處理">Promise 與非同步處理</a>
               <ul>
                 <li>
                   <a href="#_promise">Promise</a>
@@ -144,7 +144,9 @@ for(let i = 0; i < 4; i++) {
           <section id="_為什麼需要非同步">
             <h3>為什麼需要非同步？什麼時候會用到？</h3>
             <h4>Blocking</h4>
-            <p>阻塞（blocking）是指程式在執行某個操作時，必須等待該操作完成才能繼續執行後續的代碼。這樣的情況可能會導致頁面無法響應，特別是在進行以下操作時：</p>
+
+            <p>阻塞（blocking） 是指程式在執行某個操作時，必須等待該操作完成，才能繼續執行後續的程式碼。在阻塞過程中，程式的執行會暫停，等待某個資源或操作完成，這段時間內，其他操作無法進行。這通常發生在某些需要較長時間才能完成的操作上，比如以下：</p>
+
             <ul>
               <li><strong>向 API 發送請求：</strong>若是同步處理，JavaScript 在等待 API 回應時，頁面會被鎖住，什麼操作都無法進行。</li>
               <li><strong>setTimeout：</strong>定時器如果是同步的，則必須等待時間結束，其他代碼無法執行。</li>
@@ -276,18 +278,31 @@ console.log("End");
             <h4>XMLHttpRequest 基本概念</h4>
             <h5>1. 建立 XMLHttpRequest 物件</h5>
             <pre class="prettyprint">let xhr = new XMLHttpRequest();</pre>
-
+            <p>
+              此時仍為同步語句，非同步操作尚未開始<br />
+              物件創建：創建了一個新的XMLHttpRequest物件<br />
+              記憶體分配：xhr物件被分配在記憶體的Heap中<br />
+              初始狀態：此時xhr.readyState的值為0，表示UNSENT<br />
+            </p>
+            <p><strong>readyState 狀態值：</strong></p>
+            <ul>
+              <li>0: UNSENT – 請求尚未打開。</li>
+              <li>1: OPENED – 請求已打開，但尚未發送。</li>
+              <li>2: HEADERS_RECEIVED – 已收到伺服器回應標頭。</li>
+              <li>3: LOADING – 請求正在處理，回應的資料正在接收。</li>
+              <li>4: DONE – 請求已完成，回應可用。</li>
+            </ul>
             <h5>2. 打開請求 (open)</h5>
             <pre class="prettyprint">
 xhr.open('GET', 'https://api.example.com/data', true);</pre
             >
+            <br />
             <p>
-              • 第一個參數是 HTTP 方法（如 GET 或 POST）。<br />
-              • 第二個參數是目標 URL。<br />
-              • 第三個參數是布林值，表示是否以非同步方式發送請求。通常使用 true
-              表示非同步。
+              該方法初始化了一個HTTP請求，只聽了請求方法與URL，第三個參數為true表示非同步<br />
+              此時xhr.readyState的值變為1<br />
+              調用 open() 方法僅僅是設定請求參數，還沒開始網路通訊<br />
             </p>
-
+   
             <h5>3. 發送請求 (send)</h5>
             <pre class="prettyprint">xhr.send();</pre>
             <p>如果是 POST 請求，可以將資料以字串格式傳入 send() 中：</p>
@@ -295,7 +310,99 @@ xhr.open('GET', 'https://api.example.com/data', true);</pre
 let data = JSON.stringify({ name: "Oscar", age: 24 });
 xhr.send(data);</pre
             >
+            <br />
+            <p><strong>此時瀏覽器做了什麼？</strong></p>
+            <p>
+              一、準備發送請求<br />
+              &emsp;1.檢查 XMLHttpRequest 物件的狀態<br />
+              &emsp;&emsp;確認狀態為已初始化：確保已經調用了 open() 方法，readyState 為 1（OPENED）。<br />
+              &emsp;&emsp;確認請求已設定：請求方法、URL、同步或非同步步標誌等已正確設置。<br />
+              &emsp; 2.處理Request Headers<br />
+              &emsp;&emsp;應用預設的Request Headers：如 Accept、User-Agent 等。<br />
+              &emsp;&emsp;應用開發者設置的Request Headers：如果在調用 send() 之前使用 setRequestHeader() 設置了自定義的Request Headers，<br />
+              &emsp;&emsp;這些Headers會在請求中被包含。<br />
+              &emsp;3.Request Body<br />
+              &emsp;&emsp;處理Request Body數據：如果請求方法為 POST、PUT 等，並且在 send() 方法中傳入了Request Body，瀏覽器會對數據進行適當的編碼<br />
+              &emsp;&emsp;（如將 JavaScript 物件轉換為 JSON 字符串）。<br />
+            </p>
+            <p>
+              二、發送網路請求<br />
+              &emsp;1. 開始網路通訊<br />
+              &emsp;&emsp;委派給Network Thread：瀏覽器將網路請求交給Network Thread處理，以避免阻塞Main Thread（JavaScript 執行環境）。<br />
+              &emsp;&emsp;建立連接：如果與目標伺服器之間沒有現有的連接，瀏覽器會建立一個新的 TCP 連接，可能會進行 DNS 查詢、TLS 握手等。<br />
+              &emsp;2. 發送 HTTP 請求<br />
+              &emsp;&emsp;構建 HTTP 請求：將請求方法、URL、HTTP 版本、Request header和Request Body組合成完整的 HTTP 請求報文。<br />
+              &emsp;&emsp;發送請求報文：通過網路將請求報文發送給目標伺服器。<br />
 
+            </p>
+            <p>
+              三、處理請求過程中的事件<br />
+              &emsp;1. 更新 readyState<br />
+              &emsp;&emsp;readyState 變化：請求發送後，readyState 仍為 1。隨著請求的進展，readyState 會發生1~4的變化：<br />
+              &emsp;2. 觸發事件處理器<br />
+              &emsp;&emsp;onreadystatechange 事件：每當 readyState 發生變化時，瀏覽器會調用 onreadystatechange 回調函數。<br />
+            </p>
+            <p>
+              四、接收Response <br />
+              &emsp;1. 收到Response Header<br />
+              &emsp;&emsp;狀態碼和狀態文本：瀏覽器接收到伺服器的Response Header，獲取 HTTP 狀態碼（如 200、404）和狀態文本（如 OK、Not Found）。<br />
+              &emsp;&emsp;Response Header資訊：獲取伺服器返回的Response Header，如 Content-Type、Content-Length、Set-Cookie 等。<br />
+              &emsp;2. 更新 readyState 為 2<br />
+              &emsp;&emsp;觸發 onreadystatechange：readyState 變為 2，觸發 onreadystatechange 回調。<br />
+              &emsp;3. 接收Response 體<br />
+              &emsp;&emsp;數據流接收：瀏覽器開始接收Response 體數據，這個過程可能是漸進式的，特別是對於大型文件。<br />
+              &emsp;&emsp;更新 readyState 為 3：<br />
+              &emsp;&emsp;觸發 onreadystatechange：readyState 變為 3，表示正在接收Response 體，觸發 onreadystatechange 回調。<br />
+              &emsp;&emsp;觸發 onprogress：在接收過程中，多次觸發 onprogress 事件，可用於更新下載進度。<br />
+              &emsp;4. 接收完成<br />
+              &emsp;&emsp;更新 readyState 為 4：<br />
+              &emsp;&emsp;readyState 變為 4（DONE），表示Response 已完整接收。<br />
+              &emsp;&emsp;觸發 onreadystatechange：最後一次調用 onreadystatechange 回調。<br />
+              &emsp;&emsp;觸發 onload 或 onerror：<br />
+              &emsp;&emsp;如果請求成功（HTTP 狀態碼為 2xx 或 3xx），觸發 onload 事件。<br />
+              &emsp;&emsp;如果請求失敗（如網路錯誤、超時等），觸發 onerror 事件。<br />
+            </p>
+            <p><strong>瀏覽器的內部機制與Thread</strong></p>
+            <img src="../images/ProcessModel10.png" alt="">
+            <p>
+              &emsp;1. Main Thread<br />
+              &emsp;&emsp;JavaScript 執行：Main Thread負責執行所有的 JavaScript 程式碼，包括調用 send() 方法的程式碼。<br />
+              &emsp;&emsp;事件循環：Main Thread負責處理事件循環，調度Task Queue中的任務。<br />
+              &emsp;2. Network Thread<br />
+              &emsp;&emsp;網路請求處理：當調用 send() 方法時，網路請求被委派給瀏覽器的Network Thread，以非阻塞的方式處理。<br />
+              &emsp;&emsp;數據接收：Network Thread負責接收伺服器的Response ，並將相關事件（如 onreadystatechange）添加到Main Thread的Task Queue中。<br />
+              &emsp;3. 任務調度<br />
+              &emsp;&emsp;Event Loop：Main Thread的事件循環負責調度任務，當Network Thread接收到數據並觸發事件時，這些事件的回調函數會被添加<br />
+              &emsp;&emsp;到Task Queue，等待Main Thread執行。<br />
+              &emsp;&emsp;非阻塞：由於網路請求在Network Thread中處理，Main Thread可以繼續執行其他程式碼，不會因為等待網路請求而被阻塞。<br />
+            </p>
+            <pre>
+                                                            調用 xhr.send()
+                                                                   |
+                                                                   V
+                                                       瀏覽器檢查請求設定並準備請求
+                                                                   |
+                                                                   V
+                                                  瀏覽器委派網路請求給Network Thread
+                                                                   |
+                                                                   V
+                                                  Network Thread處理網路通訊，發送請求
+                                                                   |
+                                                                   V
+                                                請求發出後，Main Thread繼續執行後續程式碼
+                                                                   |
+                                                                   V
+                                              Network Thread接收Response ，更新 readyState
+                                                                   |
+                                                                   V
+                                    觸發對應的事件（如 onreadystatechange），添加到Main Thread的Task Queue
+                                                                   |
+                                                                   V
+                                                  Main Thread的事件循環調度並執行回調函數
+                                                                   |
+                                                                   V
+                                                 在回調函數中處理Response 數據，更新頁面等
+            </pre>
             <h5>4. 處理回應 (response)</h5>
             <p>
               可以透過 <code>onreadystatechange</code> 或
@@ -310,14 +417,7 @@ xhr.onreadystatechange = function() {
 };</pre
             >
 
-            <p><strong>readyState 狀態值：</strong></p>
-            <ul>
-              <li>0: UNSENT – 請求尚未打開。</li>
-              <li>1: OPENED – 請求已打開，但尚未發送。</li>
-              <li>2: HEADERS_RECEIVED – 已收到伺服器回應標頭。</li>
-              <li>3: LOADING – 請求正在處理，回應的資料正在接收。</li>
-              <li>4: DONE – 請求已完成，回應可用。</li>
-            </ul>
+
 
             <pre class="prettyprint">
 xhr.onload = function() {
@@ -400,16 +500,133 @@ fetch('https://api.example.com/data')
 .then(data => console.log(data))
 .catch(error => console.error('Error:', error));</pre
             >
+            <br><br>
+            <table border="1" cellpadding="8" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>比較</th>
+                  <th>Fetch API</th>
+                  <th>XMLHttpRequest</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>語法和易用性</strong></td>
+                  <td>- 基於 Promise，語法更簡潔<br>- 更易於閱讀和維護</td>
+                  <td>- 基於回調函數，語法較為繁瑣<br>- 需要處理多個事件</td>
+                </tr>
+                <tr>
+                  <td><strong>非同步步處理方式</strong></td>
+                  <td>- 使用 Promise<br>- 支持 <code>async/await</code> 語法</td>
+                  <td>- 使用事件和回調函數<br>- 不支援 Promise</td>
+                </tr>
+                <tr>
+                  <td><strong>同步請求</strong></td>
+                  <td>- 不支持同步請求</td>
+                  <td>- 支持同步請求（但已被廢棄，不推薦使用）</td>
+                </tr>
+                <tr>
+                  <td><strong>請求攔截和取消</strong></td>
+                  <td>- 支持使用 <code>AbortController</code> 取消請求</td>
+                  <td>- 可使用 <code>xhr.abort()</code> 方法取消請求</td>
+                </tr>
+                <tr>
+                  <td><strong>請求進度監聽</strong></td>
+                  <td>- 無法直接監聽請求進度<br>- 不支援上傳進度監聽</td>
+                  <td>- 支持 <code>onprogress</code> 事件<br>- 可監聽下載和上傳進度</td>
+                </tr>
+                <tr>
+                  <td><strong>錯誤處理</strong></td>
+                  <td>- 只有在網絡錯誤時會拒絕 Promise<br>- HTTP 錯誤（如 404、500）不會拋出錯誤，需要手動檢查 <code>response.ok</code></td>
+                  <td>- 可通過 <code>xhr.status</code> 判斷 HTTP 狀態碼<br>- 在錯誤時觸發 <code>onerror</code> 事件</td>
+                </tr>
+                <tr>
+                  <td><strong>Response類型</strong></td>
+                  <td>- 支持多種Response類型，如 <code>response.json()</code>、<code>response.text()</code>、<code>response.blob()</code>、<code>response.arrayBuffer()</code>、<code>response.formData()</code></td>
+                  <td>- Response存儲在 <code>responseText</code>（字符串）和 <code>responseXML</code>（XML 文檔）中</td>
+                </tr>
+                <tr>
+                  <td><strong>Request header設置</strong></td>
+                  <td>- 使用 <code>Headers</code> 物件設置Request header<br>- 某些頭部不可修改（如 <code>Referer</code>、<code>User-Agent</code>）</td>
+                  <td>- 使用 <code>setRequestHeader()</code> 方法設置Request header<br>- 可以設置更多自定義頭部</td>
+                </tr>
+                <tr>
+                  <td><strong>跨域請求（CORS）</strong></td>
+                  <td>- 默認採用 CORS<br>- 支持跨域請求，但需要伺服器允許</td>
+                  <td>- 需要額外設定才能進行跨域請求<br>- 可能受到更多限制</td>
+                </tr>
+                <tr>
+                  <td><strong>流式處理</strong></td>
+                  <td>- 支持流式Response（Streaming）<br>- 可逐步處理大型數據</td>
+                  <td>- 不支持流式Response<br>- 必須在Response完全接收後才能處理</td>
+                </tr>
+                <tr>
+                  <td><strong>請求取消（Abort）</strong></td>
+                  <td>- 支持使用 <code>AbortController</code> 取消請求</td>
+                  <td>- 可使用 <code>xhr.abort()</code> 方法取消請求</td>
+                </tr>
+                <tr>
+                  <td><strong>超時設置</strong></td>
+                  <td>- 不直接支持超時設置<br>- 需要使用 <code>Promise.race()</code> 實現超時控制</td>
+                  <td>- 支持 <code>xhr.timeout</code> 屬性設置超時時間<br>- 可監聽 <code>ontimeout</code> 事件</td>
+                </tr>
+                <tr>
+                  <td><strong>上傳文件</strong></td>
+                  <td>- 支持通過 <code>fetch</code> 上傳文件<br>- 但無法監聽上傳進度</td>
+                  <td>- 支持上傳文件<br>- 可通過 <code>xhr.upload.onprogress</code> 監聽上傳進度</td>
+                </tr>
+                <tr>
+                  <td><strong>自動發送 Cookie</strong></td>
+                  <td>- 默認不發送 Cookie<br>- 需要設置 <code>credentials</code> 選項<br>- <code>credentials: 'same-origin'</code> 或 <code>credentials: 'include'</code></td>
+                  <td>- 默認會發送並接收 Cookie<br>- 可通過 <code>withCredentials</code> 屬性控制</td>
+                </tr>
+                <tr>
+                  <td><strong>HTTP Response碼處理</strong></td>
+                  <td>- 需要手動檢查 <code>response.ok</code> 或 <code>response.status</code> 來判斷是否成功</td>
+                  <td>- 可直接通過 <code>xhr.status</code> 判斷請求是否成功</td>
+                </tr>
+                <tr>
+                  <td><strong>原生支援度</strong></td>
+                  <td>- 現代瀏覽器原生支持<br>- IE 不支持 Fetch API，需要使用 polyfill</td>
+                  <td>- 所有主流瀏覽器均支持，包括較舊版本的 IE</td>
+                </tr>
+                <tr>
+                  <td><strong>調試和追蹤</strong></td>
+                  <td>- 調試較為困難，錯誤信息可能不夠詳細</td>
+                  <td>- 調試較為方便，可在開發者工具中查看請求詳細信息</td>
+                </tr>
+                <tr>
+                  <td><strong>HTTP 改寫或重導向</strong></td>
+                  <td>- <code>fetch</code> 會自動處理 HTTP 重導向<br>- 可設置 <code>redirect</code> 選項控制</td>
+                  <td>- 需要手動處理重導向，較為麻煩</td>
+                </tr>
+                <tr>
+                  <td><strong>安全性</strong></td>
+                  <td>- 遵循嚴格的 CORS 政策<br>- 某些頭部不可修改，增強安全性</td>
+                  <td>- 可能存在被利用的風險，需要謹慎處理</td>
+                </tr>
+                <tr>
+                  <td><strong>使用場景</strong></td>
+                  <td>- 適合現代化的應用開發<br>- 需要處理 Promise 的情況</td>
+                  <td>- 適合需要兼容舊瀏覽器<br>- 需要監聽進度或同步請求</td>
+                </tr>
+                <tr>
+                  <td><strong>API 靈活性</strong></td>
+                  <td>- API 簡潔但某些功能有限<br>- 需要結合其他 API（如 Streams、AbortController）實現高級功能</td>
+                  <td>- API 功能全面<br>- 支持更多細節控制和設定</td>
+                </tr>
+              </tbody>
+            </table>
+            
           </section>
         </section>
 
-        <section id="_promise與異步處理">
-          <h2>Promise 與異步處理</h2>
+        <section id="_promise與非同步處理">
+          <h2>Promise 與非同步處理</h2>
           <section id="_promise">
             <h3>Promise</h3>
-            <p>
-              Promise 照字面意思是「承諾」，它代表一個異步操作在未來某個時刻會返回數據或錯誤給調用者。Promise 只會在操作成功（<code>resolved</code>）或失敗（<code>rejected</code>）時返回一次結果。Promise 是 JavaScript 中處理異步操作的標準方式之一，用來取代繁瑣的回調函數（Callback Functions），提升代碼的可讀性和維護性。
-            </p>
+
+            <p>Promise 照字面意思是「承諾」，它代表的是一個非同步操作在未來某個時刻會返回數據或錯誤給調用者。Promise 只會在操作成功（或失敗）時返回一次結果。根據 MDN 文件的定義，Promise 用來表示一個非同步操作的最終完成（resolved）或失敗（rejected）及其結果值。</p>
 
             <h4 id="_promise的狀態">Promise 的狀態</h4>
             <ul>
@@ -469,7 +686,10 @@ fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
 
             <h4 id="_promise_all">1. <code>Promise.all()</code></h4>
             <p>
-              <strong>Promise.all()</strong> 接受一個 Promise 的數組，並且會並行執行這些 Promise。只有當所有 Promise 都成功時，才返回一個新的 Promise，這個 Promise 的結果是一個包含所有結果的數組。如果其中任一 Promise 被拒絕，<code>Promise.all()</code> 會立即返回一個被拒絕的 Promise，並將錯誤傳遞到 <code>.catch()</code> 中。
+
+              <code>Promise.all()</code> 並行執行所有傳入的
+              Promise，這對提高效率非常重要，尤其是當你需要並行執行多個耗時的操作時（如多個網路請求）。
+
             </p>
 
             <h4 id="_promise_all_使用範例">Promise.all() 實際範例</h4>
