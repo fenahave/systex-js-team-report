@@ -109,24 +109,13 @@ getData("https://example.com/data");
 則需要使用 then 和 catch 方法來處理結果和錯誤，語法上較為冗長。
 * *錯誤處理：*在 async/await 中，可以直接使用 try...catch 來捕獲錯誤，而在 Promise 中需要使用 catch 方法。
 
-</div>
-</div>
-</div>
-
-
-
-<div id="header">
-<h2 id="_1">try/catch 錯誤處理</h2>
-<div class="sectionbody">
-<div class="ulist">
+== 錯誤處理
 
 Promise：使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
-
 
 === 1. 使用 Promise + .then() 和 .catch() 處理錯誤
 
 在此範例中，使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
-
 
 [source,javascript]
 ----
@@ -209,16 +198,10 @@ console.error('Error occurred:', error.message);
 fetchDataWithAsyncAwait();
 ----
 
-
 如果任何一個請求失敗，錯誤會直接跳轉到 catch，不需要在每個 await 後面特別進行錯誤捕捉。這種結構使得錯誤處理邏輯集中在一個區塊內，程式碼更容易維護且可讀性更高。
 
 === 結論
 
 * *Promise + .then()/.catch()：*Promise 的錯誤處理會隨著 .then() 層級的增多而變得分散。
 * *async/await + try/catch：*可以將所有的非同步操作包裹在一個 try/catch 區塊中，錯誤處理更集中，結構更簡單清晰。
-<br><br>
-
-
-
-  
 
