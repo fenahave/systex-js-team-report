@@ -120,7 +120,7 @@ console.log(i);
 
 
 
-=== link:./blocking-demo.html[點擊這裡操作頁面以了解阻塞概念]
+=== link:../blocking-demo.html[點擊這裡操作頁面以了解阻塞概念]
 
 
 === 為什麼 JavaScript 可以非同步？
