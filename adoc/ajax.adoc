@@ -720,7 +720,7 @@ Promise 還提供了多種強大的方法來處理多個異步操作，如 #Prom
 
 
 
-1. `Promise.all()`
+==== 1. `Promise.all()`
 
 
 *Promise.all()* 並行執行所有傳入的
@@ -779,7 +779,7 @@ console.log('失敗:', result.reason);
 ----
 
 
-===== 3. `Promise.race()`
+==== 3. `Promise.race()`
 
 *Promise.race()* 返回第一個解決或拒絕的 Promise。無論是哪個 Promise 最先完成（成功或失敗），它都會將結果作為新的 Promise 返回。如果你只需要第一個完成的結果，這是一個非常有用的工具。
 
