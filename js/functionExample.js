@@ -120,3 +120,14 @@ const test1 = () => {
     console.log(helloWorld);
 }
 
+//  button1
+document.getElementById("button1").addEventListener("click",function() {
+    let value = document.getElementById("input2").value;
+    console.log(value);
+})
+
+// button2
+document.getElementById("button2").addEventListener("click",function() {
+    let value = document.getElementById("input2").value;
+    console.log(value);
+})

@@ -35,7 +35,7 @@ Expressions。
 
 var a = 3;
 if (a === 3) {
-console.log('Hello');
+    console.log('Hello');
 }
 ----
 
@@ -53,7 +53,7 @@ statement，因為它不會直接回傳一個值，我們也不能將它指定�
 // 錯誤的寫法
 var a = 3;
 const b = if (a === 3) {
-console.log('Hello');
+    console.log('Hello');
 }
 ----
 
@@ -65,8 +65,8 @@ console.log('Hello');
 
 var a = 3;
 const b = (a === 3) 
-? console.log('Hello') 
-: null;
+    ? console.log('Hello') 
+    : null;
 ----
 
 
@@ -86,7 +86,7 @@ const b = (a === 3)
 ----
 
 var iife1Print = function (user) {
-console.log('helloWorld, ' + user);
+    console.log('helloWorld, ' + user);
 }
 console.log(iife1Print);
 ----
@@ -106,7 +106,7 @@ console.log(iife1Print);
 ----
 
 var iife2ImmediatelyRun = function (name) {
-console.log('Welcome ' + name);
+    console.log('Welcome ' + name);
 }();
 console.log(iife2ImmediatelyRun);
 ----
@@ -120,7 +120,7 @@ console.log(iife2ImmediatelyRun);
 ----
 
 var iife3ImmediatelyRun= function (name) {
-console.log('Welcome ' + name);
+    console.log('Welcome ' + name);
 }('Guest');
 console.log(iife3ImmediatelyRun);
 ----
@@ -138,7 +138,7 @@ console.log(iife3ImmediatelyRun);
 ----
 
 var iife4ImmediatelyRun = function(name) {
-return('Welcome ' + name);
+    return('Welcome ' + name);
 }('Guest'); // 立即執行，並回傳字串
 console.log(iife4ImmediatelyRun()); // 所以這邊會報錯
 ----
@@ -151,19 +151,13 @@ console.log(iife4ImmediatelyRun()); // 所以這邊會報錯
 ----
 
 var iife5PrintCode = function(name) {
-return('Welcome ' + name);
+    return('Welcome ' + name);
 };
 console.log(iife5PrintCode);
 ----
 
-
-
 這時候，如果使用 console.log 把 iife5PrintCode
 這個變數顯示出來看的話，可以發現它還是一個函式
-
-
-
-
 
 ==== 更深入的應用 IIFE
 
@@ -172,7 +166,6 @@ console.log(iife5PrintCode);
 一般可能會把它存成一個變數，但是它不一定要被存成一個變數。
 比如可以直接在程式中輸入，數值、字串、甚至是物件，這時候去執行程式的時候，
 程式可以正確執行，且 console 視窗並不會有任何內容：
-
 
 [source,javascript]
 ----
@@ -183,7 +176,7 @@ console.log(iife5PrintCode);
 'Guest';
 
 {
-name: 'Guest'
+    name: 'Guest'
 }
 ----
 
@@ -199,10 +192,9 @@ name: 'Guest'
 
 // 不可行的做法
 function(name) {
-return('Welcome, ' + name);
+    return('Welcome, ' + name);
 }
 ----
-
 
 
 但是這麼做是不可行的，因為 JavaScript 引擎在解析程式碼的時候，
@@ -223,7 +215,7 @@ function(){ ...} 包起來，像是這樣：
 ----
 
 (function(name) {
-return('Welcome, ' + name);
+    return('Welcome, ' + name);
 });
 ----
 
@@ -241,7 +233,7 @@ IIFEs 的概念，我們可以在建立這個函式的同時，
 ----
 
 (function(name) {
-return('Welcome, ' + name);
+    return('Welcome, ' + name);
 })('Guest');
 ----
 
@@ -252,38 +244,59 @@ return('Welcome, ' + name);
 可以「直接執行某個函式」，還有很重要的一點是， 在 IIFE
 內所定義的變數並不會跑出去這個函式之外而干擾到程式其他的部分，
 附帶一提的是，如果想要把物件也直接用 expression 來表示的話，
-同樣也可以用 ( ) 來把物件包起來就可以了：
+同樣也可以用 ( ) 來把物件包起來就可以了。
 
+
+還有一種常見的方法是使用 ! 或 + 放在 function() 前，這也是一種IIFE，
+效果與()完全一樣。
+
+==== IIFE 最常見使用情境
+
+===== 套件封裝與參數隔離
+
+在以前時，因為ES6還沒誕生，所以也沒有import的方法可以使用，
+所以大多的套件在撰寫js檔引入時，都是使用IIFE的方法，讓js檔被引入的時候，
+就立即執行，並且擁有獨立的參數區塊，防止與外部衝突，
+這也是為何我們在html中引入bootstrap、jQuery等套件時，
+不用執行就已經生效的原因。
+
+可以看看以下套件的 js 檔程式碼，都會發現可透過網址直接引入並使用的套件，
+99%都是使用IIFE的方式。
+
+* https://code.jquery.com/jquery-3.7.1.min.js[jQuery]
+* https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js[Google 的 prettify] 
+* https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js[bootstrap]
+* https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js[bootstrap 的 popper]
 
 [source,javascript]
 ----
 
 ({
-name: 'Guest',
-interest: 'Website Developer'
+    name: 'Guest',
+    interest: 'Website Developer'
 })
 ----
 
-===== 程式範例
+===== 程式範例彙整
 [source,javascript]
 ----
 
 // Function Statement
 function sayHello(name) {
-console.log('Hello ' + name);
+    console.log('Hello ' + name);
 }
 sayHello('Guest');
 
 // Function Expression;
 var sayWelcome = function(name) {
-console.log('Welcome, ' + name);
+    console.log('Welcome, ' + name);
 };
 sayWelcome('Guest');
 console.log(sayWelcome);
 
 // Immediately Invoked Functions Expressions (IIFEs)
 var sayWelcomeIIFEs = (function(name) {
-return 'Welcome, ' + name;
+    return 'Welcome, ' + name;
 })('Guest');
 
 // Throw Error HERE!!
@@ -291,12 +304,12 @@ console.log(sayWelcomeIIFEs());
 
 //Expression
 (function(name) {
-console.log('Welcome, ' + name);
+    console.log('Welcome, ' + name);
 })('Guest');
 
 ({
-name: 'Guest',
-interest: 'web'
+    name: 'Guest',
+    interest: 'web'
 });
 ----
 
@@ -345,7 +358,7 @@ console.log(evenNumbersFilter); // [2, 4]
 ----
 const numArrayFilter2 = [2, 4, 6, 8, 10];
 const filteredNumbers = numArrayFilter2.filter(function (item) {
-return item % 5 === 0;
+    return item % 5 === 0;
 });
 console.log(filteredNumbers); // [10]
 ----
@@ -364,7 +377,7 @@ console.log(sumArrayReduce); // 15
 [source,javascript]
 ----
 setTimeout(() => {
-console.log("這是延遲的訊息 setTimeout");
+    console.log("這是延遲的訊息 setTimeout");
 }, 1000);
 ----
 回傳結果：#這是延遲的訊息 setTimeout# (延遲 1 秒後輸出)
@@ -374,11 +387,11 @@ console.log("這是延遲的訊息 setTimeout");
 ----
 let countInterval = 0;
 const intervalIdCustom = setInterval(() => {
-countInterval += 1;
-console.log("這是第 " + countInterval + " 次執行 setInterval");
-if (countInterval === 5) {
-clearInterval(intervalIdCustom); // 停止 setInterval
-}
+    countInterval += 1;
+    console.log("這是第 " + countInterval + " 次執行 setInterval");
+    if (countInterval === 5) {
+        clearInterval(intervalIdCustom); // 停止 setInterval
+    }
 }, 1000);
 ----
 回傳結果：
@@ -394,13 +407,13 @@ clearInterval(intervalIdCustom); // 停止 setInterval
 [source,javascript]
 ----
 function myCustomFilter(callbackFn, arrayToFilter) {
-const filteredArrayResult = [];
-for (let i = 0; i < arrayToFilter.length; i++) {
-if (callbackFn(arrayToFilter[i])) {
-filteredArrayResult.push(arrayToFilter[i]);
-}
-}
-return filteredArrayResult;
+    const filteredArrayResult = [];
+    for (let i = 0; i < arrayToFilter.length; i++) {
+        if (callbackFn(arrayToFilter[i])) {
+            filteredArrayResult.push(arrayToFilter[i]);
+        }
+    }
+    return filteredArrayResult;
 }
 const numArrayToFilter = [1, 2, 3, 4, 5];
 const evenNumResult = myCustomFilter((item) => item % 2 === 0, numArrayToFilter);
@@ -412,13 +425,13 @@ console.log(evenNumResult); // [2, 4]
 [source,javascript]
 ----
 function myBasicFilter(arrayToFilterBasic) {
-const filteredArrayBasic = [];
-for (let i = 0; i < arrayToFilterBasic.length; i++) {
-if (arrayToFilterBasic[i] % 2 === 0) {
-filteredArrayBasic.push(arrayToFilterBasic[i]);
-}
-}
-return filteredArrayBasic;
+    const filteredArrayBasic = [];
+    for (let i = 0; i < arrayToFilterBasic.length; i++) {
+        if (arrayToFilterBasic[i] % 2 === 0) {
+            filteredArrayBasic.push(arrayToFilterBasic[i]);
+        }
+    }
+    return filteredArrayBasic;
 }
 const numArrayToFilterBasic = [1, 2, 3, 4, 5];
 const evenNumResultBasic = myBasicFilter(numArrayToFilterBasic);
