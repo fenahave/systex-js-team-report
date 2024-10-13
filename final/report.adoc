@@ -3,10 +3,10 @@
 == 目錄
 - 第一組(語法及型別)
 * link:#具名函式匿名函式[具名函式/匿名函式]
-* link:#asi[Automatic Semicolon Insertion, ASI]
-* link:#primitive_object_types[原始型別/物件型別]
-* link:#explicit_implicit_conversion[顯性轉換/隱性轉換]
-* link:#type_comparison[型別比較]
+* link:#automatic-semicolon-insertion-asi[Automatic Semicolon Insertion, ASI]
+* link:#原始型別物件型別[原始型別/物件型別]
+* link:#顯性轉換隱性轉換[顯性轉換/隱性轉換]
+* link:#型別比較[型別比較]
 
 - 不分組
 * link:#iife-與-高階函式[函式(IIFE 與 高階函式)]
