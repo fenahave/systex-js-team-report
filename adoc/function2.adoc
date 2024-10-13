@@ -1,0 +1,433 @@
+
+
+== 報告
+
+=== 閉包 
+=== this
+=== Arrow Function
+
+報告人: 04 闕斈亦
+
+=== 閉包 Closure
+
+==== 不使用閉包（closure）的情況
+
+在 JavaScript 中，global variable 的錯用可能會使得我們的程式碼出現不可預期的錯誤。
+
+[source,javascript]
+----
+// 狗的計數程式
+let dogCount = 0;
+
+function countDogs() {
+dogCount += 1;
+console.log(dogCount + ' dog(s)');
+}
+
+countDogs(); // 1 dog(s)
+countDogs(); // 2 dog(s)
+countDogs(); // 3 dog(s)
+----
+
+接著繼續寫程式的其他部分，當寫到程式的後面時，我發現我也需要寫貓的計數程式，於是我又開始寫了貓的計數程式：
+
+[source,javascript]
+----
+// 狗的計數函式
+let dogCount = 0;
+
+function countDogs() {
+dogCount += 1;
+console.log(dogCount + ' dog(s)');
+}
+
+// 中間是其他程式碼...
+
+// 貓的計數函式
+let catCount = 0;
+
+function countCats() {
+catCount += 1;
+console.log(catCount + ' cat(s)');
+}
+
+countCats(); // 1 cat(s)
+countCats(); // 2 cat(s)
+countCats(); // 3 cat(s)
+----
+
+==== 使用閉包（Closure）來避免變數衝突
+如果不使用閉包，會出現全域變數的問題，例如：
+[source,javascript]
+----
+let dogCount = 0;
+
+function countDogs() {
+dogCount += 1;
+console.log(dogCount + ' dog(s)');
+}
+
+function countCats() {
+dogCount += 1;
+console.log(dogCount + ' cat(s)');
+}
+
+countDogs(); // 1 dog(s)
+countCats(); // 2 dog(s)，應該是 1 cat(s)
+----
+
+在這種情況下， *countDogs()* 和 *countCats()* 共享了同一個 dogCount ，這樣會產生混亂。
+為了解決這個問題，我們可以使用閉包來創建一個私有變數：
+[source,javascript]
+----
+function createCounter(animalType) {
+let animalCount = 0;
+return function () {
+animalCount += 1;
+console.log(animalCount + ' ' + animalType);
+};
+}
+
+const countDogs = createCounter('dogs');
+const countCats = createCounter('cats');
+
+countDogs(); // 1 dogs
+countCats(); // 1 cats
+countDogs(); // 2 dogs
+----
+
+透過閉包，我們創建了一個新的作用域範圍，這使得每次呼叫 createCounter 時，變數 animalCount 都會重置，並且該變數只能在該作用域內部存取
+，而不會被其他地方修改。
+
+這樣我們就將專門計算狗的變數 animalCount 關閉在 dogHouse 這個函式中，上面這是閉包的基本寫法，
+*當你看到一個 function 內 return 了另一個 function，通常就是有用到閉包的概念。*
+==== 進一步瞭解和使用閉包
+在運用的是同一個 dogHouse 時，變數間也都是獨立的執行環境不會干擾，例如：
+[source,javascript]
+----
+function dogHouse() {
+let dogCount = 0;
+return function countDogs() {
+dogCount += 1;
+console.log(dogCount + ' dogs');
+};
+}
+
+// 雖然都是使用 dogHouse ，但是各是不同的執行環境
+// 因此彼此的變數不會互相干擾
+
+const countGolden = dogHouse();
+const countPug = dogHouse();
+const countPuppy = dogHouse();
+
+countGolden(); // 1 dogs
+countGolden(); // 2 dogs
+
+countPug(); // 1 dogs
+countPuppy(); // 1 dogs
+
+countGolden(); // 3 dogs
+countPug(); // 2 dogs
+----
+==== 將參數代入閉包中
+但是這麼做你可能覺得不夠清楚，因為都是叫做 dogs，這時候我們一樣可以把外面的變數透過函式的參數代入閉包中，像是下面這樣，
+回傳的結果就清楚多了：
+[source,javascript]
+----
+// 透過函式的參數將值代入閉包中
+function dogHouse(animalName) {
+let dogCount = 0;
+return function () {
+dogCount += 1;
+console.log(dogCount + ' ' + animalName);
+};
+}
+
+// 同樣是使用 dogHouse 但是使用不同的參數
+const countGolden = dogHouse('Golden');
+const countPug = dogHouse('Pug');
+const countPuppy = dogHouse('Puppy');
+
+// 結果更清楚了
+countGolden(); // 1 Golden
+countGolden(); // 2 Golden
+
+countPug(); // 1 Pug
+countPuppy(); // 1 Puppy
+
+countGolden(); // 3 Golden
+countPug(); // 2 Pug
+----
+==== 進一步簡化程式
+===== 直接 return function
+接著，如果我們熟悉在閉包中會 return 一個 function 出來，我們就可以不必為裡面的函式命名，而是用匿名函式的方式直接把它回傳出來。
+因此寫法可以簡化成這樣：
+[source,javascript]
+----
+function dogHouse() {
+let dogCount = 0;
+// 把原本 countDogs 函式改成匿名函式直接放進來
+return function () {
+dogCount += 1;
+console.log(dogCount + ' dogs');
+};
+}
+
+function catHouse() {
+let catCount = 0;
+// 把原本 countCats 函式改成匿名函式直接放進來
+return function () {
+catCount += 1;
+console.log(catCount + ' cats');
+};
+}
+----
+==== 使用 let
+在 ES6 中提出了新的用來定義變數的關鍵字 let ，簡單來說，透過 let 它可以幫我們把所定義的變數縮限在 block scoped 中，
+也就是變數的作用域只有在 { } 內，因此要解決上面程式碼的問題，
+我們也可以透過 let 來避免 *buttonName* 這個變數跑到 global variable 被重複覆蓋。
+[source,javascript]
+----
+// 使用 ES6 寫法
+for (let index = 0; index < buttons.length; index++) {
+let buttonName = buttons[index].innerHTML;
+buttons[index].addEventListener('click', saveButtonName(buttonName));
+}
+----
+
+
+
+
+<div class="_set4">
+<h2 id="_this">this
+<div class="ulist">
+===== 物件方法 (Object Method)
+
+物件通常對應到真實世界的事物，例如用戶、訂單、商品等。物件通常也會有自己的「動作」，
+可能是由一連串的資料操作、網路請求等構成的有意義的行為，例如用戶的登入登出、訂單結帳取消、商品加入購物車等。
+
+這些「動作」在 JavaScript 中，可以用物件方法 (object method) 來實作。
+
+所謂的物件方法，就是物件可以呼叫的方法。
+
+比方說，我們定義一個使用者的物件 user：
+
+[source,javascript]
+----
+const userObject = {
+userName: 'Shubo',
+};
+----
+我們可以幫 userObject 物件新增一個 *speak()* 的物件方法：
+[source,javascript]
+----
+userObject.speak = function() {
+console.log('Hello world!');
+}
+----
+這樣 userObject 物件就可以呼叫這個 *speak()* 方法：
+[source,javascript]
+----
+userObject.speak(); // Hello world!
+----
+==== 什麼是 this？
+
+如果我們在物件方法中，要存取物件本身的資料或屬性該怎麼辦呢？
+
+比方說，我們希望使用者呼叫 *speak()* 方法的時候，可以順便介紹使用者自己的名字。
+
+這個時候 this 就派上用場啦！
+
+在物件方法中，要存取物件本身，我們可以用關鍵字 this。
+
+this 的值就是方法的呼叫者，也就是呼叫方法的物件。
+
+[source,javascript]
+----
+const userObject = {
+userName: 'Shubo',
+speak() {
+console.log('Hello world! My name is ' + this.userName); // (1)
+}
+};
+
+userObject.speak(); // (2) Hello world! My name is Shubo
+----
+
+上面的例子我們可以看到：(1) 我們在物件的 *speak()* 方法中用到了 this.userName，接著 (2) 我們去呼叫 *userObject.speak()*。
+
+這裏的 this 是 userObject 物件。為什麼呢？
+
+因為「呼叫 *speak()* 方法的物件」是 userObject 物件，所以 *speak()* 方法中的 this 就等於 userObject 物件。
+
+
+==== this 的值是動態決定的
+this 在不同情況下的值是不一樣的。以下是個例子：
+[source,javascript]
+----
+const userObject = {
+userName: 'Chris',
+speak() {
+console.log('Hello, my name is ' + this.userName);
+}
+};
+
+const anotherUserObject = { userName: 'John' };
+
+anotherUserObject.speak = userObject.speak;
+
+userObject.speak(); // Hello, my name is Chris
+anotherUserObject.speak(); // Hello, my name is John
+----
+
+在這個例子中，speak() 方法會根據它所屬的物件來決定 this 的值。
+
+==== this 在箭頭函式中的特性
+箭頭函式沒有自己的 this，它會繼承外層的 this。我們可以通過以下例子來理解：
+[source,javascript]
+----
+const userObject = {
+userName: 'Shubo',
+speak: function() {
+const normalFunction = function() {
+console.log('Normal function: Hello, my name is ' + this.userName);
+};
+normalFunction(); // Normal function: Hello, my name is undefined
+
+const arrowFunction = () => {
+console.log('Arrow function: Hello, my name is ' + this.userName);
+};
+arrowFunction(); // Arrow function: Hello, my name is Shubo
+}
+};
+
+userObject.speak();
+----
+在 normalFunction 中，this 指向的是全局對象（在瀏覽器中是 window），因此 this.userName 是 undefined，
+因為 window 沒有 userName 屬性。
+在 arrowFunction 中，this 是從它所在的作用域（即 *speak()* 方法）繼承而來，這個 this 是指 userObject 
+.userName 是 Shubo。
+==== 該如何判斷 this 的值？
+
+我們可以簡單歸納出決定 this 的規則：
+*
+this 就是呼叫方法時，「點」前面的那個物件。
+*
+而箭頭函式沒有自己的 this，他的 this 由外層的環境決定。
+
+
+==== 什麼是箭頭函式（Arrow Function）
+===== 箭頭函式簡化寫法
+使用箭頭函式可以讓函式變得更簡潔，尤其是只有一個表達式時，不需要 return 和大括號：
+[source,javascript]
+----
+// 傳統函式寫法
+function squareFunction(inputNumber) {
+return inputNumber * inputNumber;
+}
+
+// 使用箭頭函式
+const squareArrowFunction = inputNumber => inputNumber * inputNumber;
+
+console.log(squareArrowFunction(5)); // 25
+----
+
+==== 箭頭函式中的 this
+箭頭函式的 this 永遠指向它被定義時的上下文：
+[source,javascript]
+----
+const userObject = {
+userName: 'Alice',
+sayHello: () => {
+console.log('Hello, ' + this.userName);
+}
+};
+
+userObject.sayHello(); // Hello, undefined
+----
+因為箭頭函式的 this 是繼承自外層作用域，而不是物件本身，所以這裡的 this.userName 是 undefined。若要在物件方法中正確使用 this，
+應該避免使用箭頭函式。
+
+===== 由 call 與 apply 函式呼叫
+
+由於箭頭函式並沒有自己的 this，所以透過 *call()* 或 *apply()* 呼叫箭頭函式只能傳入參數。thisArg 將會被忽略。
+
+[source,javascript]
+----
+const adderObject = {
+baseValue: 1,
+addFunction: function (inputValue) {
+const arrowFunction = (value) => value + this.baseValue;
+return arrowFunction(inputValue);
+},
+addThruCallFunction: function (inputValue) {
+const arrowFunction = (value) => value + this.baseValue;
+const newBaseObject = {
+baseValue: 2,
+};
+return arrowFunction.call(newBaseObject, inputValue);
+},
+};
+console.log(adderObject.addFunction(1)); // 顯示 2
+console.log(adderObject.addThruCallFunction(1)); // 依舊顯示 2
+----
+
+===== 使用 new 運算子
+
+箭頭函式不可作為建構式使用；若使用於建構式，會在使用 new 時候拋出錯誤。
+
+[source,javascript]
+----
+const FooArrowFunction = () => {};
+const fooInstance = new FooArrowFunction(); // TypeError: FooArrowFunction is not a constructor
+----
+
+===== 使用 prototype 屬性
+箭頭函式並沒有原型（prototype）屬性。
+[source,javascript]
+----
+const ArrowPersonFunction = (inputName) => {
+this.name = inputName;
+};
+
+// 嘗試為箭頭函式添加原型方法
+ArrowPersonFunction.prototype.sayHello = function () {
+console.log('Hello, ' + this.name);
+};
+
+const personInstance = new ArrowPersonFunction('Bob'); // TypeError: ArrowPersonFunction is not a constructor
+----
+*為什麼箭頭函式沒有 prototype？*
+箭頭函式的設計初衷是用來處理簡單的回調和內部邏輯，它們專注於閉包和 this 綁定，而不是作為構造函式使用。
+因此，它們不具備 prototype 屬性，也無法被用來實例化對象。
+
+===== 函式主體（Function Body）
+在 concise body 裡面只需要輸入運算式，就會附上內建的回傳。在 block body 裡面就必須附上明確的 return 宣告。
+[source,javascript]
+----
+const conciseFunction = (inputValue) => inputValue * inputValue; // concise 語法會內建 "return"
+const blockFunction = (inputX, inputY) => {
+return inputX + inputY;
+}; // block body 需要明確的 "return"
+----
+
+===== 換行
+箭頭函式不可以在參數及箭頭間包含換行。
+[source,javascript]
+----
+// 錯誤寫法
+const addFunction = (inputA, inputB)
+=> inputA + inputB;
+// 正確寫法1 // 隱式返回
+const addFunctionCorrect1 = (inputA, inputB) => inputA + inputB;
+// 正確寫法2 // 顯式返回
+const addFunctionCorrect2 = (inputA, inputB) => {
+return inputA + inputB;
+};
+----
+
+
+
+
+
+
