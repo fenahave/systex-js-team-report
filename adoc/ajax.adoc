@@ -213,7 +213,7 @@ AJAX（Asynchronous
 link:https://developer.mozilla.org/zh-TW/docs/Glossary/JavaScript[JavaScript]
 And
 link:https://developer.mozilla.org/en-US/docs/Glossary/XML[XML]
-，非同步 JavaScript 與 XML）是結合了*
+，非同步 JavaScript 與 XML）是結合了
 link:https://developer.mozilla.org/zh-TW/docs/Glossary/HTML[HTML]
 、
 link:https://developer.mozilla.org/zh-TW/docs/Glossary/CSS[CSS]
@@ -250,7 +250,7 @@ let xhr = new XMLHttpRequest();
 初始狀態：此時xhr.readyState的值為0，表示UNSENT
 
 
-0readyState 狀態值：*
+0readyState 狀態值：
 
 
 
@@ -415,9 +415,9 @@ Main Thread的事件循環調度並執行回調函數
 ----
 
 xhr.onreadystatechange = function() {
-if (xhr.readyState === 4 && xhr.status === 200) {
-console.log(xhr.responseText); // 輸出伺服器回應的資料
-}
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText); // 輸出伺服器回應的資料
+    }
 };
 ----
 
@@ -428,11 +428,11 @@ console.log(xhr.responseText); // 輸出伺服器回應的資料
 ----
 
 xhr.onload = function() {
-if (xhr.status >= 200 && xhr.status < 300) {
-    console.log(xhr.responseText); // 處理回應資料
-} else {
-    console.error('請求失敗');
-}
+    if (xhr.status >= 200 && xhr.status < 300) {
+        console.log(xhr.responseText); // 處理回應資料
+    } else {
+        console.error('請求失敗');
+    }
 };
 ----
 
@@ -456,7 +456,7 @@ fetch('https://api.example.com/products')
         throw new Error('網路回應有誤：' + response.statusText);
     }
     return response.json();// 解析 JSON 資料
-    })
+})
 .then(products => {
     console.log(products);// 處理並顯示產品
 })
@@ -673,13 +673,13 @@ Promise 的基本結構如下，它接受兩個回調函數作為參數：#resol
 ----
 
 let promise = new Promise((resolve, reject) => {
-let success = true;
+    let success = true;
 
-if (success) {
-    resolve('操作成功');
-} else {
-    reject('操作失敗');
-}
+    if (success) {
+        resolve('操作成功');
+    } else {
+        reject('操作失敗');
+    }
 });
 
 promise.then(result => {
@@ -706,13 +706,13 @@ fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json(); // 返回解析後的 JSON 數據
-        })
+    })
     .then(data => {
         console.log(data);// 處理解析後的數據
     })
     .catch(error => {
         console.error(error); // 捕獲異常，處理錯誤
-});
+    });
 
 ----
 
@@ -767,12 +767,12 @@ Promise.all([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
 
 Promise.allSettled([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
     .then(results => {
-    results.forEach(result => {
-        if (result.status === 'fulfilled') {
-            console.log('成功:', result.value);
-        } else {
-            console.log('失敗:', result.reason);
-        }
+        results.forEach(result => {
+            if (result.status === 'fulfilled') {
+                console.log('成功:', result.value);
+            } else {
+                console.log('失敗:', result.reason);
+            }
     });
 });
 
