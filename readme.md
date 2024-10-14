@@ -1,9 +1,9 @@
 # 第一組作業報告
 
 ## 首頁
-請直接打開 final/report.adoc
+請直接打開 `final/report.adoc`
 
-report.adoc 為最終完整報告文件
+`report.adoc` 為最終完整報告文件
 
 
 ## Github 推送操作
