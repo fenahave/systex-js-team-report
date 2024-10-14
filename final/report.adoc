@@ -133,6 +133,68 @@ console.log("這是一個立即執行的匿名函式");
 })();  // 輸出：這是一個立即執行的匿名函式
 ----
 
+=== 4. 具名函式堆疊跟蹤
+
+具名函式堆疊跟蹤（Named Function Stack Trace）是程式運行過程中，當發生錯誤或異常時，顯示出哪些函式依序被呼叫，直到出現問題的位置。這對於除錯非常有用，因為它可以幫助我們了解錯誤發生時的執行路徑。
+
+[source, javascript]
+----
+function functionA() {
+    console.log("In function A");
+    functionB();
+}
+
+function functionB() {
+    console.log("In function B");
+    functionC();
+}
+
+function functionC() {
+    console.log("In function C");
+    throw new Error("Something went wrong!");
+}
+
+try {
+    functionA();
+} catch (error) {
+    console.error("Error caught:", error);
+    console.error(error.stack);
+}
+----
+
+==== 解釋
+
+* 1. `functionA` 呼叫了 `functionB`，而 `functionB` 又呼叫了 `functionC`。
+* 2. 在 `functionC` 中，我們故意拋出一個錯誤 `Error("Something went wrong!")`。
+* 3. `try-catch` 塊抓取這個錯誤，並且打印出錯誤訊息和堆疊跟蹤。
+
+==== 堆疊跟蹤輸出（範例）
+
+當運行這個程式時，輸出的堆疊跟蹤可能看起來像這樣：
+
+[source, text]
+----
+Error: Something went wrong!
+at functionC (index.js:12:11)
+at functionB (index.js:8:5)
+at functionA (index.js:4:5)
+at anonymous :16:5
+----
+
+==== 堆疊跟蹤說明
+
+* `functionC` 是最接近錯誤發生的函式，因此它在堆疊的頂端。
+* 然後依序是 `functionB` 和 `functionA`，因為它們是呼叫 `functionC` 的函式。
+* 最後，堆疊回到了匿名函式（即最外層的 `try-catch` 區塊）。
+
+==== 圖片說明邏輯
+
+image::../images/Stack.png[]
+
+這張圖表顯示了函式呼叫堆疊的邏輯，從 `functionA` 開始呼叫 `functionB`，然後 `functionB` 再呼叫 `functionC`。在 `functionC` 發生錯誤，並且最終在程式的 `try-catch` 區塊中捕捉到這個錯誤。
+
+堆疊跟蹤有助於了解程式在發生錯誤時的執行流程。你可以看到每個函式被呼叫的順序，並且瞭解錯誤出現的位置。
+
 
 === 總結
 
