@@ -192,13 +192,13 @@ Compiler 會將它視為兩個獨立語句，結果 `i++` 不會如預期那樣�
 
 === 原始型別（Primitive Types）
 原始型別是最基本的數據類型，它們是不可變的（immutable），且直接存儲其值。JavaScript 中的原始型別共有 7 種：
-* **string**：表示字串，例如 "Hello"
-* **number**：表示數字，包括整數和浮點數，例如 42、3.14
-* **bigint**：表示任意精度的整數，例如 9007199254740991n
-* **boolean**：表示布林值 true 或 false
-* **undefined**：當變數已聲明但尚未賦值時，其值是 undefined
-* **null**：表示空值，通常用來表示“無”的狀態
-* **symbol**：用來創建唯一的標識符，例如 Symbol("unique")
+**string**：表示字串，例如 "Hello"
+**number**：表示數字，包括整數和浮點數，例如 42、3.14
+**bigint**：表示任意精度的整數，例如 9007199254740991n
+**boolean**：表示布林值 true 或 false
+**undefined**：當變數已聲明但尚未賦值時，其值是 undefined
+**null**：表示空值，通常用來表示“無”的狀態
+**symbol**：用來創建唯一的標識符，例如 Symbol("unique")
 
 ==== 特點
 * 不可變性：原始型別的值不能被修改，任何對其值的操作都會生成新值，而不是修改原值。
