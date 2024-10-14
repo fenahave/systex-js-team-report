@@ -681,7 +681,6 @@ console.log("abc" - 1);              // NaN
 
 
 == 型別比較
-== 型別比較
 
 在 JavaScript 中，型別比較（type comparison）是經常遇到的問題，因為 JavaScript 是動態型別語言，因此變數的型別可以在運行時期改變。JavaScript 提供了兩種主要的比較運算符：
 
