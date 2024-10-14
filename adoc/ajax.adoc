@@ -2,66 +2,43 @@
 
 ==== 目錄
 
-* 同步與非同步概念
+* <<sync_async_concept,同步與非同步概念>>
+  ** <<what_is_sync,同步是什麼？>>
+  ** <<what_is_async,非同步是什麼？>>
+  ** <<why_need_async,為什麼需要非同步>>
+  ** <<why_async,為什麼 JavaScript 可以非同步？>>
 
 
-** 同步是什麼？
+* <<ajax_requests,AJAX 與數據請求>>
+  ** <<what_is_ajax,什麼是 AJAX?>>
+  ** <<what_is_xmlhttprequest,XMLHttpRequest>>
+  ** <<what_is_fetch,Fetch>>
+  ** <<xmlhttprequest_vs_fetch,XMLHttpRequest vs. Fetch>>
 
-** 非同步是什麼？
-
-** 為什麼 JavaScript 可以非同步？
-
-** 為什麼需要非同步
-
-
-
-* AJAX 與數據請求
-
-** 什麼是 AJAX?
-
-** XMLHttpRequest**
-
-** Fetch
-
-** XMLHttpRequest vs. Fetch
-
-
-* Promise 與非同步處理
-
-** Promise
-
-*** Promise 的狀態
-
-*** 基本結構
-
-*** 鏈式結構
-
-*** Promise 的靈活應用
-
-*** Promise.all()
-
-**** Promise.all() 實際範例
-
-*** Promise.allSettled()
-
-**** Promise.allSettled() 實際範例
-
-*** Promise.race()
-
-**** Promise.race() 實際範例
-
-*** Promise.any()
-
-**** Promise.any() 實際範例
-
-** Promise 方法比較
+* <<promise_async_handling,Promise 與非同步處理>>
+  ** <<what_is_promise,Promise>>
+    *** <<promise_states,Promise 的狀態>>
+    *** <<promise_structure,Promise 的基本結構>>
+    *** <<promise_chain_structure,Promise 的鏈式結構>>
+    *** <<promise_flexibility,Promise 的靈活應用>>
+      **** <<promise_all,Promise.all()>>
+        ***** <<promise_all_example,Promise.all() 實際範例>>
+      **** <<promise_allsettled,Promise.allSettled()>>
+        ***** <<promise_allsettled_example,Promise.allSettled() 實際範例>>
+      **** <<promise_race,Promise.race()>>
+        ***** <<promise_race_example,Promise.race() 實際範例>>
+      **** <<promise_any,Promise.any()>>
+        ***** <<promise_any_example,Promise.any() 實際範例>>
+  ** <<promise_methods_comparison,Promise 方法比較>>
 
 
 
+[id=sync_async_concept]
 === 同步與非同步概念
 
-
+[id=what_is_sync]
 ==== 同步是什麼？
+
 
 「同步」指的是一次只能做一件事情。
 
@@ -79,7 +56,7 @@ console.log("Performing a synchronous task");
 console.log("End");
 
 ----
-
+[id=what_is_async]
 ==== 非同步是什麼？
 
 非同步允許多個任務並行進行，無需等待前一個任務完成。非同步處理讓 JavaScript 可以在不阻塞主線程的情況下處理耗時操作，比如網絡請求或定時器。
@@ -102,7 +79,7 @@ for(let i = 0; i < 4; i++) {
 在這個例子中，#setTimeout# 是一個非同步操作，並不會阻塞 JavaScript 執行其他代碼。即使我們指定它在 1000 毫秒後執行，但 JavaScript 會繼續執行後續的 #for# 迴圈，而不必等待 #setTimeout# 完成。
 
 
-
+[id=why_need_async]
 === 為什麼需要非同步？什麼時候會用到？
 
 ==== Blocking
@@ -122,7 +99,7 @@ for(let i = 0; i < 4; i++) {
 
 === link:../html/blocking-demo.html[點擊這裡操作頁面以了解阻塞概念]
 
-
+[id=why_async]
 === 為什麼 JavaScript 可以非同步？
 
 雖然 JavaScript 是單執行緒語言，但它可以透過與瀏覽器的 Web API 進行互動，實現非同步處理。這樣，JavaScript 本身依然是同步的，但透過 Web API 它能夠並行處理多個任務，而不會阻塞主線程。
@@ -204,9 +181,10 @@ Promise 的回調會進入微任務隊列（Microtask Queue），而 #setTimeout
 
 === link:http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D[🎥 *點擊這裡查看完整的事件循環可視化演示*]
 
-
+[id=ajax_requests]
 === AJAX 與數據請求
 
+[id=what_is_ajax]
 ==== 什麼是 AJAX?
 
 AJAX（Asynchronous
@@ -224,7 +202,7 @@ link:https://developer.mozilla.org/zh-TW/docs/Glossary/DOM[DOM]
 XML，但它也可以用現今廣泛使用的 JSON 及其他資料類型（如 HTML, Form
 Data, Binary Data, Blob, ArrayBuffer）進行資料交換。
 
-
+[id=what_is_xmlhttprequest]
 === XMLHttpRequest
 
 XMLHttpRequest 是 JavaScript 中的物件，允許網頁向伺服器發送 HTTP
@@ -440,7 +418,9 @@ xhr.onload = function() {
 
 === Fetch
 
+[id=what_is_fetch]
 ==== 什麼是 Fetch？
+
 
 *Fetch API* 是
 *XMLHttpRequest* 的現代替代品。它使用
@@ -489,7 +469,7 @@ fetch('https://api.example.com/cart', {
 ----
 
 
-
+[id=xmlhttprequest_vs_fetch]
 ==== XMLHttpRequest vs. Fetch
 
 ===== XMLHttpRequest 範例：
@@ -644,14 +624,15 @@ fetch('https://api.example.com/data')
 
 
 
-
+[id=promise_async_handling]
 == Promise 與非同步處理
 
+[id=what_is_promise]
 === Promise
 
 Promise 照字面意思是「承諾」，它代表的是一個非同步操作在未來某個時刻會返回數據或錯誤給調用者。Promise 只會在操作成功（或失敗）時返回一次結果。根據 MDN 文件的定義，Promise 用來表示一個非同步操作的最終完成（resolved）或失敗（rejected）及其結果值。
 
-
+[id=promise_states]
 ==== Promise 的狀態
 
 
@@ -664,7 +645,7 @@ Promise 照字面意思是「承諾」，它代表的是一個非同步操作在
 當 Promise 狀態從 *pending* 變為 *fulfilled* 或 *rejected* 後，其狀態就會保持不變，無法再次改變。
 
 
-
+[id=promise_structure]
 ==== Promise 基本結構
 
 Promise 的基本結構如下，它接受兩個回調函數作為參數：#resolve#（操作成功時調用）和 #reject#（操作失敗時調用）：
@@ -691,7 +672,7 @@ promise.then(result => {
 
 ----
 
-
+[id=promise_chain_structure]
 ==== Promise 鏈式結構
 
 Promise 的一個強大功能是它可以鏈式調用，這讓我們能夠依次處理多個異步操作。每個 #.then()# 返回一個新的 Promise，允許我們進一步進行處理。
@@ -716,10 +697,13 @@ fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
 
 ----
 
+[id=promise_flexibility]
+=== Promise的靈活運用
+
 Promise 還提供了多種強大的方法來處理多個異步操作，如 #Promise.all()#, #Promise.allSettled()#, #Promise.race()#, 和 #Promise.any()#。每個方法都有不同的用途和行為，適合不同的異步場景。
 
 
-
+[id=promise_all]
 ==== 1. `Promise.all()`
 
 
@@ -728,8 +712,9 @@ Promise，這對提高效率非常重要，尤其是當你需要並行執行多�
 
 
 
-
+[id=promise_all_example]
 ==== `Promise.all()` 實際範例
+
 [source,javascript]
 ----
 
@@ -754,14 +739,15 @@ Promise.all([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
 
 ----
 
-
+[id=promise_allsettled]
 ==== 2. `Promise.allSettled()`
 
 *Promise.allSettled()* 會等待所有的 Promise 都已完成，不論它們是成功還是失敗。這對於你希望在所有操作都結束後再進行處理，而不因為某一個操作的失敗中斷整個流程時非常有用。
 
 
-
+[id=promise_allsettled_example]
 ==== `Promise.allSettled()` 實際範例
+
 [source,javascript]
 ----
 
@@ -778,13 +764,13 @@ Promise.allSettled([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
 
 ----
 
-
+[id=promise_race]
 ==== 3. `Promise.race()`
 
 *Promise.race()* 返回第一個解決或拒絕的 Promise。無論是哪個 Promise 最先完成（成功或失敗），它都會將結果作為新的 Promise 返回。如果你只需要第一個完成的結果，這是一個非常有用的工具。
 
 
-
+[id=promise_race_example]
 ==== `Promise.race()` 實際範例
 
 [source,javascript]
@@ -803,13 +789,13 @@ Promise.race([fetchSlower, fetchFaster])
 
 ----
 
-
+[id=promise_any]
 ==== 4. `Promise.any()`
 
 *Promise.any()* 會返回第一個成功的 Promise，並忽略所有失敗的 Promise。如果所有的 Promise 都被拒絕，它會返回一個拒絕的 Promise。這對於你只關心第一個成功結果，而不在意失敗時非常有用。
 
 
-
+[id=promise_any_example]
 ==== `Promise.any()` 實際範例
 
 [source,javascript]
@@ -830,7 +816,7 @@ Promise.any([failedFetch1, failedFetch2, successfulFetch])
 ----
 
 
-
+[id=promise_methods_comparison]
 ==== Promise 方法比較
 
 [cols="1,2,2,2,2", options="header", frame="all", grid="all"]
