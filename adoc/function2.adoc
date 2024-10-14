@@ -101,6 +101,7 @@ countDogs(); // 2 dogs
 
 這樣我們就將專門計算狗的變數 animalCount 關閉在 dogHouse 這個函式中，上面這是閉包的基本寫法，
 *當你看到一個 function 內 return 了另一個 function，通常就是有用到閉包的概念。*
+
 ==== 進一步瞭解和使用閉包
 在運用的是同一個 dogHouse 時，變數間也都是獨立的執行環境不會干擾，例如：
 [source,javascript]
@@ -196,11 +197,6 @@ buttons[index].addEventListener('click', saveButtonName(buttonName));
 ----
 
 
-
-
-<div class="_set4">
-<h2 id="_this">this
-<div class="ulist">
 ===== 物件方法 (Object Method)
 
 物件通常對應到真實世界的事物，例如用戶、訂單、商品等。物件通常也會有自己的「動作」，
@@ -307,6 +303,7 @@ userObject.speak();
 因為 window 沒有 userName 屬性。
 在 arrowFunction 中，this 是從它所在的作用域（即 *speak()* 方法）繼承而來，這個 this 是指 userObject 
 .userName 是 Shubo。
+
 ==== 該如何判斷 this 的值？
 
 我們可以簡單歸納出決定 this 的規則：
