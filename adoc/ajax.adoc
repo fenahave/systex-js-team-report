@@ -165,7 +165,7 @@ JavaScript 使用「事件循環 (Event Loop)」來協調這些任務。事件�
 
 * 當遇到異步操作時，將其交給 Web API 處理，並繼續執行其他代碼。
 
-* Web API 完成任務後，將回調函數放入 Callback Queue 或 Microtask Queue 中。
+* Web API 完成任務後，將回調函數放入 Callback Queue 裡的 Macrotask Queue 或 Microtask Queue 中。
 
 * 事件循環檢查 Call Stack 是否空閒，若空閒則依次處理回調隊列中的回調。
 
@@ -200,7 +200,7 @@ console.log("End");
 
 ----
 
-原因是 Promise 的回調會進入微任務隊列（Microtask Queue），而 #setTimeout# 的回調則進入宏任務隊列（Macrotask Queue）。微任務會優先執行，因此 Promise 的回調會在 #setTimeout# 之前執行。
+Promise 的回調會進入微任務隊列（Microtask Queue），而 #setTimeout# 的回調則進入宏任務隊列（Macrotask Queue）。微任務會優先執行，因此 Promise 的回調會在 #setTimeout# 之前執行。
 
 === link:http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D[🎥 *點擊這裡查看完整的事件循環可視化演示*]
 
