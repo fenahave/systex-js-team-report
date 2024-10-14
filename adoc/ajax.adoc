@@ -90,11 +90,11 @@ console.log("End");
 
 console.log("hello");
 setTimeout(function() {
-console.log("End");
+    console.log("End");
 }, 1000);
 
 for(let i = 0; i < 4; i++) {
-console.log(i);
+    console.log(i);
 }
 
 ----
@@ -183,11 +183,11 @@ image::../images/eventloop.png[圖片說明]
 console.log("Start");
 
 setTimeout(() => {
-console.log("Timeout callback");
+    console.log("Timeout callback");
 }, 1000);
 
 Promise.resolve().then(() => {
-console.log("Promise callback");
+    console.log("Promise callback");
 });
 
 console.log("End");
@@ -429,9 +429,9 @@ console.log(xhr.responseText); // 輸出伺服器回應的資料
 
 xhr.onload = function() {
 if (xhr.status >= 200 && xhr.status < 300) {
-console.log(xhr.responseText); // 處理回應資料
+    console.log(xhr.responseText); // 處理回應資料
 } else {
-console.error('請求失敗');
+    console.error('請求失敗');
 }
 };
 ----
@@ -452,16 +452,16 @@ console.error('請求失敗');
 
 fetch('https://api.example.com/products')
 .then(response => {
-if (!response.ok) {
-throw new Error('網路回應有誤：' + response.statusText);
-}
-return response.json();// 解析 JSON 資料
-})
+    if (!response.ok) {
+        throw new Error('網路回應有誤：' + response.statusText);
+    }
+    return response.json();// 解析 JSON 資料
+    })
 .then(products => {
-console.log(products);// 處理並顯示產品
+    console.log(products);// 處理並顯示產品
 })
 .catch(error => {
-console.error('Fetch 操作中出現問題：', error);
+    console.error('Fetch 操作中出現問題：', error);
 });
 ----
 
@@ -474,14 +474,14 @@ console.error('Fetch 操作中出現問題：', error);
 ----
 
 fetch('https://api.example.com/cart', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-productId: 12345,
-quantity: 1
-})
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        productId: 12345,
+        quantity: 1
+    })
 })
 .then(response => response.json())
 .then(data => console.log('產品已加入購物車：', data))
@@ -500,15 +500,15 @@ quantity: 1
 var xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://api.example.com/data', true);
 xhr.onload = function() {
-if (xhr.status >= 200 && xhr.status < 300) {
-var data = JSON.parse(xhr.responseText);
-console.log(data);
-} else {
-console.error('Error:', xhr.statusText);
-}
+    if (xhr.status >= 200 && xhr.status < 300) {
+        var data = JSON.parse(xhr.responseText);
+        console.log(data);
+    } else {
+        console.error('Error:', xhr.statusText);
+    }
 };
 xhr.onerror = function() {
-console.error('Request failed');
+    console.error('Request failed');
 };
 xhr.send();
 
@@ -676,17 +676,17 @@ let promise = new Promise((resolve, reject) => {
 let success = true;
 
 if (success) {
-resolve('操作成功');
+    resolve('操作成功');
 } else {
-reject('操作失敗');
+    reject('操作失敗');
 }
 });
 
 promise.then(result => {
-console.log(result);// 輸出 '操作成功'
+    console.log(result);// 輸出 '操作成功'
 })
 .catch(error => {
-console.error(error);// 輸出 '操作失敗'
+    console.error(error);// 輸出 '操作失敗'
 });
 
 ----
@@ -701,17 +701,17 @@ Promise 的一個強大功能是它可以鏈式調用，這讓我們能夠依次
 ----
 
 fetch("https://openlibrary.org/search.json?q=the+lord+of+the+rings")
-.then(response => {
-if (!response.ok) {
-throw new Error(`HTTP error! status: ${response.status}`);
-}
-return response.json(); // 返回解析後的 JSON 數據
-})
-.then(data => {
-console.log(data);// 處理解析後的數據
-})
-.catch(error => {
-console.error(error); // 捕獲異常，處理錯誤
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // 返回解析後的 JSON 數據
+        })
+    .then(data => {
+        console.log(data);// 處理解析後的數據
+    })
+    .catch(error => {
+        console.error(error); // 捕獲異常，處理錯誤
 });
 
 ----
@@ -743,13 +743,13 @@ const fetchPrideAndPrejudice = fetch("https://openlibrary.org/search.json?q=prid
 .then(response => response.json());
 
 Promise.all([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
-.then(([gatsbyData, lotrData, prideData]) => {
-console.log('The Great Gatsby:', gatsbyData);
-console.log('The Lord of the Rings:', lotrData);
-console.log('Pride and Prejudice:', prideData);
-})
-.catch(error => {
-console.error('Error fetching data:', error);
+    .then(([gatsbyData, lotrData, prideData]) => {
+        console.log('The Great Gatsby:', gatsbyData);
+        console.log('The Lord of the Rings:', lotrData);
+        console.log('Pride and Prejudice:', prideData);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
 });
 
 ----
@@ -766,14 +766,14 @@ console.error('Error fetching data:', error);
 ----
 
 Promise.allSettled([fetchGatsby, fetchLordOfTheRings, fetchPrideAndPrejudice])
-.then(results => {
-results.forEach(result => {
-if (result.status === 'fulfilled') {
-console.log('成功:', result.value);
-} else {
-console.log('失敗:', result.reason);
-}
-});
+    .then(results => {
+    results.forEach(result => {
+        if (result.status === 'fulfilled') {
+            console.log('成功:', result.value);
+        } else {
+            console.log('失敗:', result.reason);
+        }
+    });
 });
 
 ----
@@ -794,12 +794,12 @@ const fetchSlower = new Promise(resolve => setTimeout(resolve, 2000, '慢的'));
 const fetchFaster = new Promise(resolve => setTimeout(resolve, 1000, '快的'));
 
 Promise.race([fetchSlower, fetchFaster])
-.then(result => {
-console.log(result);// 只返回 '快的'
-})
-.catch(error => {
-console.error(error);
-});
+    .then(result => {
+        console.log(result);// 只返回 '快的'
+    })
+    .catch(error => {
+        console.error(error);
+    });
 
 ----
 
@@ -820,12 +820,12 @@ const failedFetch2 = new Promise((_, reject) => setTimeout(reject, 1500, '失敗
 const successfulFetch = new Promise(resolve => setTimeout(resolve, 500, '成功'));
 
 Promise.any([failedFetch1, failedFetch2, successfulFetch])
-.then(result => {
-    console.log(result);// 返回 '成功'
-})
-.catch(error => {
-    console.error('所有 Promise 都失敗:', error);
-});
+    .then(result => {
+        console.log(result);// 返回 '成功'
+    })
+    .catch(error => {
+        console.error('所有 Promise 都失敗:', error);
+    });
 
 ----
 
