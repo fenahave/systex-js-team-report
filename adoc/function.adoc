@@ -338,14 +338,14 @@ console.log(sayWelcomeIIFEs());
 
 *常見的高階函式：*
 
-.1. #Array.prototype.map#：對陣列每個元素操作，返回新陣列。. 
+.1. Array.prototype.map：對陣列每個元素操作，返回新陣列。. 
 [source,javascript]
 ----
 const numArrayMap = [1, 2, 3, 4, 5];
 const doubledNumbersMap = numArrayMap.map((num) => num * 2);
 console.log(doubledNumbersMap); // [2, 4, 6, 8, 10]
 ----
-.2. #Array.prototype.filter#：過濾符合條件的元素。. 
+.2. Array.prototype.filter：過濾符合條件的元素。. 
 [source,javascript]
 ----
 const numArrayFilter = [1, 2, 3, 4, 5];
@@ -363,7 +363,7 @@ const filteredNumbers = numArrayFilter2.filter(function (item) {
 console.log(filteredNumbers); // [10]
 ----
 
-.3. #Array.prototype.reduce#：累積陣列元素，返回單一結果。. 
+.3. Array.prototype.reduce：累積陣列元素，返回單一結果。. 
 [source,javascript]
 ----
 const numArrayReduce = [1, 2, 3, 4, 5];
@@ -371,18 +371,18 @@ const sumArrayReduce = numArrayReduce.reduce((total, num) => total + num, 0);
 console.log(sumArrayReduce); // 15
 ----
 
-.4. #setTimeout# / #setInterval#：將回調函式作為參數。. 
+.4. setTimeout / setInterval：將回調函式作為參數。. 
 
-使用 #setTimeout# 方法將回調函式作為參數，延遲執行指定的函式：
+使用 setTimeout 方法將回調函式作為參數，延遲執行指定的函式：
 [source,javascript]
 ----
 setTimeout(() => {
     console.log("這是延遲的訊息 setTimeout");
 }, 1000);
 ----
-回傳結果：#這是延遲的訊息 setTimeout# (延遲 1 秒後輸出)
+回傳結果：這是延遲的訊息 setTimeout (延遲 1 秒後輸出)
 
-使用 #setInterval# 方法每隔指定時間執行一次回調函式：
+使用 setInterval 方法每隔指定時間執行一次回調函式：
 [source,javascript]
 ----
 let countInterval = 0;
@@ -396,13 +396,13 @@ const intervalIdCustom = setInterval(() => {
 ----
 回傳結果：
 
-. 1 秒後輸出：#這是第 1 次執行 setInterval#. 
-. 2 秒後輸出：#這是第 2 次執行 setInterval#. 
+. 1 秒後輸出：這是第 1 次執行 setInterval. 
+. 2 秒後輸出：這是第 2 次執行 setInterval. 
 . 3 ..持續到第 5 次，並停止。 
 
 
-==== 自行實現高階函式：#myCustomFilter#
-自定義一個 #myCustomFilter# 函式，實現與 #filter# 類似的功能：
+==== 自行實現高階函式：myCustomFilter
+自定義一個 myCustomFilter 函式，實現與 filter 類似的功能：
 
 [source,javascript]
 ----
