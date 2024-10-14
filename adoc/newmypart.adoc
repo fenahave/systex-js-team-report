@@ -1,16 +1,13 @@
+= async/await 是什麼？
 
-== async/await 是什麼？
-
-=== 1. async 語法
-
+== 1. async 語法
 使用 async 關鍵字聲明的函式為非同步函式，非同步函式會返回一個 Promise 物件，而非直接返回函式執行的結果。讓我們透過範例來了解:
 
-==== 普通函式：
-
-[source,javascript]
+=== 普通函式：
+[source, javascript]
 ----
 function f1() {
-return "Hello! ExplainThis!";
+    return "Hello! ExplainThis!";
 }
 
 f1(); // 輸出: "Hello! ExplainThis!"
@@ -18,181 +15,280 @@ f1(); // 輸出: "Hello! ExplainThis!"
 
 使用 async 時，會自動將回傳值包裝在一個 Promise 物件當中：
 
-[source,javascript]
+[source, javascript]
 ----
 async function f2() {
-return "Hello! ExplainThis!";
+    return "Hello! ExplainThis!";
 }
 
 f2(); // 輸出: Promise {<fulfilled>: 'Hello! ExplainThis!'}
 ----
 
-
-=== 2. await 語法
-
+== 2. await 語法
 await 是一個運算子，用於等待一個 Promise 完成或拒絕。它通常與 async 函式一起使用，因為只有在 async 函式內部或模組的頂層，才能使用 await。當使用 await 時，程式會暫停執行該 async 函式，直到 await 等待的 Promise 完成並回傳結果後，才會繼續往下執行。
 
-
-[source,javascript]
+[source, javascript]
 ----
 async function getData() {
-// await 等待 fetch 這個非同步函式返回一個 Promise 並解析它
-const res = await fetch("https://example.com/data");
+    // await 等待 fetch 這個非同步函式返回一個 Promise 並解析它
+    const res = await fetch("https://example.com/data");
 
-// await 等待上一步的 Promise 解析後，再解析它的 JSON 資料
-const data = await res.json();
+    // await 等待上一步的 Promise 解析後，再解析它的 JSON 資料
+    const data = await res.json();
 
-// 前面兩步都完成後，才會執行這一行並印出資料
-console.log(data);
+    // 前面兩步都完成後，才會執行這一行並印出資料
+    console.log(data);
 }
 
 getData();
 ----
 
-
-==== 使用 await 要注意的地方：
+=== 使用 await 要注意的地方：
 在非 async 函式中使用 await 會報 SyntaxError 的錯誤
 
-[source,javascript]
+[source, javascript]
 ----
 function f() {
-let promise = Promise.resolve("Hello! ExplainThis!");
-let result = await promise;
+    let promise = Promise.resolve("Hello! ExplainThis!");
+    let result = await promise;
 }
 
 // Uncaught SyntaxError: await is only valid in async functions and the top level bodies of modules
 ----
 
-
-=== 3. 用 Promise 來寫一個 getData 函式的例子：
-
-[source,javascript]
+== 3. 用 Promise 來寫一個 getData 函式的例子：
+[source, javascript]
 ----
 function getData() {
-fetch(url)
-.then(response => {
-if (!response.ok) {
-throw new Error('Network response was not ok');
-}
-return response.json(); // 將回應轉換為JSON
-})
-.then(data => console.log(data)) // 處理取得的資料
-.catch(error => console.error('There was a problem with the fetch operation:', error)); // 捕獲並處理錯誤
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // 將回應轉換為JSON
+        })
+        .then(data => console.log(data)) // 處理取得的資料
+        .catch(error => console.error('There was a problem with the fetch operation:', error)); // 捕獲並處理錯誤
 }
 
 getData();
-
 ----
 
-
-=== 4. 使用 async/await 重寫：
-
-[source,javascript]
+== 4. 使用 async/await 重寫：
+[source, javascript]
 ----
 async function getData(url) {
-try {
-const res = await fetch(url);
-const data = await res.json();
-console.log(data);
-} catch (error) {
-console.error(error);
-}
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();   // 將回應轉換為JSON
+        console.log(data);      // 處理取得的資料
+    } catch (error) {
+        console.error(error);   // 捕獲並處理錯誤
+    }
 }
 
 getData("https://example.com/data");
 ----
 
+== 5. Async/Await 的優缺點
+=== 適合情境：
+- 當有順序依賴的非同步操作時，async/await 可以讓程式碼更加直觀和清晰。
 
-=== 總結
+=== 優點：
+- 使非同步程式碼看起來像同步程式碼，易於閱讀和維護。
+- 可以使用 try/catch 來統一處理錯誤，比 Promise 的 catch() 鏈條更清晰。
 
-* *可讀性：*async/await 提供了更簡潔、更直觀的語法，使得非同步程式碼更易讀和維護。Promise 
-則需要使用 then 和 catch 方法來處理結果和錯誤，語法上較為冗長。
-* *錯誤處理：*在 async/await 中，可以直接使用 try...catch 來捕獲錯誤，而在 Promise 中需要使用 catch 方法。
+=== 缺點：
+- 當需要執行多個非同步操作且彼此無依賴性時，async/await 會順序執行，無法並行。這時需要輔以 Promise.all 來解決。
+- 在某些情況下可能會降低性能，特別是有多個不相關的非同步操作時。
 
-== 錯誤處理
+=== Promise.all 和 Async/Await 的合併處理
+Promise.all範例
 
-Promise：使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
+[source, javascript]
+----
+Promise.all([fetchData('valid-url'), fetchData('another-valid-url')])
+    .then(responses => {
+        console.log(responses[0]);  // 第一個請求的結果
+        console.log(responses[1]);  // 第二個請求的結果
+    })
+    .catch(error => {
+        console.error(error);
+    });
+----
 
-=== 1. 使用 Promise + .then() 和 .catch() 處理錯誤
+利用async/await改寫
 
-在此範例中，使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。每個 Promise 都需要明確捕捉錯誤，否則容易遺漏。
+[source, javascript]
+----
+async function fetchConcurrentData() {
+    try {
+        const [response1, response2] = await Promise.all([
+            fetchData('valid-url'),
+            fetchData('another-valid-url')
+        ]);
+        console.log(response1);
+        console.log(response2);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
-[source,javascript]
+fetchConcurrentData();
+----
+
+Promise.all 讓 async/await 支援併發處理，避免順序執行降低效能。
+
+== 6. async/await 的使用範例
+=== 1. 與 for...of 搭配：
+在需要順序處理非同步操作時，可以結合 for...of 與 async/await，讓每次迭代都等待上一個非同步操作完成後再進行下一個，避免它們同時執行。
+
+[source, javascript]
+----
+async function processItems(items) {
+    for (let item of items) {
+        await new Promise(resolve => setTimeout(resolve, 1000));  // 模擬非同步操作
+        console.log(item);
+    }
+}
+
+processItems([1, 2, 3, 4]);  // 每隔 1 秒輸出一個數字
+----
+
+=== 2. 與 Array.prototype.map 搭配：
+map 方法可以用來對陣列中的每個元素進行操作，但需要注意的是，map 本身不會等待非同步操作完成，所以需要結合 Promise.all 來等待所有非同步操作完成後，獲取最終結果。
+
+==== 錯誤用法：
+[source, javascript]
+----
+const items = [1, 2, 3];
+
+async function processItems() {
+    const results = items.map(async (item) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return item * 2;
+    });
+    console.log(results);  // 這裡輸出的會是 Promise 陣列
+}
+
+processItems();
+----
+
+==== 正確用法：
+[source, javascript]
+----
+const items = [1, 2, 3];
+
+async function processItems() {
+    const results = await Promise.all(items.map(async (item) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return item * 2;
+    }));
+    console.log(results);  // [2, 4, 6]
+}
+
+processItems();
+----
+
+=== 3. 與 reduce 搭配：
+如果需要將非同步操作累加或鏈式執行，可以將 reduce 與 async/await 搭配使用，讓每次操作都等待上一次完成後再執行。accPromise 確保每個非同步步驟依次執行並返回結果。
+
+[source, javascript]
+----
+async function processSequentially(items) {
+    const result = await items.reduce(async (accPromise, item) => {
+        const acc = await accPromise;
+        const value = await new Promise(resolve => setTimeout(() => resolve(item * 2), 1000));
+        return acc + value;
+    }, Promise.resolve(0));
+
+    console.log(result);  // 累加結果
+}
+
+processSequentially([1, 2, 3]);
+----
+
+= try/catch 錯誤處理
+
+== 1. 使用 Promise + .then() 和 .catch() 處理錯誤
+在此範例中，使用 .catch() 來處理錯誤，但如果有多層 .then()，錯誤處理的邏輯會比較分散。
+
+[source, javascript]
 ----
 function fetchDataWithPromise() {
-fetch('https://api.example.com/data1')
-.then(response => {
-if (!response.ok) {
-throw new Error('Failed to fetch data1');
-}
-return response.json();
-})
-.then(data1 => {
-console.log('Data1:', data1);
-return fetch('https://api.example.com/data2');
-})
-.then(response => {
-if (!response.ok) {
-throw new Error('Failed to fetch data2');
-}
-return response.json();
-})
-.then(data2 => {
-console.log('Data2:', data2);
-return fetch('https://api.example.com/data3');
-})
-.then(response => {
-if (!response.ok) {
-throw new Error('Failed to fetch data3');
-}
-return response.json();
-})
-.then(data3 => {
-console.log('Data3:', data3);
-})
-.catch(error => {
-console.error('Error occurred:', error.message);
-});
+    fetch('https://api.example.com/data1')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch data1');
+            }
+            return response.json();
+        })
+        .then(data1 => {
+            console.log('Data1:', data1);
+            return fetch('https://api.example.com/data2');
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch data2');
+            }
+            return response.json();
+        })
+        .then(data2 => {
+            console.log('Data2:', data2);
+            return fetch('https://api.example.com/data3');
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch data3');
+            }
+            return response.json();
+        })
+        .then(data3 => {
+            console.log('Data3:', data3);
+        })
+        .catch(error => {
+            console.error('Error occurred:', error.message);
+        });
 }
 
 fetchDataWithPromise();
 ----
 
+我們串接了多個 .then() 來處理不同的 API 請求，每個請求都有各自的錯誤處理邏輯。如果其中任何一個請求失敗，錯誤會傳遞到最後的 .catch()。
 
-我們串接了多個 .then() 來處理不同的 API 請求，每個請求都有各自的錯誤處理邏輯。如果其中任何一個請求失敗，錯誤會傳遞到最後的 .catch()，但這種方式下，錯誤處理的邏輯較為分散，所以重複撰寫 if (!response.ok) 來檢查每個回應。
-
-=== 2. 使用 async/await 與 try/catch 集中錯誤處理
-
+== 2. 使用 async/await 與 try/catch 集中錯誤處理
 這個方法將非同步操作包裹在一個 try/catch 區塊中，所有的錯誤處理都集中在一起，更適合處理多層次的非同步操作，程式碼結構更簡潔一致。
 
-
-[source,javascript]
+[source, javascript]
 ----
 async function fetchDataWithAsyncAwait() {
-try {
-const response1 = await fetch('https://api.example.com/data1');
-if (!response1.ok) {
-throw new Error('Failed to fetch data1');
-}
-const data1 = await response1.json();
-console.log('Data1:', data1);
+    try {
+        const response1 = await fetch('https://api.example.com/data1');
+        if (!response1.ok) {
+            throw new Error('Failed to fetch data1');
+        }
+        const data1 = await response1.json();
+        console.log('Data1:', data1);
 
-const response2 = await fetch('https://api.example.com/data2');
-if (!response2.ok) {
-throw new Error('Failed to fetch data2');
-}
-const data2 = await response2.json();
-console.log('Data2:', data2);
+        const response2 = await fetch('https://api.example.com/data2');
+        if (!response2.ok) {
+            throw new Error('Failed to fetch data2');
+        }
+        const data2 = await response2.json();
+        console.log('Data2:', data2);
 
-const response3 = await fetch('https://api.example.com/data3');
-if (!response3.ok) {
-throw new Error('Failed to fetch data3');
-}
-const data3 = await response3.json();
-console.log('Data3:', data3);
-} catch (error) {
-console.error('Error occurred:', error.message);
-}
+        const response3 = await fetch('https://api.example.com/data3');
+        if (!response3.ok) {
+            throw new Error('Failed to fetch data3');
+        }
+        const data3 = await response3.json();
+        console.log('Data3:', data3);
+    } catch (error) {
+        console.error('Error occurred:', error.message);
+    }
 }
 
 fetchDataWithAsyncAwait();
@@ -200,8 +296,9 @@ fetchDataWithAsyncAwait();
 
 如果任何一個請求失敗，錯誤會直接跳轉到 catch，不需要在每個 await 後面特別進行錯誤捕捉。這種結構使得錯誤處理邏輯集中在一個區塊內，程式碼更容易維護且可讀性更高。
 
-=== 結論
+== 結論
+- Promise 更適合處理需要併發的多個非相依的非同步操作。
+- Async/Await 更適合處理順序依賴的非同步操作，使程式碼更具可讀性。
+- 若多個非同步操作沒有依賴關係，應使用 Promise.all 進行併發處理，無論是用於 Promise 還是 async/await。
 
-* *Promise + .then()/.catch()：*Promise 的錯誤處理會隨著 .then() 層級的增多而變得分散。
-* *async/await + try/catch：*可以將所有的非同步操作包裹在一個 try/catch 區塊中，錯誤處理更集中，結構更簡單清晰。
-
+兩者在實務中的選擇，應根據非同步操作的數量和依賴性來決定。
