@@ -671,8 +671,3 @@ console.log(1n == 1);   // true   （BigInt 與 Number 寬鬆比較相同）
 * 使用 `===` 進行嚴格比較可以避免 JavaScript 自動進行型別轉換時帶來的潛在錯誤。
 * `==` 可以依照業務需求特性使用。
 * 在處理物件、陣列等複雜型別時，必須注意引用的相同與否，而不僅僅是值的相同。
-
-[.sub]
-====
-[role="pageclick"]
-<<index.html, 上一頁>> | <<index.html, 回目錄>> | <<function.html, 下一頁>>
